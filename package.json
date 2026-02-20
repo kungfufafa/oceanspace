@@ -1,0 +1,12 @@
+{
+  "name": "oceanspace-website",
+  "version": "1.0.0",
+  "description": "OCEANSPACE Corporate Website",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
