@@ -1,11 +1,8 @@
 # Dependencies
 node_modules/
-package-lock.json
 
-# Development files
-src/
-test_webapp.py
-*.bak
+# Build output
+dist/
 
 # OS files
 .DS_Store
@@ -20,3 +17,13 @@ Thumbs.db
 # Agent folders
 .agent/
 .agents/
+
+# Test artifacts
+playwright-report/
+test-results/
+audit-artifacts/
+skills-lock.json
+
+# Misc
+*.bak
+test_webapp.py

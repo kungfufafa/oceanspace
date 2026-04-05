@@ -7,6 +7,9 @@
     "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.58.2",
+    "http-server": "^14.1.1",
     "tailwindcss": "^3.4.0"
   }
 }

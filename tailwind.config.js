@@ -10,6 +10,15 @@ module.exports = {
         display: ['Instrument Sans', 'sans-serif'],
         body: ['Instrument Sans', 'sans-serif']
       },
+      keyframes: {
+        'home-marquee': {
+          from: { transform: 'translate3d(0, 0, 0)' },
+          to: { transform: 'translate3d(-50%, 0, 0)' }
+        }
+      },
+      animation: {
+        'home-marquee': 'home-marquee 30s linear infinite'
+      },
       colors: {
         brand: {
           50: '#006AFF',
