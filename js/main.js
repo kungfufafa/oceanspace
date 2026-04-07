@@ -37,7 +37,11 @@
 
   function getCurrentPage() {
     var page = window.location.pathname.split('/').pop();
-    return (page || 'index.html').toLowerCase();
+    page = (page || 'index.html').toLowerCase();
+    if (page === 'career-apply.html') {
+      return 'career.html';
+    }
+    return page;
   }
 
   function getLinkPage(link) {

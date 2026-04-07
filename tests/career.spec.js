@@ -47,7 +47,11 @@ const mockApplySuccessData = {
 
 test.describe('Career Page Jobs Flow', () => {
 
-  test('Should render jobs from API and open Modal correctly', async ({ page }) => {
+  test('Should render jobs from API and open dedicated apply page correctly', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.__OCEANSPACE_FORCE_NETWORK_JOBS__ = true;
+    });
+
     // Intercept Job Listings API
     await page.route('**/api/jobs', async route => {
       await route.fulfill({
@@ -75,35 +79,26 @@ test.describe('Career Page Jobs Flow', () => {
     // Verify Frontend Developer (the other mocked data) also displayed
     await expect(page.locator('h3:has-text("Frontend Developer")')).toBeVisible();
 
-    // The modal should be hidden initially
-    const modal = page.locator('#job-modal');
-    await expect(modal).toBeHidden();
-
-    // Click 'Lihat Detail & Lamar' button for Backend Dev
-    const openBtn = page.locator('[data-slug="backend-developer"]');
+    // Click dedicated apply page link
+    const openBtn = page.locator('[data-job-link="backend-developer"]');
     await openBtn.click();
+    await expect(page).toHaveURL(/.*career-apply\.html\?job=backend-developer/);
 
-    // Wait for the Modal to be visible
-    await expect(modal).toBeVisible();
+    // Wait for the dedicated page to render the correct title
+    await expect(page.locator('#apply-page-title')).toContainText('Backend Developer');
 
-    // Wait for the modal title to say "Lamar: Backend Developer"
-    await expect(page.locator('#modal-title')).toHaveText('Lamar: Backend Developer');
-
-    // Ensure the dynamic form rendered the Full Name and Email fields correctly
+    // Ensure the dynamic form rendered the Full Name and Email fields correctly on the page
     const fullNameInput = page.locator('input[name="full_name"]');
     const emailInput = page.locator('input[name="email"]');
     await expect(fullNameInput).toBeVisible();
     await expect(emailInput).toBeVisible();
-
-    // Close Modal via button
-    const closeBtn = page.locator('#close-modal-btn');
-    await closeBtn.click();
-    await expect(modal).toBeHidden();
   });
 
-  test('Should submit the application form gracefully', async ({ page }) => {
-    // Intercept jobs and detail
-    await page.route('**/api/jobs', async route => route.fulfill({ json: mockJobsData }));
+  test('Should submit the application form gracefully on dedicated page', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.__OCEANSPACE_FORCE_NETWORK_JOBS__ = true;
+    });
+
     await page.route('**/api/jobs/backend-developer', async route => route.fulfill({ json: mockJobDetailData }));
 
     // Intercept Apply API
@@ -117,12 +112,7 @@ test.describe('Career Page Jobs Flow', () => {
       });
     });
 
-    await page.goto('/career.html');
-
-    // Open Modal
-    await page.locator('[data-slug="backend-developer"]').click();
-    const modal = page.locator('#job-modal');
-    await expect(modal).toBeVisible();
+    await page.goto('/career-apply.html?job=backend-developer');
 
     // Wait for inputs
     const fullNameInput = page.locator('input[name="full_name"]');
@@ -137,18 +127,16 @@ test.describe('Career Page Jobs Flow', () => {
     await submitBtn.click();
 
     // Wait for "Memproses..." state to disappear and success screen to show
-    const successHeader = page.locator('h4:has-text("Lamaran Berhasil Terkirim!")');
+    const successHeader = page.locator('h3:has-text("Lamaran Berhasil Terkirim!")');
     await expect(successHeader).toBeVisible();
-
-    // Close via success message close button
-    const closeSuccessBtn = page.locator('button:has-text("Tutup Jendela")');
-    await closeSuccessBtn.click();
-    await expect(modal).toBeHidden();
+    await expect(page.locator('#apply-form a:has-text("Hubungi tim korporat")')).toBeVisible();
   });
 
-  test('Should show 422 error gracefully', async ({ page }) => {
-    // Intercept jobs and detail
-    await page.route('**/api/jobs', async route => route.fulfill({ json: mockJobsData }));
+  test('Should show 422 error gracefully on dedicated page', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.__OCEANSPACE_FORCE_NETWORK_JOBS__ = true;
+    });
+
     await page.route('**/api/jobs/backend-developer', async route => route.fulfill({ json: mockJobDetailData }));
 
     // Intercept Apply with 422
@@ -165,8 +153,7 @@ test.describe('Career Page Jobs Flow', () => {
       });
     });
 
-    await page.goto('/career.html');
-    await page.locator('[data-slug="backend-developer"]').click();
+    await page.goto('/career-apply.html?job=backend-developer');
     
     // Fill full name but leave email empty
     await page.locator('input[name="full_name"]').fill('Test Error User');
@@ -175,8 +162,9 @@ test.describe('Career Page Jobs Flow', () => {
     await page.locator('#btn-submit').click();
 
     // Verify that the error message shows up next to email or atop form
-    const alertMsg = page.locator('#form-alerts p');
+    const alertMsg = page.locator('#form-alerts');
     await expect(alertMsg).toBeVisible();
+    await expect(alertMsg).toContainText('The email field is required.');
 
     const emailError = page.locator('#error-email');
     await expect(emailError).toBeVisible();

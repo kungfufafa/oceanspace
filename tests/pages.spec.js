@@ -1,13 +1,14 @@
 const { test, expect } = require('@playwright/test');
 
 const pages = [
-  { url: '/index.html', title: 'OCEANSPACE' },
+  { url: '/index.html', title: 'Ocean Space' },
   { url: '/about.html', title: 'Tentang' },
   { url: '/distribusi.html', title: 'Distribusi' },
   { url: '/retail.html', title: 'Retail' },
   { url: '/sub-retail.html', title: 'Sub Retail' },
   { url: '/lifestyle.html', title: 'Lifestyle' },
   { url: '/career.html', title: 'Karier' },
+  { url: '/career-apply.html', title: 'Lamaran' },
   { url: '/contact.html', title: 'Kontak' },
 ];
 
