@@ -1,7 +1,18 @@
 (function () {
-  var BASE_URL = '/api';
+  var DEFAULT_REMOTE_BASE_URL = 'https://cesa.mekayastudio.com/api';
+  var LOCAL_MOCK_BASE_URL = '/api';
   var isLocalHost = ['127.0.0.1', 'localhost'].includes(window.location.hostname);
-  var shouldUseInlineJobsApi = isLocalHost && !window.__OCEANSPACE_FORCE_NETWORK_JOBS__;
+  var configuredBaseUrl = typeof window.__OCEANSPACE_API_BASE_URL__ === 'string'
+    ? window.__OCEANSPACE_API_BASE_URL__.trim()
+    : '';
+  var shouldUseInlineJobsApi = isLocalHost
+    && !!window.__OCEANSPACE_USE_INLINE_JOBS_API__
+    && !window.__OCEANSPACE_FORCE_NETWORK_JOBS__;
+  var BASE_URL = normalizeBaseUrl(
+    configuredBaseUrl || (isLocalHost && window.__OCEANSPACE_FORCE_NETWORK_JOBS__
+      ? LOCAL_MOCK_BASE_URL
+      : DEFAULT_REMOTE_BASE_URL)
+  );
 
   var inlineJobsPayload = {
     success: true,
@@ -129,6 +140,10 @@
     return 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(payload));
   }
 
+  function normalizeBaseUrl(url) {
+    return String(url || '').replace(/\/+$/, '');
+  }
+
   function createApiError(message, status, payload) {
     var error = new Error(message || 'Request gagal');
     error.status = status;
@@ -136,9 +151,26 @@
     return error;
   }
 
+  async function parseJsonResponse(response) {
+    var text = await response.text();
+
+    if (!text) {
+      return {};
+    }
+
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      throw createApiError('Respons API tidak valid', response.status, {
+        success: false,
+        raw: text
+      });
+    }
+  }
+
   async function fetchJson(url, options) {
     var response = await fetch(url, options);
-    var payload = await response.json();
+    var payload = await parseJsonResponse(response);
 
     if (!response.ok || !payload.success) {
       throw createApiError(payload.message || 'Request gagal', response.status, payload);
@@ -184,7 +216,7 @@
       }
     });
 
-    var payload = await response.json();
+    var payload = await parseJsonResponse(response);
 
     if (!response.ok || !payload.success) {
       throw createApiError(payload.message || 'Request gagal', response.status, payload);
@@ -202,6 +234,7 @@
     getJobDetail: getJobDetail,
     applyToJob: applyToJob,
     hasInlineJob: hasInlineJob,
-    shouldUseInlineJobsApi: shouldUseInlineJobsApi
+    shouldUseInlineJobsApi: shouldUseInlineJobsApi,
+    baseUrl: BASE_URL
   };
 })();

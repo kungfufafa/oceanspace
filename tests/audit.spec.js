@@ -4,6 +4,11 @@ const AxeBuilder = require('@axe-core/playwright').default;
 test.describe('UI Audit based on Impeccable Style', () => {
 
   const pagesToTest = ['/', '/career.html', '/contact.html'];
+  const maxEagerImagesByPage = {
+    '/': 2,
+    '/career.html': 1,
+    '/contact.html': 1,
+  };
 
   for (const pagePath of pagesToTest) {
     test(`Audit ${pagePath}`, async ({ page }, testInfo) => {
@@ -50,6 +55,11 @@ test.describe('UI Audit based on Impeccable Style', () => {
         pureBlack: cssClasses.filter(c => c.includes('bg-black') || c.includes('text-black')).length > 0,
         pureWhite: cssClasses.filter(c => c.includes('bg-white') || c.includes('text-white')).length > 0,
       };
+
+      expect(a11yIssues, `Accessibility violations on ${pagePath}:\n${a11yIssues.join('\n')}`).toEqual([]);
+      expect(unoptimizedImages, `Unexpected eager images on ${pagePath}`).toBeLessThanOrEqual(maxEagerImagesByPage[pagePath] || 0);
+      expect(smallTouchTargets, `Touch target regression on ${pagePath}`).toBe(0);
+      expect(hasHorizontalScroll, `Horizontal overflow detected on ${pagePath}`).toBe(false);
       
       console.log(`\n=== AUDIT RESULTS FOR ${pagePath} ===`);
       console.log(`Accessibility Violations: ${a11yIssues.length}`);

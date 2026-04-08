@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const LIVE_CAREER_API_BASE = 'https://cesa.mekayastudio.com/api';
 
 const mockJobsData = {
   success: true,
@@ -36,6 +37,18 @@ const mockJobDetailData = {
   },
 };
 
+const mockJobDetailDataWithFiles = {
+  success: true,
+  data: {
+    ...mockJobDetailData.data,
+    application_form: [
+      ...mockJobDetailData.data.application_form,
+      { name: 'photo', label: 'Foto Diri Terbaru', type: 'file', required: true },
+      { name: 'resume', label: 'CV / Resume Terbaru', type: 'file', required: true },
+    ],
+  },
+};
+
 const mockApplySuccessData = {
   success: true,
   data: {
@@ -45,32 +58,30 @@ const mockApplySuccessData = {
   }
 };
 
+const createJsonCorsResponse = (payload, status = 200) => ({
+  status,
+  contentType: 'application/json',
+  headers: {
+    'access-control-allow-origin': '*',
+  },
+  body: JSON.stringify(payload),
+});
+
 test.describe('Career Page Jobs Flow', () => {
 
   test('Should render jobs from API and open dedicated apply page correctly', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.__OCEANSPACE_FORCE_NETWORK_JOBS__ = true;
-    });
-
     // Intercept Job Listings API
-    await page.route('**/api/jobs', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockJobsData),
-      });
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs`, async route => {
+      await route.fulfill(createJsonCorsResponse(mockJobsData));
     });
 
     // Intercept Job Detail API
-    await page.route('**/api/jobs/backend-developer', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify(mockJobDetailData),
-      });
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+      await route.fulfill(createJsonCorsResponse(mockJobDetailDataWithFiles));
     });
 
     await page.goto('/career.html');
+    await expect.poll(() => page.evaluate(() => window.OceanSpaceCareerApi.baseUrl)).toBe(LIVE_CAREER_API_BASE);
 
     // Wait until 'Backend Developer' is rendered in the list
     const jobCard = page.locator('h3:has-text("Backend Developer")');
@@ -92,24 +103,20 @@ test.describe('Career Page Jobs Flow', () => {
     const emailInput = page.locator('input[name="email"]');
     await expect(fullNameInput).toBeVisible();
     await expect(emailInput).toBeVisible();
+    await expect(page.locator('text=Format yang diterima backend: PDF, DOC, atau DOCX. Ukuran maksimal 5 MB.')).toBeVisible();
+    await expect(page.locator('text=Format yang diterima backend: JPG, JPEG, PNG, atau WEBP. Ukuran maksimal 5 MB.')).toBeVisible();
   });
 
   test('Should submit the application form gracefully on dedicated page', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.__OCEANSPACE_FORCE_NETWORK_JOBS__ = true;
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+      await route.fulfill(createJsonCorsResponse(mockJobDetailData));
     });
 
-    await page.route('**/api/jobs/backend-developer', async route => route.fulfill({ json: mockJobDetailData }));
-
     // Intercept Apply API
-    await page.route('**/api/jobs/backend-developer/apply', async route => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async route => {
       // Small artificial delay to let UI show "Memproses..."
       await new Promise(r => setTimeout(r, 500));
-      await route.fulfill({
-        status: 201,
-        contentType: 'application/json',
-        body: JSON.stringify(mockApplySuccessData),
-      });
+      await route.fulfill(createJsonCorsResponse(mockApplySuccessData, 201));
     });
 
     await page.goto('/career-apply.html?job=backend-developer');
@@ -133,24 +140,18 @@ test.describe('Career Page Jobs Flow', () => {
   });
 
   test('Should show 422 error gracefully on dedicated page', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.__OCEANSPACE_FORCE_NETWORK_JOBS__ = true;
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+      await route.fulfill(createJsonCorsResponse(mockJobDetailData));
     });
 
-    await page.route('**/api/jobs/backend-developer', async route => route.fulfill({ json: mockJobDetailData }));
-
     // Intercept Apply with 422
-    await page.route('**/api/jobs/backend-developer/apply', async route => {
-      await route.fulfill({
-        status: 422,
-        contentType: 'application/json',
-        body: JSON.stringify({
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async route => {
+      await route.fulfill(createJsonCorsResponse({
           message: "The email field is required.",
           errors: {
             email: ["The email field is required."]
           }
-        }),
-      });
+        }, 422));
     });
 
     await page.goto('/career-apply.html?job=backend-developer');
@@ -169,5 +170,38 @@ test.describe('Career Page Jobs Flow', () => {
     const emailError = page.locator('#error-email');
     await expect(emailError).toBeVisible();
     await expect(emailError).toHaveText("The email field is required.");
+  });
+
+  test('Should block oversize uploads on frontend before submit', async ({ page }) => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+      await route.fulfill(createJsonCorsResponse(mockJobDetailDataWithFiles));
+    });
+
+    let applyRequestCount = 0;
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async route => {
+      applyRequestCount += 1;
+      await route.fulfill(createJsonCorsResponse(mockApplySuccessData, 201));
+    });
+
+    await page.goto('/career-apply.html?job=backend-developer');
+
+    await page.locator('input[name="full_name"]').fill('Test File Limit User');
+    await page.locator('input[name="email"]').fill('file-limit@test.com');
+    await page.locator('input[name="photo"]').setInputFiles({
+      name: 'photo.jpg',
+      mimeType: 'image/jpeg',
+      buffer: Buffer.alloc((5 * 1024 * 1024) + 1, 0),
+    });
+    await page.locator('input[name="resume"]').setInputFiles({
+      name: 'resume.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.from('%PDF-1.4\nresume'),
+    });
+
+    await page.locator('#btn-submit').click();
+
+    await expect(page.locator('#form-alerts')).toContainText('Periksa kembali file yang diunggah.');
+    await expect(page.locator('#error-photo')).toContainText('Ukuran photo diri terbaru maksimal 5 MB.');
+    expect(applyRequestCount).toBe(0);
   });
 });

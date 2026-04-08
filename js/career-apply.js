@@ -16,6 +16,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('job');
+  const FILE_VALIDATIONS = {
+    photo: {
+      accept: '.jpg,.jpeg,.png,.webp',
+      extensions: ['jpg', 'jpeg', 'png', 'webp'],
+      maxSizeBytes: 5 * 1024 * 1024,
+      note: 'Format yang diterima backend: JPG, JPEG, PNG, atau WEBP. Ukuran maksimal 5 MB.',
+      invalidTypeMessage: 'Photo diri terbaru harus berupa gambar.',
+      invalidFormatMessage: 'Photo diri terbaru harus berformat jpg, jpeg, png, atau webp.',
+      maxSizeMessage: 'Ukuran photo diri terbaru maksimal 5 MB.',
+    },
+    resume: {
+      accept: '.pdf,.doc,.docx',
+      extensions: ['pdf', 'doc', 'docx'],
+      maxSizeBytes: 5 * 1024 * 1024,
+      note: 'Format yang diterima backend: PDF, DOC, atau DOCX. Ukuran maksimal 5 MB.',
+      invalidFormatMessage: 'File CV/Resume harus berformat pdf, doc, atau docx.',
+      maxSizeMessage: 'Ukuran file CV/Resume maksimal 5 MB.',
+    }
+  };
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -90,17 +109,101 @@ document.addEventListener('DOMContentLoaded', () => {
     formAlerts.innerHTML = '';
   };
 
+  const setFieldError = (fieldName, message) => {
+    const errorEl = document.getElementById(`error-${fieldName}`);
+    const inputEl = formNode.querySelector(`[name="${fieldName}"]`);
+
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.remove('hidden');
+    }
+
+    if (inputEl) {
+      inputEl.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+    }
+  };
+
+  const clearFieldError = (fieldName) => {
+    const errorEl = document.getElementById(`error-${fieldName}`);
+    const inputEl = formNode.querySelector(`[name="${fieldName}"]`);
+
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.add('hidden');
+    }
+
+    if (inputEl) {
+      inputEl.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+    }
+  };
+
   const showErrors = (errors) => {
     Object.keys(errors).forEach((key) => {
-      const errorEl = document.getElementById(`error-${key}`);
-      const inputEl = formNode.querySelector(`[name="${key}"]`);
-      if (errorEl) {
-        errorEl.textContent = errors[key][0];
-        errorEl.classList.remove('hidden');
+      const message = Array.isArray(errors[key]) ? errors[key][0] : errors[key];
+      setFieldError(key, message);
+    });
+  };
+
+  const getFileValidation = (fieldName) => FILE_VALIDATIONS[fieldName] || null;
+
+  const validateFileInput = (inputEl) => {
+    const rule = getFileValidation(inputEl?.name);
+
+    if (!inputEl || !rule) {
+      return true;
+    }
+
+    const file = inputEl.files && inputEl.files[0];
+
+    clearFieldError(inputEl.name);
+
+    if (!file) {
+      return true;
+    }
+
+    const extension = ((file.name || '').split('.').pop() || '').toLowerCase();
+
+    if (inputEl.name === 'photo' && file.type && !file.type.startsWith('image/')) {
+      setFieldError(inputEl.name, rule.invalidTypeMessage);
+      return false;
+    }
+
+    if (!rule.extensions.includes(extension)) {
+      setFieldError(inputEl.name, rule.invalidFormatMessage);
+      return false;
+    }
+
+    if (file.size > rule.maxSizeBytes) {
+      setFieldError(inputEl.name, rule.maxSizeMessage);
+      return false;
+    }
+
+    return true;
+  };
+
+  const validateClientFiles = () => {
+    return Object.keys(FILE_VALIDATIONS).every((fieldName) => {
+      const inputEl = formNode.querySelector(`input[name="${fieldName}"]`);
+
+      if (!inputEl) {
+        return true;
       }
-      if (inputEl) {
-        inputEl.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+
+      return validateFileInput(inputEl);
+    });
+  };
+
+  const attachFileValidationListeners = () => {
+    Object.keys(FILE_VALIDATIONS).forEach((fieldName) => {
+      const inputEl = formNode.querySelector(`input[name="${fieldName}"]`);
+
+      if (!inputEl) {
+        return;
       }
+
+      inputEl.addEventListener('change', () => {
+        validateFileInput(inputEl);
+      });
     });
   };
 
@@ -196,6 +299,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return field.label || field.name || 'Field';
   };
 
+  const getFileFormatNote = (field) => {
+    return getFileValidation(field.name)?.note || '';
+  };
+
   const renderForm = (job) => {
     formNode.innerHTML = '';
     formNode.setAttribute('data-slug', job.slug);
@@ -265,10 +372,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
         `;
       } else if (field.type === 'file' || field.name === 'photo' || field.name === 'resume') {
-        const acceptTypes = field.name === 'photo' ? '.jpg,.jpeg,.png,.webp' : (field.name === 'resume' ? '.pdf,.doc,.docx' : '.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp');
+        const fileValidation = getFileValidation(field.name);
+        const acceptTypes = fileValidation ? fileValidation.accept : '.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp';
+        const fileFormatNote = getFileFormatNote(field);
         wrapper.innerHTML = `
           <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
           <input type="file" name="${escapeHtml(field.name)}" class="block w-full text-sm text-black/80 file:mr-4 file:rounded-md file:border-0 file:bg-black/5 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-black/10 focus:outline-none" ${isRequired} accept="${acceptTypes}">
+          ${fileFormatNote ? `<p class="mt-2 text-xs leading-6 text-[#556070]">${escapeHtml(fileFormatNote)}</p>` : ''}
           <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
         `;
       } else if (field.type === 'date') {
@@ -295,6 +405,8 @@ document.addEventListener('DOMContentLoaded', () => {
       section.appendChild(fieldsGrid);
       formNode.appendChild(section);
     });
+
+    attachFileValidationListeners();
 
     const submitWrapper = document.createElement('div');
     submitWrapper.className = 'border-t border-black/10 pt-5';
@@ -324,6 +436,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     clearErrors();
+
+    if (!validateClientFiles()) {
+      formAlerts.innerHTML = `
+        <div class="mb-5 rounded-md border border-orange-100 bg-orange-50 p-4 text-sm text-orange-700">
+          Periksa kembali file yang diunggah. Format dan ukuran file harus sesuai ketentuan sebelum lamaran dikirim.
+        </div>
+      `;
+      return;
+    }
 
     const submitBtn = document.getElementById('btn-submit');
     const formData = new FormData(formNode);

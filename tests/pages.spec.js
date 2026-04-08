@@ -27,4 +27,11 @@ test.describe('Pages Render Integrity', () => {
       await expect(footer).toBeVisible();
     });
   }
+
+  test('Career apply page should be non-indexable', async ({ page }) => {
+    await page.goto('/career-apply.html');
+
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex,\s*follow/i);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://oceanspace.co.id/career');
+  });
 });
