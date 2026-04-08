@@ -1,27 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const fallbackRoles = [
-    {
-      title: 'HP Distribusi',
-      summary: 'Jalur kontribusi di supply chain, coverage, dan koordinasi principal.',
-      href: 'distribusi.html'
-    },
-    {
-      title: 'Retail',
-      summary: 'Ruang kontribusi untuk customer service, product knowledge, dan store execution.',
-      href: 'retail.html'
-    },
-    {
-      title: 'Sub Retail',
-      summary: 'Peran yang dekat dengan layanan purna jual dan pengalaman pelanggan harian.',
-      href: 'sub-retail.html'
-    },
-    {
-      title: 'Lifestyle',
-      summary: 'Jalur pertumbuhan untuk brand, service quality, dan ekspansi yang bertahap.',
-      href: 'lifestyle.html'
-    }
-  ];
-
   const jobsLoading = document.getElementById('jobs-loading');
   const jobsEmpty = document.getElementById('jobs-empty');
   const jobsError = document.getElementById('jobs-error');
@@ -46,28 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const getApplyUrl = (slug) => `career-apply.html?job=${encodeURIComponent(slug)}`;
-
-  const renderFallbackRoles = () => {
-    jobsContainer.innerHTML = '';
-
-    fallbackRoles.forEach((role) => {
-      const card = document.createElement('div');
-      card.className = 'comparison-card flex h-full flex-col justify-between';
-      card.innerHTML = `
-        <div class="space-y-4 px-5 py-5">
-          <p class="card-kicker">Jalur Kontribusi</p>
-          <h3 class="font-display text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">${escapeHtml(role.title)}</h3>
-          <p class="text-[15px] leading-7 text-[#556070]">${escapeHtml(role.summary)}</p>
-          <p class="fallback-note">Daftar lowongan online sedang tidak tersedia. Anda tetap bisa meninjau unit ini atau mengirim minat ke tim Ocean Space.</p>
-        </div>
-        <div class="flex flex-wrap gap-3 border-t border-black/10 px-5 py-4">
-          <a href="${escapeHtml(role.href)}" class="button-secondary">Lihat unit</a>
-          <a href="contact.html" class="button-primary">Sampaikan minat</a>
-        </div>
-      `;
-      jobsContainer.appendChild(card);
-    });
-  };
 
   const renderJobs = (jobs) => {
     jobsContainer.innerHTML = '';
@@ -108,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       jobsError.classList.add('hidden');
       jobsEmpty.classList.add('hidden');
       jobsContainer.classList.add('hidden');
+      jobsContainer.innerHTML = '';
 
       const payload = await api.listJobs();
       const jobs = payload.data;
@@ -120,10 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (error) {
       if (jobsErrorMessage) {
-        jobsErrorMessage.textContent = 'Daftar lowongan online sedang tidak tersedia. Anda tetap bisa meninjau jalur kontribusi di bawah atau menghubungi tim kami untuk menyampaikan minat.';
+        jobsErrorMessage.textContent = 'Daftar lowongan online sedang tidak tersedia. Silakan coba lagi atau hubungi tim kami untuk menyampaikan minat.';
       }
-      renderFallbackRoles();
-      jobsContainer.classList.remove('hidden');
       jobsError.classList.remove('hidden');
     } finally {
       jobsLoading.classList.add('hidden');
