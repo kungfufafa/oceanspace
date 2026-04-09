@@ -131,10 +131,10 @@
         <div id="apply-page-content" class="hidden">
           <div class="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(18rem,0.72fr)] lg:items-start">
             <div class="max-w-[38rem] pt-2">
-              <a href="career.html" class="inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[#1d4ed8]">Karier <span aria-hidden="true">/</span> Lamaran</a>
-              <h1 id="apply-page-title" class="mt-4 max-w-full sm:max-w-[14ch] font-display text-[clamp(2.2rem,4vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.04em] text-[#171a22] [text-wrap:balance]">Memuat posisi yang dipilih.</h1>
-              <p id="apply-page-summary" class="mt-3 max-w-[30rem] text-[0.98rem] leading-7 text-[#556070]">Baca dulu konteks perannya, lalu lanjut isi lamaran jika posisi ini cocok.</p>
-              <div id="apply-page-meta" class="mt-7 grid gap-3 sm:grid-cols-2">
+              <a href="career.html" data-motion-reveal="intro" class="inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[#1d4ed8]">Karier <span aria-hidden="true">/</span> Lamaran</a>
+              <h1 id="apply-page-title" data-motion-reveal="intro" class="mt-4 max-w-full sm:max-w-[14ch] font-display text-[clamp(2.2rem,4vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.04em] text-[#171a22] [text-wrap:balance]">Memuat posisi yang dipilih.</h1>
+              <p id="apply-page-summary" data-motion-reveal="intro" class="mt-3 max-w-[30rem] text-[0.98rem] leading-7 text-[#556070]">Baca dulu konteks perannya, lalu lanjut isi lamaran jika posisi ini cocok.</p>
+              <div id="apply-page-meta" data-motion-group="soft" class="mt-7 grid gap-3 sm:grid-cols-2">
                 <div class="border border-black/10 bg-[#f8fbff] p-4">
                   <p class="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Lokasi</p>
                   <p class="mt-2 text-sm font-bold text-slate-900">Menunggu data</p>
@@ -146,7 +146,7 @@
               </div>
             </div>
 
-            <aside class="overflow-hidden border border-black/10 bg-white px-6 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+            <aside data-motion-reveal="panel" class="overflow-hidden border border-black/10 bg-white px-6 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
               <p class="font-mono text-[0.66rem] uppercase tracking-widest text-[#006AFF]">Sebelum Mulai</p>
               <div id="apply-page-prep" class="mt-4 space-y-3 text-sm leading-7 text-[#556070]"></div>
             </aside>
@@ -164,7 +164,7 @@
         <span data-content-band-node aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 z-20 hidden h-2 w-2 -translate-x-1/2 translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
         <span data-content-band-node aria-hidden="true" class="pointer-events-none absolute bottom-0 right-0 z-20 hidden h-2 w-2 translate-x-1/2 translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
 
-        <div id="apply-page-empty" class="hidden border border-[#d9e2ef] bg-white p-8 sm:p-10">
+        <div id="apply-page-empty" data-motion-reveal="panel" class="hidden border border-[#d9e2ef] bg-white p-8 sm:p-10">
           <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div>
               <p class="lc-eyebrow">Pilih Posisi Dulu</p>
@@ -172,23 +172,23 @@
               <p class="mt-3 max-w-[34rem] text-[15px] leading-7 text-[#596171]">Kembali ke halaman karier, lalu buka halaman lamaran dari posisi yang ingin Anda lihat.</p>
             </div>
             <div class="flex flex-wrap gap-3">
-              <a href="career.html" class="button-primary sm:w-auto">Lihat posisi terbuka</a>
+              <a href="career.html" data-motion-cta="true" class="button-primary sm:w-auto">Lihat posisi terbuka</a>
             </div>
           </div>
         </div>
 
-        <div id="apply-page-error" class="hidden overflow-hidden rounded-3xl border border-red-100 bg-red-50 p-8 sm:p-10">
+        <div id="apply-page-error" data-motion-reveal="panel" class="hidden overflow-hidden rounded-3xl border border-red-100 bg-red-50 p-8 sm:p-10">
           <p class="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-red-700">Terjadi Kendala</p>
           <h2 class="mt-3 font-display text-[clamp(2rem,4vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-red-700">Detail posisi gagal dimuat.</h2>
           <p class="mt-4 max-w-[34rem] text-[15px] leading-7 text-red-700">Posisi yang Anda buka tidak tersedia atau sedang tidak dapat diakses. Kembali ke halaman karier untuk memilih posisi lain.</p>
           <div class="mt-8 flex flex-wrap items-center gap-3">
-            <a href="career.html" class="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Kembali ke Karier</a>
-            <a href="contact.html" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-5 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/35 hover:text-[#1d4ed8]">Hubungi kami</a>
+            <a href="career.html" data-motion-cta="true" class="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Kembali ke Karier</a>
+            <a href="contact.html" data-motion-cta="true" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-5 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/35 hover:text-[#1d4ed8]">Hubungi kami</a>
           </div>
         </div>
 
         <div id="apply-page-details" class="hidden space-y-5">
-          <article class="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <article data-motion-reveal="panel" class="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
             <div class="border-b border-black/10 px-6 py-5">
               <p class="font-mono text-[0.66rem] uppercase tracking-widest text-slate-500">Detail Posisi</p>
             </div>
@@ -204,7 +204,7 @@
             </div>
           </article>
 
-          <article class="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <article data-motion-reveal="panel" class="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
             <div class="border-b border-black/10 px-6 py-5">
               <p class="font-mono text-[0.66rem] uppercase tracking-widest text-[#006AFF]">Form Lamaran</p>
               <h2 class="mt-3 font-display text-[2rem] font-semibold tracking-[-0.04em] text-[#171a22]">Kirim Lamaran</h2>

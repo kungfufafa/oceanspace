@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const jobsErrorMessage = document.getElementById('jobs-error-message');
 
   const api = window.OceanSpaceCareerApi;
+  const notifyMotionRefresh = () => {
+    window.dispatchEvent(new CustomEvent('oceanspace:motion-refresh'));
+  };
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -30,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
     jobs.forEach((job) => {
       const card = document.createElement('article');
       card.className = 'comparison-card group flex h-full flex-col justify-between';
+      card.setAttribute('data-motion-reveal', 'card');
+      card.setAttribute('data-motion-card', 'true');
 
       const thumb = job.thumbnail_url
         ? `<div class="aspect-[16/10] w-full overflow-hidden border-b border-black/10 bg-[#eef4ff]"><img src="${escapeHtml(job.thumbnail_url)}" alt="${escapeHtml(job.title)}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy"></div>`
@@ -48,13 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="mt-6 flex flex-col gap-3 border-t border-black/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
             <span class="text-sm font-medium leading-6 text-[#243041]">Lihat detail posisi, kualifikasi, dan lanjutkan lamaran.</span>
-            <a href="${getApplyUrl(job.slug)}" data-job-link="${escapeHtml(job.slug)}" class="button-primary sm:shrink-0">Lihat detail & lamar</a>
+            <a href="${getApplyUrl(job.slug)}" data-job-link="${escapeHtml(job.slug)}" data-motion-cta="true" class="button-primary sm:shrink-0">Lihat detail & lamar</a>
           </div>
         </div>
       `;
 
       jobsContainer.appendChild(card);
     });
+
+    notifyMotionRefresh();
   };
 
   const fetchJobs = async () => {
@@ -70,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!jobs || jobs.length === 0) {
         jobsEmpty.classList.remove('hidden');
+        notifyMotionRefresh();
       } else {
         renderJobs(jobs);
         jobsContainer.classList.remove('hidden');
@@ -79,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         jobsErrorMessage.textContent = 'Daftar lowongan online sedang tidak tersedia. Silakan coba lagi atau hubungi tim kami untuk menyampaikan minat.';
       }
       jobsError.classList.remove('hidden');
+      notifyMotionRefresh();
     } finally {
       jobsLoading.classList.add('hidden');
     }

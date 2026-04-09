@@ -15,8 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const formAlerts = document.getElementById('form-alerts');
   const heroSection = document.getElementById('apply-hero-section');
   const contentBandNodes = Array.from(document.querySelectorAll('[data-content-band-node]'));
-  const defaultTitleClasses = ['max-w-[14ch]', 'text-[clamp(2.2rem,4vw,3.5rem)]', 'leading-[0.98]', 'tracking-[-0.04em]'];
-  const uppercaseTitleClasses = ['max-w-[16ch]', 'text-[clamp(2rem,3.5vw,3rem)]', 'leading-[1.05]', 'tracking-[0.015em]'];
+  const defaultTitleClasses = ['sm:max-w-[14ch]', 'text-[clamp(2.2rem,4vw,3.5rem)]', 'leading-[0.98]', 'tracking-[-0.04em]'];
+  const uppercaseTitleClasses = ['sm:max-w-[16ch]', 'text-[clamp(2rem,3.5vw,3rem)]', 'leading-[1.05]', 'tracking-[0.015em]'];
+  const notifyMotionRefresh = () => {
+    window.dispatchEvent(new CustomEvent('oceanspace:motion-refresh'));
+  };
 
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('job');
@@ -107,6 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     contentBandNodes.forEach((node) => {
       node.classList.toggle('lg:block', state !== 'empty');
+    });
+    requestAnimationFrame(() => {
+      notifyMotionRefresh();
     });
   };
 
@@ -230,11 +236,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderMeta = (job) => {
     metaNode.innerHTML = `
-      <div class="border border-black/10 bg-white px-4 py-4">
+      <div data-motion-reveal="panel" class="border border-black/10 bg-white px-4 py-4">
         <p class="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Lokasi</p>
         <p class="mt-2 text-sm font-bold text-slate-900">${escapeHtml(job.location)}</p>
       </div>
-      <div class="border border-black/10 bg-white px-4 py-4">
+      <div data-motion-reveal="panel" class="border border-black/10 bg-white px-4 py-4">
         <p class="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Penutupan</p>
         <p class="mt-2 text-sm font-bold text-slate-900">${formatDate(job.closing_date)}</p>
       </div>
@@ -437,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitWrapper = document.createElement('div');
     submitWrapper.className = 'border-t border-black/10 pt-5';
     submitWrapper.innerHTML = `
-      <button type="submit" id="btn-submit" class="flex w-full items-center justify-center rounded-lg bg-[#2563eb] px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70">
+      <button type="submit" id="btn-submit" data-motion-cta="true" class="flex w-full items-center justify-center rounded-lg bg-[#2563eb] px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70">
         Kirim Lamaran Pekerjaan
       </button>
     `;
@@ -446,18 +452,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderSuccess = (payload) => {
     formNode.innerHTML = `
-      <div class="rounded-2xl border border-green-100 bg-green-50 p-8 text-center">
+      <div data-motion-reveal="panel" class="rounded-2xl border border-green-100 bg-green-50 p-8 text-center">
         <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
           <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
         </div>
         <h3 class="mt-5 text-xl font-bold text-green-800">Lamaran Berhasil Terkirim!</h3>
         <p class="mt-3 text-[15px] leading-relaxed text-green-700">Terima kasih, <strong>${escapeHtml(payload.data?.applicant_name || 'Kandidat')}</strong>. Lamaran Anda sudah diterima dan akan ditinjau oleh tim kami.</p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
-          <a href="career.html" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Lihat posisi lainnya</a>
-          <a href="contact.html" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-5 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/35 hover:text-[#1d4ed8]">Hubungi tim korporat</a>
+          <a href="career.html" data-motion-cta="true" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Lihat posisi lainnya</a>
+          <a href="contact.html" data-motion-cta="true" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-5 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/35 hover:text-[#1d4ed8]">Hubungi tim korporat</a>
         </div>
       </div>
     `;
+    notifyMotionRefresh();
   };
 
   const handleSubmit = async (event) => {
