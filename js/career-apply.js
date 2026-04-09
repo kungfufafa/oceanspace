@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const prepNode = document.getElementById('apply-page-prep');
   const formNode = document.getElementById('apply-form');
   const formAlerts = document.getElementById('form-alerts');
+  const heroSection = document.getElementById('apply-hero-section');
+  const contentBandNodes = Array.from(document.querySelectorAll('[data-content-band-node]'));
+  const defaultTitleClasses = ['max-w-[14ch]', 'text-[clamp(2.2rem,4vw,3.5rem)]', 'leading-[0.98]', 'tracking-[-0.04em]'];
+  const uppercaseTitleClasses = ['max-w-[16ch]', 'text-[clamp(2rem,3.5vw,3rem)]', 'leading-[1.05]', 'tracking-[0.015em]'];
 
   const params = new URLSearchParams(window.location.search);
   const slug = params.get('job');
@@ -95,7 +99,15 @@ document.addEventListener('DOMContentLoaded', () => {
     emptyNode.classList.toggle('hidden', state !== 'empty');
     errorNode.classList.toggle('hidden', state !== 'error');
     contentNode.classList.toggle('hidden', state !== 'content');
-    detailsNode.classList.toggle('hidden', state !== 'content');
+    if (detailsNode) {
+      detailsNode.classList.toggle('hidden', state !== 'content');
+    }
+    if (heroSection) {
+      heroSection.classList.toggle('hidden', state === 'empty' || state === 'error');
+    }
+    contentBandNodes.forEach((node) => {
+      node.classList.toggle('lg:block', state !== 'empty');
+    });
   };
 
   const clearErrors = () => {
@@ -303,6 +315,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return getFileValidation(field.name)?.note || '';
   };
 
+  const isUppercaseHeavyTitle = (value) => {
+    const text = String(value || '').trim();
+    if (!text) {
+      return false;
+    }
+
+    const lettersOnly = text.replace(/[^A-Za-zÀ-ÿ]/g, '');
+    if (!lettersOnly) {
+      return false;
+    }
+
+    return lettersOnly === lettersOnly.toUpperCase();
+  };
+
   const renderForm = (job) => {
     formNode.innerHTML = '';
     formNode.setAttribute('data-slug', job.slug);
@@ -331,76 +357,76 @@ document.addEventListener('DOMContentLoaded', () => {
       fieldsGrid.className = 'grid gap-4';
 
       groups.get(groupName).forEach((field) => {
-      const wrapper = document.createElement('div');
-      const isRequired = field.required ? 'required' : '';
-      const optionalNote = field.required
-        ? '<span class="text-red-500">*</span>'
-        : '<span class="text-black/40 text-xs font-normal ml-1">(Opsional)</span>';
-      const fieldLabel = getFieldLabel(field);
-      const labelClass = 'block text-sm font-medium text-black/80 mb-2';
-      const inputClass = 'block w-full rounded-md border border-black/20 bg-white px-3 py-2 text-sm text-black placeholder-black/30 focus:border-[#006AFF] focus:outline-none focus:ring-1 focus:ring-[#006AFF]';
-      const isLongField = field.type === 'textarea' || field.type === 'file' || field.name === 'photo' || field.name === 'resume';
-      const placeholders = {
-        full_name: 'Nama lengkap sesuai identitas',
-        email: 'nama@email.com',
-        whatsapp_number: '08xxxxxxxxxx',
-        active_phone: '08xxxxxxxxxx',
-        emergency_contact_name: 'Nama kontak darurat',
-        emergency_contact_relation: 'Contoh: Orang tua',
-        emergency_contact_phone: '08xxxxxxxxxx',
-      };
+        const wrapper = document.createElement('div');
+        const isRequired = field.required ? 'required' : '';
+        const optionalNote = field.required
+          ? '<span class="text-red-500">*</span>'
+          : '<span class="text-black/40 text-xs font-normal ml-1">(Opsional)</span>';
+        const fieldLabel = getFieldLabel(field);
+        const labelClass = 'block text-sm font-medium text-black/80 mb-2';
+        const inputClass = 'block w-full rounded-md border border-black/20 bg-white px-3 py-2 text-sm text-black placeholder-black/30 focus:border-[#006AFF] focus:outline-none focus:ring-1 focus:ring-[#006AFF]';
+        const isLongField = field.type === 'textarea' || field.type === 'file' || field.name === 'photo' || field.name === 'resume';
+        const placeholders = {
+          full_name: 'Nama lengkap sesuai identitas',
+          email: 'nama@email.com',
+          whatsapp_number: '08xxxxxxxxxx',
+          active_phone: '08xxxxxxxxxx',
+          emergency_contact_name: 'Nama kontak darurat',
+          emergency_contact_relation: 'Contoh: Orang tua',
+          emergency_contact_phone: '08xxxxxxxxxx',
+        };
 
-      if (!isLongField && groups.get(groupName).length > 1) {
-        fieldsGrid.classList.add('sm:grid-cols-2');
-      }
+        if (!isLongField && groups.get(groupName).length > 1) {
+          fieldsGrid.classList.add('sm:grid-cols-2');
+        }
 
-      if (field.type === 'select') {
-        const optionsHtml = [`<option value="">-- Pilih ${escapeHtml(field.label)} --</option>`]
-          .concat((field.options || []).map((option) => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`))
-          .join('');
-        wrapper.innerHTML = `
-          <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
-          <select name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired}>
-            ${optionsHtml}
-          </select>
-          <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
-        `;
-      } else if (field.type === 'textarea') {
-        wrapper.innerHTML = `
-          <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
-          <textarea name="${escapeHtml(field.name)}" rows="4" class="${inputClass}" ${isRequired}></textarea>
-          <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
-        `;
-      } else if (field.type === 'file' || field.name === 'photo' || field.name === 'resume') {
-        const fileValidation = getFileValidation(field.name);
-        const acceptTypes = fileValidation ? fileValidation.accept : '.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp';
-        const fileFormatNote = getFileFormatNote(field);
-        wrapper.innerHTML = `
-          <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
-          <input type="file" name="${escapeHtml(field.name)}" class="block w-full text-sm text-black/80 file:mr-4 file:rounded-md file:border-0 file:bg-black/5 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-black/10 focus:outline-none" ${isRequired} accept="${acceptTypes}">
-          ${fileFormatNote ? `<p class="mt-2 text-xs leading-6 text-[#556070]">${escapeHtml(fileFormatNote)}</p>` : ''}
-          <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
-        `;
-      } else if (field.type === 'date') {
-        wrapper.innerHTML = `
-          <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
-          <input type="date" name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired}>
-          <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
-        `;
-      } else {
-        wrapper.innerHTML = `
-          <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
-          <input type="${escapeHtml(field.type)}" name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired} ${placeholders[field.name] ? `placeholder="${escapeHtml(placeholders[field.name])}"` : ''}>
-          <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
-        `;
-      }
+        if (field.type === 'select') {
+          const optionsHtml = [`<option value="">-- Pilih ${escapeHtml(field.label)} --</option>`]
+            .concat((field.options || []).map((option) => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`))
+            .join('');
+          wrapper.innerHTML = `
+            <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
+            <select name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired}>
+              ${optionsHtml}
+            </select>
+            <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
+          `;
+        } else if (field.type === 'textarea') {
+          wrapper.innerHTML = `
+            <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
+            <textarea name="${escapeHtml(field.name)}" rows="4" class="${inputClass}" ${isRequired}></textarea>
+            <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
+          `;
+        } else if (field.type === 'file' || field.name === 'photo' || field.name === 'resume') {
+          const fileValidation = getFileValidation(field.name);
+          const acceptTypes = fileValidation ? fileValidation.accept : '.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp';
+          const fileFormatNote = getFileFormatNote(field);
+          wrapper.innerHTML = `
+            <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
+            <input type="file" name="${escapeHtml(field.name)}" class="block w-full text-sm text-black/80 file:mr-4 file:rounded-md file:border-0 file:bg-black/5 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-black/10 focus:outline-none" ${isRequired} accept="${acceptTypes}">
+            ${fileFormatNote ? `<p class="mt-2 text-xs leading-6 text-[#556070]">${escapeHtml(fileFormatNote)}</p>` : ''}
+            <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
+          `;
+        } else if (field.type === 'date') {
+          wrapper.innerHTML = `
+            <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
+            <input type="date" name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired}>
+            <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
+          `;
+        } else {
+          wrapper.innerHTML = `
+            <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
+            <input type="${escapeHtml(field.type)}" name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired} ${placeholders[field.name] ? `placeholder="${escapeHtml(placeholders[field.name])}"` : ''}>
+            <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
+          `;
+        }
 
-      if (isLongField) {
-        wrapper.classList.add('sm:col-span-2');
-      }
+        if (isLongField) {
+          wrapper.classList.add('sm:col-span-2');
+        }
 
-      fieldsGrid.appendChild(wrapper);
-    });
+        fieldsGrid.appendChild(wrapper);
+      });
 
       section.appendChild(fieldsGrid);
       formNode.appendChild(section);
@@ -411,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitWrapper = document.createElement('div');
     submitWrapper.className = 'border-t border-black/10 pt-5';
     submitWrapper.innerHTML = `
-      <button type="submit" id="btn-submit" class="flex w-full items-center justify-center rounded-lg bg-[#2563eb] px-4 py-3 text-[15px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-70">
+      <button type="submit" id="btn-submit" class="flex w-full items-center justify-center rounded-lg bg-[#2563eb] px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70">
         Kirim Lamaran Pekerjaan
       </button>
     `;
@@ -427,7 +453,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <h3 class="mt-5 text-xl font-bold text-green-800">Lamaran Berhasil Terkirim!</h3>
         <p class="mt-3 text-[15px] leading-relaxed text-green-700">Terima kasih, <strong>${escapeHtml(payload.data?.applicant_name || 'Kandidat')}</strong>. Lamaran Anda sudah diterima dan akan ditinjau oleh tim kami.</p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
-          <a href="contact.html" class="button-primary">Hubungi tim korporat</a>
+          <a href="career.html" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Lihat posisi lainnya</a>
+          <a href="contact.html" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-5 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/35 hover:text-[#1d4ed8]">Hubungi tim korporat</a>
         </div>
       </div>
     `;
@@ -480,7 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderJob = (job) => {
     document.title = `Lamaran: ${job.title} | Ocean Space`;
-    titleNode.textContent = `Lamaran untuk ${job.title}.`;
+    titleNode.textContent = job.title;
+    titleNode.classList.remove(...defaultTitleClasses, ...uppercaseTitleClasses);
+    titleNode.classList.add(...(isUppercaseHeavyTitle(job.title) ? uppercaseTitleClasses : defaultTitleClasses));
     summaryNode.textContent = 'Baca dulu tanggung jawab dan kualifikasinya. Kalau cocok, lanjut isi lamaran di bawah.';
     descriptionNode.innerHTML = renderTextareaBlocks(job.description, {
       emptyHtml: '<p>Informasi deskripsi akan ditampilkan setelah posisi dipilih.</p>',

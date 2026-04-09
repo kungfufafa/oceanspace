@@ -451,36 +451,6 @@
     line-height: 1.7;
   }
 
-  .apply-panel {
-    overflow: hidden;
-    border: 1px solid rgba(15, 23, 42, 0.1);
-    background: var(--os-surface);
-    box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
-  }
-
-  .apply-panel-header {
-    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
-    padding: 1.25rem 1.5rem;
-  }
-
-  .apply-panel-section {
-    padding: 1.5rem;
-  }
-
-  .apply-panel-section-split {
-    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
-  }
-
-  .apply-meta-card {
-    border: 1px solid rgba(15, 23, 42, 0.1);
-    background: var(--os-surface);
-    padding: 1rem;
-  }
-
-  .apply-meta-card-soft {
-    background: #f8fbff;
-  }
-
   .page-shell .group:hover .group-hover\:text-\[\#0062FF\],
   .page-shell .group:hover .group-hover\:text-slate-800,
   .page-shell .group:hover .group-hover\:text-slate-700,
@@ -731,11 +701,6 @@
 
     .lc-ecosystem-grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .apply-panel-section-split {
-      border-bottom: 0;
-      border-right: 1px solid rgba(15, 23, 42, 0.1);
     }
   }
 }
