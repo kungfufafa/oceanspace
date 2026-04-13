@@ -335,6 +335,28 @@ document.addEventListener('DOMContentLoaded', () => {
     return lettersOnly === lettersOnly.toUpperCase();
   };
 
+  const renderFormStatus = (tone, title, message) => {
+    const tones = {
+      warning: {
+        panelClass: 'border-orange-100 bg-orange-50',
+        textClass: 'text-orange-700'
+      },
+      error: {
+        panelClass: 'border-red-100 bg-red-50',
+        textClass: 'text-red-700'
+      }
+    };
+
+    const config = tones[tone] || tones.error;
+
+    return `
+      <div class="mb-5 border ${config.panelClass} p-4 sm:p-5">
+        <p class="lc-eyebrow ${config.textClass}">${escapeHtml(title)}</p>
+        <p class="mt-2 text-sm leading-7 ${config.textClass}">${escapeHtml(message)}</p>
+      </div>
+    `;
+  };
+
   const renderForm = (job) => {
     formNode.innerHTML = '';
     formNode.setAttribute('data-slug', job.slug);
@@ -452,15 +474,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderSuccess = (payload) => {
     formNode.innerHTML = `
-      <div data-motion-reveal="panel" class="rounded-2xl border border-green-100 bg-green-50 p-8 text-center">
-        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-          <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-        </div>
-        <h3 class="mt-5 text-xl font-bold text-green-800">Lamaran Berhasil Terkirim!</h3>
-        <p class="mt-3 text-[15px] leading-relaxed text-green-700">Terima kasih, <strong>${escapeHtml(payload.data?.applicant_name || 'Kandidat')}</strong>. Lamaran Anda sudah diterima dan akan ditinjau oleh tim kami.</p>
-        <div class="mt-8 flex flex-wrap justify-center gap-3">
-          <a href="career.html" data-motion-cta="true" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Lihat posisi lainnya</a>
-          <a href="contact.html" data-motion-cta="true" class="inline-flex min-h-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-5 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/35 hover:text-[#1d4ed8]">Hubungi tim korporat</a>
+      <div data-motion-reveal="panel" class="border border-green-100 bg-green-50 p-8 sm:p-10">
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div>
+            <p class="lc-eyebrow text-green-700">Lamaran Terkirim</p>
+            <h3 class="mt-3 font-display text-2xl font-semibold tracking-[-0.04em] text-green-800">Lamaran Berhasil Terkirim!</h3>
+            <p class="mt-3 max-w-[34rem] text-[15px] leading-7 text-green-700">Terima kasih, <strong>${escapeHtml(payload.data?.applicant_name || 'Kandidat')}</strong>. Lamaran Anda sudah diterima dan akan ditinjau oleh tim kami.</p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <a href="career.html" data-motion-cta="true" class="button-primary sm:w-auto">Lihat posisi lainnya</a>
+            <a href="contact.html" data-motion-cta="true" class="button-secondary sm:w-auto">Hubungi tim korporat</a>
+          </div>
         </div>
       </div>
     `;
@@ -472,11 +496,11 @@ document.addEventListener('DOMContentLoaded', () => {
     clearErrors();
 
     if (!validateClientFiles()) {
-      formAlerts.innerHTML = `
-        <div class="mb-5 rounded-md border border-orange-100 bg-orange-50 p-4 text-sm text-orange-700">
-          Periksa kembali file yang diunggah. Format dan ukuran file harus sesuai ketentuan sebelum lamaran dikirim.
-        </div>
-      `;
+      formAlerts.innerHTML = renderFormStatus(
+        'warning',
+        'Periksa Form',
+        'Periksa kembali file yang diunggah. Format dan ukuran file harus sesuai ketentuan sebelum lamaran dikirim.'
+      );
       return;
     }
 
@@ -492,17 +516,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       if (error.status === 422 && error.payload?.errors) {
         showErrors(error.payload.errors);
-        formAlerts.innerHTML = `
-          <div class="mb-5 rounded-md border border-orange-100 bg-orange-50 p-4 text-sm text-orange-700">
-            ${escapeHtml(error.payload.message || 'Mohon periksa kembali isian formulir Anda.')}
-          </div>
-        `;
+        formAlerts.innerHTML = renderFormStatus(
+          'warning',
+          'Periksa Form',
+          error.payload.message || 'Mohon periksa kembali isian formulir Anda.'
+        );
       } else {
-        formAlerts.innerHTML = `
-          <div class="mb-5 rounded-md border border-red-100 bg-red-50 p-4 text-sm text-red-700">
-            Terjadi kesalahan sistem. Lamaran gagal dikirim. Silakan coba lagi beberapa saat lagi.
-          </div>
-        `;
+        formAlerts.innerHTML = renderFormStatus(
+          'error',
+          'Terjadi Kendala',
+          'Terjadi kesalahan sistem. Lamaran gagal dikirim. Silakan coba lagi beberapa saat lagi.'
+        );
       }
     } finally {
       if (document.getElementById('btn-submit')) {
