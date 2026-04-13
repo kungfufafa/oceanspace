@@ -56,13 +56,27 @@
     });
   }
 
-  function getCurrentPage() {
-    var page = window.location.pathname.split('/').pop();
-    page = (page || 'index.html').toLowerCase();
-    if (page === 'career-apply.html') {
-      return 'career.html';
+  function normalizeRoute(pathname) {
+    var segments = (pathname || '/').toLowerCase().split('/').filter(Boolean);
+    var page = segments[segments.length - 1] || '';
+
+    if (!page || page === 'index' || page === 'index.html') {
+      return '/';
     }
-    return page;
+
+    if (page === 'career-apply' || page === 'career-apply.html') {
+      return '/career';
+    }
+
+    if (page.slice(-5) === '.html') {
+      page = page.slice(0, -5);
+    }
+
+    return '/' + page;
+  }
+
+  function getCurrentPage() {
+    return normalizeRoute(window.location.pathname);
   }
 
   function getLinkPage(link) {
@@ -71,8 +85,7 @@
       return '';
     }
     var absoluteUrl = new URL(href, window.location.href);
-    var page = absoluteUrl.pathname.split('/').pop();
-    return (page || 'index.html').toLowerCase();
+    return normalizeRoute(absoluteUrl.pathname);
   }
 
   function setHeaderActiveState() {

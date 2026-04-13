@@ -482,8 +482,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="mt-3 max-w-[34rem] text-[15px] leading-7 text-green-700">Terima kasih, <strong>${escapeHtml(payload.data?.applicant_name || 'Kandidat')}</strong>. Lamaran Anda sudah diterima dan akan ditinjau oleh tim kami.</p>
           </div>
           <div class="flex flex-wrap gap-3">
-            <a href="career.html" data-motion-cta="true" class="button-primary sm:w-auto">Lihat posisi lainnya</a>
-            <a href="contact.html" data-motion-cta="true" class="button-secondary sm:w-auto">Hubungi tim korporat</a>
+            <a href="/career" data-motion-cta="true" class="button-primary sm:w-auto">Lihat posisi lainnya</a>
+            <a href="/contact" data-motion-cta="true" class="button-secondary sm:w-auto">Hubungi tim korporat</a>
           </div>
         </div>
       </div>
