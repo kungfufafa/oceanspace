@@ -1,5 +1,5 @@
 (function () {
-  var DEFAULT_REMOTE_BASE_URL = 'https://cesa.mekayastudio.com/api';
+  var DEFAULT_REMOTE_BASE_URL = 'https://cesa.completeselular.com/api';
   var configuredBaseUrl = typeof window.__OCEANSPACE_API_BASE_URL__ === 'string'
     ? window.__OCEANSPACE_API_BASE_URL__.trim()
     : '';
@@ -7,6 +7,29 @@
 
   function normalizeBaseUrl(url) {
     return String(url || '').replace(/\/+$/, '');
+  }
+
+  function buildQueryString(params) {
+    var searchParams = new URLSearchParams();
+
+    Object.keys(params || {}).forEach(function (key) {
+      var value = params[key];
+
+      if (value === undefined || value === null) {
+        return;
+      }
+
+      var normalizedValue = typeof value === 'string' ? value.trim() : value;
+
+      if (normalizedValue === '') {
+        return;
+      }
+
+      searchParams.set(key, String(normalizedValue));
+    });
+
+    var queryString = searchParams.toString();
+    return queryString ? '?' + queryString : '';
   }
 
   function createApiError(message, status, payload) {
@@ -44,8 +67,12 @@
     return payload;
   }
 
-  async function listJobs() {
-    return fetchJson(BASE_URL + '/jobs', {
+  async function listJobs(options) {
+    var requestUrl = options && typeof options.nextUrl === 'string' && options.nextUrl.trim()
+      ? options.nextUrl.trim()
+      : BASE_URL + '/jobs' + buildQueryString(options);
+
+    return fetchJson(requestUrl, {
       headers: { 'Accept': 'application/json' }
     });
   }

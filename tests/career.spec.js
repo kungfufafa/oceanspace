@@ -1,8 +1,11 @@
 const { test, expect } = require('@playwright/test');
-const LIVE_CAREER_API_BASE = 'https://cesa.mekayastudio.com/api';
 
-const mockJobsData = {
+const LIVE_CAREER_API_BASE = 'https://cesa.completeselular.com/api';
+const JOBS_ROUTE_PATTERN = new RegExp(`${LIVE_CAREER_API_BASE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/jobs(?:\\?.*)?$`);
+
+const mockJobsPageOne = {
   success: true,
+  message: 'Daftar lowongan berhasil diambil.',
   data: [
     {
       title: 'Backend Developer',
@@ -10,7 +13,28 @@ const mockJobsData = {
       location: 'Jakarta, Indonesia',
       thumbnail_url: '',
       closing_date: '2026-12-31T23:59:59.000000Z',
-    },
+    }
+  ],
+  meta: {
+    current_page: 1,
+    per_page: 12,
+    has_more_pages: true,
+    filters: {
+      search: null,
+      location: null,
+    }
+  },
+  links: {
+    first: `${LIVE_CAREER_API_BASE}/jobs?page=1`,
+    prev: null,
+    next: `${LIVE_CAREER_API_BASE}/jobs?page=2`
+  }
+};
+
+const mockJobsPageTwo = {
+  success: true,
+  message: 'Daftar lowongan berhasil diambil.',
+  data: [
     {
       title: 'Frontend Developer',
       slug: 'frontend-developer',
@@ -19,6 +43,48 @@ const mockJobsData = {
       closing_date: '2026-11-30T23:59:59.000000Z',
     }
   ],
+  meta: {
+    current_page: 2,
+    per_page: 12,
+    has_more_pages: false,
+    filters: {
+      search: null,
+      location: null,
+    }
+  },
+  links: {
+    first: `${LIVE_CAREER_API_BASE}/jobs?page=1`,
+    prev: `${LIVE_CAREER_API_BASE}/jobs?page=1`,
+    next: null
+  }
+};
+
+const mockFilteredJobsData = {
+  success: true,
+  message: 'Daftar lowongan berhasil diambil.',
+  data: [
+    {
+      title: 'Sales Jakarta',
+      slug: 'sales-jakarta',
+      location: 'Jakarta',
+      thumbnail_url: '',
+      closing_date: '2026-10-10T00:00:00.000000Z',
+    }
+  ],
+  meta: {
+    current_page: 1,
+    per_page: 12,
+    has_more_pages: false,
+    filters: {
+      search: 'sales',
+      location: 'Jakarta',
+    }
+  },
+  links: {
+    first: `${LIVE_CAREER_API_BASE}/jobs?search=sales&location=Jakarta&page=1`,
+    prev: null,
+    next: null
+  }
 };
 
 const mockJobDetailData = {
@@ -68,117 +134,134 @@ const createJsonCorsResponse = (payload, status = 200) => ({
 });
 
 test.describe('Career Page Jobs Flow', () => {
+  test('Should render first page, load more results, and open dedicated apply page correctly', async ({ page }) => {
+    const requestedUrls = [];
 
-  test('Should render jobs from API and open dedicated apply page correctly', async ({ page }) => {
-    // Intercept Job Listings API
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs`, async route => {
-      await route.fulfill(createJsonCorsResponse(mockJobsData));
+    await page.route(JOBS_ROUTE_PATTERN, async (route) => {
+      const requestUrl = new URL(route.request().url());
+      requestedUrls.push(requestUrl.toString());
+
+      if (requestUrl.searchParams.get('page') === '2') {
+        await route.fulfill(createJsonCorsResponse(mockJobsPageTwo));
+        return;
+      }
+
+      expect(requestUrl.searchParams.get('per_page')).toBe('12');
+      await route.fulfill(createJsonCorsResponse(mockJobsPageOne));
     });
 
-    // Intercept Job Detail API
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async (route) => {
       await route.fulfill(createJsonCorsResponse(mockJobDetailDataWithFiles));
     });
 
     await page.goto('/career.html');
     await expect.poll(() => page.evaluate(() => window.OceanSpaceCareerApi.baseUrl)).toBe(LIVE_CAREER_API_BASE);
 
-    // Wait until 'Backend Developer' is rendered in the list
-    const jobCard = page.locator('h3:has-text("Backend Developer")');
-    await expect(jobCard).toBeVisible();
+    await expect(page.locator('h3:has-text("Backend Developer")')).toBeVisible();
+    await expect(page.locator('h3:has-text("Frontend Developer")')).toHaveCount(0);
+    await expect(page.locator('#jobs-load-more')).toBeVisible();
 
-    // Verify Frontend Developer (the other mocked data) also displayed
+    await page.locator('#jobs-load-more').click();
+
     await expect(page.locator('h3:has-text("Frontend Developer")')).toBeVisible();
+    await expect(page.locator('#jobs-load-more')).toBeDisabled();
+    expect(requestedUrls).toContain(`${LIVE_CAREER_API_BASE}/jobs?page=2`);
 
-    // Click dedicated apply page link
     const openBtn = page.locator('[data-job-link="backend-developer"]');
     await openBtn.click();
     await expect(page).toHaveURL(/.*career-apply\.html\?job=backend-developer/);
 
-    // Wait for the dedicated page to render the correct title
     await expect(page.locator('#apply-page-title')).toContainText('Backend Developer');
-
-    // Ensure the dynamic form rendered the Full Name and Email fields correctly on the page
-    const fullNameInput = page.locator('input[name="full_name"]');
-    const emailInput = page.locator('input[name="email"]');
-    await expect(fullNameInput).toBeVisible();
-    await expect(emailInput).toBeVisible();
+    await expect(page.locator('input[name="full_name"]')).toBeVisible();
+    await expect(page.locator('input[name="email"]')).toBeVisible();
     await expect(page.locator('text=Format yang diterima backend: PDF, DOC, atau DOCX. Ukuran maksimal 5 MB.')).toBeVisible();
     await expect(page.locator('text=Format yang diterima backend: JPG, JPEG, PNG, atau WEBP. Ukuran maksimal 5 MB.')).toBeVisible();
   });
 
+  test('Should submit search and location filters using the new query params', async ({ page }) => {
+    await page.route(JOBS_ROUTE_PATTERN, async (route) => {
+      const requestUrl = new URL(route.request().url());
+      const search = requestUrl.searchParams.get('search');
+      const location = requestUrl.searchParams.get('location');
+
+      if (search === 'sales' && location === 'Jakarta') {
+        expect(requestUrl.searchParams.get('per_page')).toBe('12');
+        expect(requestUrl.searchParams.get('page')).toBe('1');
+        await route.fulfill(createJsonCorsResponse(mockFilteredJobsData));
+        return;
+      }
+
+      await route.fulfill(createJsonCorsResponse(mockJobsPageOne));
+    });
+
+    await page.goto('/career.html');
+    await page.locator('#jobs-search').fill('sales');
+    await page.locator('#jobs-location').fill('Jakarta');
+    await page.locator('#jobs-filters button[type="submit"]').click();
+
+    await expect(page.locator('h3:has-text("Sales Jakarta")')).toBeVisible();
+    await expect(page).toHaveURL(/search=sales/);
+    await expect(page).toHaveURL(/location=Jakarta/);
+    await expect(page.locator('#jobs-results-meta')).toContainText('Filter aktif');
+  });
+
   test('Should submit the application form gracefully on dedicated page', async ({ page }) => {
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async (route) => {
       await route.fulfill(createJsonCorsResponse(mockJobDetailData));
     });
 
-    // Intercept Apply API
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async route => {
-      // Small artificial delay to let UI show "Memproses..."
-      await new Promise(r => setTimeout(r, 500));
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 500));
       await route.fulfill(createJsonCorsResponse(mockApplySuccessData, 201));
     });
 
     await page.goto('/career-apply.html?job=backend-developer');
 
-    // Wait for inputs
     const fullNameInput = page.locator('input[name="full_name"]');
     await expect(fullNameInput).toBeVisible();
 
-    // Fill the inputs
     await fullNameInput.fill('Test Playwright User');
     await page.locator('input[name="email"]').fill('playwright@test.com');
 
-    // Submit form
-    const submitBtn = page.locator('#btn-submit');
-    await submitBtn.click();
+    await page.locator('#btn-submit').click();
 
-    // Wait for "Memproses..." state to disappear and success screen to show
-    const successHeader = page.locator('h3:has-text("Lamaran Berhasil Terkirim!")');
-    await expect(successHeader).toBeVisible();
+    await expect(page.locator('h3:has-text("Lamaran Berhasil Terkirim!")')).toBeVisible();
     await expect(page.locator('#apply-form a:has-text("Hubungi tim korporat")')).toBeVisible();
   });
 
   test('Should show 422 error gracefully on dedicated page', async ({ page }) => {
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async (route) => {
       await route.fulfill(createJsonCorsResponse(mockJobDetailData));
     });
 
-    // Intercept Apply with 422
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async route => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async (route) => {
       await route.fulfill(createJsonCorsResponse({
-          message: "The email field is required.",
-          errors: {
-            email: ["The email field is required."]
-          }
-        }, 422));
+        message: 'The email field is required.',
+        errors: {
+          email: ['The email field is required.']
+        }
+      }, 422));
     });
 
     await page.goto('/career-apply.html?job=backend-developer');
-    
-    // Fill full name but leave email empty
+
     await page.locator('input[name="full_name"]').fill('Test Error User');
     await page.evaluate(() => { document.querySelector('#apply-form').noValidate = true; });
-
     await page.locator('#btn-submit').click();
 
-    // Verify that the error message shows up next to email or atop form
-    const alertMsg = page.locator('#form-alerts');
-    await expect(alertMsg).toBeVisible();
-    await expect(alertMsg).toContainText('The email field is required.');
-
-    const emailError = page.locator('#error-email');
-    await expect(emailError).toBeVisible();
-    await expect(emailError).toHaveText("The email field is required.");
+    await expect(page.locator('#form-alerts')).toBeVisible();
+    await expect(page.locator('#form-alerts')).toContainText('The email field is required.');
+    await expect(page.locator('#error-email')).toBeVisible();
+    await expect(page.locator('#error-email')).toHaveText('The email field is required.');
   });
 
   test('Should block oversize uploads on frontend before submit', async ({ page }) => {
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async route => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer`, async (route) => {
       await route.fulfill(createJsonCorsResponse(mockJobDetailDataWithFiles));
     });
 
     let applyRequestCount = 0;
-    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async route => {
+    await page.route(`${LIVE_CAREER_API_BASE}/jobs/backend-developer/apply`, async (route) => {
       applyRequestCount += 1;
       await route.fulfill(createJsonCorsResponse(mockApplySuccessData, 201));
     });

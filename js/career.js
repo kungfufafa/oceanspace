@@ -5,11 +5,38 @@ document.addEventListener('DOMContentLoaded', () => {
   const jobsContainer = document.getElementById('jobs-container');
   const jobsRetry = document.getElementById('jobs-retry');
   const jobsErrorMessage = document.getElementById('jobs-error-message');
+  const jobsFilters = document.getElementById('jobs-filters');
+  const jobsSearchInput = document.getElementById('jobs-search');
+  const jobsLocationInput = document.getElementById('jobs-location');
+  const jobsResetButton = document.getElementById('jobs-reset');
+  const jobsResultsMeta = document.getElementById('jobs-results-meta');
+  const jobsLoadMoreWrap = document.getElementById('jobs-load-more-wrap');
+  const jobsLoadMoreButton = document.getElementById('jobs-load-more');
+  const jobsLoadMoreStatus = document.getElementById('jobs-load-more-status');
 
   const api = window.OceanSpaceCareerApi;
+  const defaultPerPage = 12;
+  const state = {
+    jobs: [],
+    filters: getInitialFilters(),
+    meta: null,
+    links: null,
+    nextUrl: null,
+    isLoading: false,
+    isLoadingMore: false,
+  };
+
   const notifyMotionRefresh = () => {
     window.dispatchEvent(new CustomEvent('oceanspace:motion-refresh'));
   };
+
+  function getInitialFilters() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      search: (params.get('search') || params.get('q') || '').trim(),
+      location: (params.get('location') || '').trim(),
+    };
+  }
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -27,8 +54,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getApplyUrl = (slug) => `career-apply.html?job=${encodeURIComponent(slug)}`;
 
-  const renderJobs = (jobs) => {
-    jobsContainer.innerHTML = '';
+  const syncFilterInputs = () => {
+    if (jobsSearchInput) {
+      jobsSearchInput.value = state.filters.search;
+    }
+
+    if (jobsLocationInput) {
+      jobsLocationInput.value = state.filters.location;
+    }
+  };
+
+  const syncBrowserUrl = () => {
+    const url = new URL(window.location.href);
+
+    if (state.filters.search) {
+      url.searchParams.set('search', state.filters.search);
+    } else {
+      url.searchParams.delete('search');
+      url.searchParams.delete('q');
+    }
+
+    if (state.filters.location) {
+      url.searchParams.set('location', state.filters.location);
+    } else {
+      url.searchParams.delete('location');
+    }
+
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  };
+
+  const setLoadMoreState = ({ visible, disabled, buttonLabel, statusMessage }) => {
+    if (!jobsLoadMoreWrap || !jobsLoadMoreButton || !jobsLoadMoreStatus) {
+      return;
+    }
+
+    jobsLoadMoreWrap.classList.toggle('hidden', !visible);
+    jobsLoadMoreWrap.classList.toggle('flex', visible);
+    jobsLoadMoreButton.disabled = Boolean(disabled);
+    jobsLoadMoreButton.textContent = buttonLabel || 'Load more';
+    jobsLoadMoreStatus.textContent = statusMessage || '';
+  };
+
+  const updateResultsMeta = () => {
+    if (!jobsResultsMeta) {
+      return;
+    }
+
+    const parts = [];
+
+    if (state.filters.search) {
+      parts.push(`kata kunci "${state.filters.search}"`);
+    }
+
+    if (state.filters.location) {
+      parts.push(`lokasi "${state.filters.location}"`);
+    }
+
+    if (!state.jobs.length) {
+      jobsResultsMeta.textContent = parts.length
+        ? `Belum ada posisi yang cocok untuk ${parts.join(' dan ')}.`
+        : 'Menampilkan posisi terbaru dari Ocean Space.';
+      return;
+    }
+
+    const paginationText = state.meta
+      ? `Menampilkan ${state.jobs.length} posisi hingga halaman ${state.meta.current_page}.`
+      : `Menampilkan ${state.jobs.length} posisi.`;
+
+    jobsResultsMeta.textContent = parts.length
+      ? `${paginationText} Filter aktif: ${parts.join(' dan ')}.`
+      : paginationText;
+  };
+
+  const renderJobs = (jobs, options = {}) => {
+    if (!options.append) {
+      jobsContainer.innerHTML = '';
+    }
 
     jobs.forEach((job) => {
       const card = document.createElement('article');
@@ -64,38 +165,179 @@ document.addEventListener('DOMContentLoaded', () => {
     notifyMotionRefresh();
   };
 
-  const fetchJobs = async () => {
-    try {
-      jobsLoading.classList.remove('hidden');
-      jobsError.classList.add('hidden');
-      jobsEmpty.classList.add('hidden');
+  const updateLoadMoreControls = () => {
+    const hasMorePages = Boolean(state.meta && state.meta.has_more_pages && state.nextUrl);
+
+    if (!state.jobs.length) {
+      setLoadMoreState({
+        visible: false,
+        disabled: true,
+        buttonLabel: 'Load more',
+        statusMessage: '',
+      });
+      return;
+    }
+
+    if (state.isLoadingMore) {
+      setLoadMoreState({
+        visible: true,
+        disabled: true,
+        buttonLabel: 'Memuat...',
+        statusMessage: 'Mengambil halaman berikutnya.',
+      });
+      return;
+    }
+
+    if (hasMorePages) {
+      setLoadMoreState({
+        visible: true,
+        disabled: false,
+        buttonLabel: 'Load more',
+        statusMessage: 'Masih ada lowongan lain yang bisa ditampilkan.',
+      });
+      return;
+    }
+
+    setLoadMoreState({
+      visible: true,
+      disabled: true,
+      buttonLabel: 'Semua tampil',
+      statusMessage: 'Semua lowongan yang tersedia untuk filter ini sudah ditampilkan.',
+    });
+  };
+
+  const applyPayloadState = (payload, options = {}) => {
+    const jobs = Array.isArray(payload && payload.data) ? payload.data : [];
+
+    state.jobs = options.append ? state.jobs.concat(jobs) : jobs.slice();
+    state.meta = payload && payload.meta ? payload.meta : null;
+    state.links = payload && payload.links ? payload.links : null;
+    state.nextUrl = state.links && state.links.next ? state.links.next : null;
+  };
+
+  const renderCurrentState = () => {
+    if (!state.jobs.length) {
       jobsContainer.classList.add('hidden');
-      jobsContainer.innerHTML = '';
+      jobsEmpty.classList.remove('hidden');
+      updateResultsMeta();
+      updateLoadMoreControls();
+      notifyMotionRefresh();
+      return;
+    }
 
-      const payload = await api.listJobs();
-      const jobs = payload.data;
+    jobsEmpty.classList.add('hidden');
+    jobsContainer.classList.remove('hidden');
+    renderJobs(state.jobs);
+    updateResultsMeta();
+    updateLoadMoreControls();
+  };
 
-      if (!jobs || jobs.length === 0) {
-        jobsEmpty.classList.remove('hidden');
-        notifyMotionRefresh();
+  const fetchJobs = async (options = {}) => {
+    const append = Boolean(options.append);
+    const requestOptions = append
+      ? { nextUrl: state.nextUrl }
+      : {
+          search: state.filters.search,
+          location: state.filters.location,
+          per_page: defaultPerPage,
+          page: 1,
+        };
+
+    try {
+      if (append) {
+        if (!state.nextUrl || state.isLoadingMore) {
+          return;
+        }
+
+        state.isLoadingMore = true;
+        updateLoadMoreControls();
       } else {
-        renderJobs(jobs);
-        jobsContainer.classList.remove('hidden');
+        if (state.isLoading) {
+          return;
+        }
+
+        state.isLoading = true;
+        jobsLoading.classList.remove('hidden');
+        jobsError.classList.add('hidden');
+        jobsEmpty.classList.add('hidden');
+        jobsContainer.classList.add('hidden');
+        jobsContainer.innerHTML = '';
+        setLoadMoreState({
+          visible: false,
+          disabled: true,
+          buttonLabel: 'Load more',
+          statusMessage: '',
+        });
       }
+
+      const payload = await api.listJobs(requestOptions);
+      applyPayloadState(payload, { append });
+
+      if (!append) {
+        syncBrowserUrl();
+      }
+
+      renderCurrentState();
     } catch (error) {
+      if (append) {
+        setLoadMoreState({
+          visible: true,
+          disabled: false,
+          buttonLabel: 'Coba lagi',
+          statusMessage: 'Halaman berikutnya belum berhasil dimuat. Coba lagi.',
+        });
+        return;
+      }
+
       if (jobsErrorMessage) {
         jobsErrorMessage.textContent = 'Daftar lowongan online sedang tidak tersedia. Silakan coba lagi atau hubungi tim kami untuk menyampaikan minat.';
       }
       jobsError.classList.remove('hidden');
+      updateResultsMeta();
       notifyMotionRefresh();
     } finally {
-      jobsLoading.classList.add('hidden');
+      if (append) {
+        state.isLoadingMore = false;
+      } else {
+        state.isLoading = false;
+        jobsLoading.classList.add('hidden');
+      }
+
+      updateLoadMoreControls();
     }
   };
 
   if (jobsRetry) {
-    jobsRetry.addEventListener('click', fetchJobs);
+    jobsRetry.addEventListener('click', () => {
+      fetchJobs();
+    });
   }
 
+  if (jobsFilters) {
+    jobsFilters.addEventListener('submit', (event) => {
+      event.preventDefault();
+      state.filters.search = (jobsSearchInput && jobsSearchInput.value ? jobsSearchInput.value : '').trim();
+      state.filters.location = (jobsLocationInput && jobsLocationInput.value ? jobsLocationInput.value : '').trim();
+      fetchJobs();
+    });
+  }
+
+  if (jobsResetButton) {
+    jobsResetButton.addEventListener('click', () => {
+      state.filters.search = '';
+      state.filters.location = '';
+      syncFilterInputs();
+      fetchJobs();
+    });
+  }
+
+  if (jobsLoadMoreButton) {
+    jobsLoadMoreButton.addEventListener('click', () => {
+      fetchJobs({ append: true });
+    });
+  }
+
+  syncFilterInputs();
+  updateResultsMeta();
   fetchJobs();
 });
