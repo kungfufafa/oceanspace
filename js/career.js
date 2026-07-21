@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const jobsLoadMoreStatus = document.getElementById('jobs-load-more-status');
 
   const api = window.OceanSpaceCareerApi;
-  const defaultPerPage = 12;
+  const defaultPerPage = 6;
   const state = {
     jobs: [],
     filters: getInitialFilters(),
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     jobsLoadMoreWrap.classList.toggle('hidden', !visible);
     jobsLoadMoreWrap.classList.toggle('flex', visible);
     jobsLoadMoreButton.disabled = Boolean(disabled);
-    jobsLoadMoreButton.textContent = buttonLabel || 'Load more';
+    jobsLoadMoreButton.textContent = buttonLabel || 'Muat lebih banyak';
     jobsLoadMoreStatus.textContent = statusMessage || '';
   };
 
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setLoadMoreState({
         visible: false,
         disabled: true,
-        buttonLabel: 'Load more',
+        buttonLabel: 'Muat lebih banyak',
         statusMessage: '',
       });
       return;
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setLoadMoreState({
         visible: true,
         disabled: false,
-        buttonLabel: 'Load more',
+        buttonLabel: 'Muat lebih banyak',
         statusMessage: 'Masih ada lowongan lain yang bisa ditampilkan.',
       });
       return;
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoadMoreState({
           visible: false,
           disabled: true,
-          buttonLabel: 'Load more',
+          buttonLabel: 'Muat lebih banyak',
           statusMessage: '',
         });
       }
