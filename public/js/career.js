@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.initCareer = () => {
   const jobsLoading = document.getElementById('jobs-loading');
   const jobsEmpty = document.getElementById('jobs-empty');
   const jobsError = document.getElementById('jobs-error');
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, '&#039;');
   };
 
-  const getApplyUrl = (slug) => `career-apply.html?job=${encodeURIComponent(slug)}`;
+  const getApplyUrl = (slug) => `/career-apply?job=${encodeURIComponent(slug)}`;
 
   const syncFilterInputs = () => {
     if (jobsSearchInput) {
@@ -340,4 +340,4 @@ document.addEventListener('DOMContentLoaded', () => {
   syncFilterInputs();
   updateResultsMeta();
   fetchJobs();
-});
+};

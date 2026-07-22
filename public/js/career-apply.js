@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.initCareerApply = () => {
   const api = window.OceanSpaceCareerApi;
   const titleNode = document.getElementById('apply-page-title');
   const summaryNode = document.getElementById('apply-page-summary');
@@ -442,9 +442,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
           `;
         } else {
+          let extraValidation = '';
+          if (field.type === 'number' || field.type === 'tel' || field.name.includes('phone') || field.name.includes('number')) {
+            extraValidation = 'inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, \'\')"';
+          }
           wrapper.innerHTML = `
             <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
-            <input type="${escapeHtml(field.type)}" name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired} ${placeholders[field.name] ? `placeholder="${escapeHtml(placeholders[field.name])}"` : ''}>
+            <input type="${escapeHtml(field.type)}" name="${escapeHtml(field.name)}" class="${inputClass}" ${isRequired} ${placeholders[field.name] ? `placeholder="${escapeHtml(placeholders[field.name])}"` : ''} ${extraValidation}>
             <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
           `;
         }
@@ -464,11 +468,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const submitWrapper = document.createElement('div');
     submitWrapper.className = 'border-t border-black/10 pt-5';
-    submitWrapper.innerHTML = `
-      <button type="submit" id="btn-submit" data-motion-cta="true" class="flex w-full items-center justify-center rounded-lg bg-[#2563eb] px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70">
-        Kirim Lamaran Pekerjaan
-      </button>
-    `;
+    const submitBtn = document.createElement('button');
+    submitBtn.type = 'button';
+    submitBtn.id = 'btn-submit';
+    submitBtn.setAttribute('data-motion-cta', 'true');
+    submitBtn.className = 'flex w-full items-center justify-center rounded-lg bg-[#2563eb] px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70';
+    submitBtn.textContent = 'Kirim Lamaran Pekerjaan';
+    submitBtn.addEventListener('click', (e) => {
+      // Validate form natively first
+      if (formNode.checkValidity()) {
+        handleSubmit(e);
+      } else {
+        formNode.reportValidity();
+      }
+    });
+    submitWrapper.appendChild(submitBtn);
     formNode.appendChild(submitWrapper);
   };
 
@@ -570,4 +584,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setState('loading');
   init();
-});
+};
