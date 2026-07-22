@@ -1,71 +1,104 @@
 # OCEANSPACE Website
 
-Website perusahaan OCEANSPACE - Grup distribusi, retail, sub retail, dan lifestyle terpercaya di Indonesia.
+Website korporat OCEANSPACE — grup distribusi, retail, sub retail, dan lifestyle di Indonesia. Dibangun sebagai SPA React dengan Vite.
 
-## Struktur File
+## Tech Stack
+
+- React 19 + React Router 7
+- Vite 8
+- Tailwind CSS 3 (Instrument Sans)
+- Vanilla JS di `public/js/` untuk chrome situs & alur karier
+- Playwright untuk E2E / a11y
+
+## Struktur Proyek
 
 ```
 oceanspace/
-├── index.html          # Halaman beranda
-├── about.html          # Tentang perusahaan
-├── distribusi.html     # Unit HP Distribusi
-├── retail.html         # Unit Retail
-├── sub-retail.html     # Unit Sub Retail
-├── lifestyle.html      # Unit Lifestyle
-├── career.html         # Halaman karier
-├── contact.html        # Halaman kontak
-├── dist/
-│   └── output.css      # Optimized CSS (20KB)
-├── images/             # Gambar dan aset
-├── js/
-│   └── main.js         # JavaScript
-├── robots.txt          # SEO robots
-├── sitemap.xml         # Sitemap XML
-├── tailwind.config.js  # Konfigurasi Tailwind
-└── package.json        # NPM dependencies
+├── index.html              # SPA shell (entry Vite)
+├── src/
+│   ├── main.jsx            # Mount React
+│   ├── App.jsx             # BrowserRouter + routes
+│   ├── input.css           # Tailwind entry
+│   ├── lib/
+│   │   └── loadExternalScript.js
+│   └── pages/              # Halaman per route
+│       ├── Home.jsx
+│       ├── About.jsx
+│       ├── Distribusi.jsx
+│       ├── Retail.jsx
+│       ├── SubRetail.jsx
+│       ├── Lifestyle.jsx
+│       ├── Career.jsx
+│       ├── CareerApply.jsx
+│       └── Contact.jsx
+├── public/
+│   ├── images/             # Aset gambar & og-image.png
+│   └── js/
+│       ├── main.js         # Nav / site chrome
+│       ├── career-api.js   # Client API karier
+│       ├── career.js       # UI daftar lowongan
+│       └── career-apply.js # Form lamaran
+├── tests/                  # Playwright specs
+├── robots.txt
+├── sitemap.xml
+├── .htaccess               # Apache (legacy .html redirects)
+├── tailwind.config.js
+├── vite.config.js
+└── package.json
 ```
+
+## Routes
+
+| Path | Halaman |
+|------|---------|
+| `/` | Beranda |
+| `/about` | Tentang |
+| `/distribusi` | Unit Distribusi |
+| `/retail` | Unit Retail |
+| `/sub-retail` | Unit Sub Retail |
+| `/lifestyle` | Unit Lifestyle |
+| `/career` | Karier / lowongan |
+| `/career-apply` | Form lamaran |
+| `/contact` | Kontak |
 
 ## Development
 
-### Install Dependencies
 ```bash
 npm install
+npm run dev      # Vite dev server
+npm run build    # Production build → dist/
+npm run preview  # Preview build lokal
 ```
 
-### Build CSS
-```bash
-npm run build
-```
+### Tests
 
-### Watch Mode
 ```bash
-npm run dev
+npx playwright test
 ```
 
 ## Deployment
 
-Website ini siap untuk di-deploy ke:
-- Netlify
-- Vercel
-- GitHub Pages
-- Static hosting lainnya
+1. `npm run build`
+2. Deploy isi `dist/` ke static host (Netlify, Vercel, Apache, dll.)
+3. Pastikan host mengarahkan semua path SPA ke `index.html` (fallback rewrite), bukan hanya file `.html` terpisah
+4. `robots.txt` dan `sitemap.xml` harus ikut ter-serve di root domain
+
+Domain referensi SEO: `https://oceanspace.co.id`
 
 ## SEO & Performance
 
-- ✅ Optimized CSS (20KB)
-- ✅ Open Graph tags
-- ✅ Twitter Cards
-- ✅ JSON-LD Schema
-- ✅ Sitemap XML
-- ✅ Robots.txt
-- ✅ Responsive design
-- ✅ Lazy loading images
+Lihat [SEO-GUIDE.md](./SEO-GUIDE.md) untuk status on-page dan checklist setelah deploy.
 
-## Tech Stack
+Ringkas:
 
-- HTML5
-- Tailwind CSS
-- Vanilla JavaScript
+- Sitemap & robots ada di root repo
+- Meta per-halaman (OG / Twitter / JSON-LD) belum di-inject dari React — `index.html` hanya punya title global
+- Gambar `public/images/og-image.png` tersedia untuk Open Graph
+
+## Dokumen Terkait
+
+- [PRODUCT.md](./PRODUCT.md) — tujuan produk, positioning, prinsip desain
+- [SEO-GUIDE.md](./SEO-GUIDE.md) — status SEO & langkah indexing
 
 ---
 
