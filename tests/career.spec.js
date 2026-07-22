@@ -164,7 +164,7 @@ test.describe('Career Page Jobs Flow', () => {
     await page.locator('#jobs-load-more').click();
 
     await expect(page.locator('h3:has-text("Frontend Developer")')).toBeVisible();
-    await expect(page.locator('#jobs-load-more')).toBeDisabled();
+    await expect(page.locator('#jobs-load-more-wrap')).toBeHidden();
     expect(requestedUrls).toContain(`${LIVE_CAREER_API_BASE}/jobs?page=2`);
 
     const openBtn = page.locator('[data-job-link="backend-developer"]');

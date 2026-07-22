@@ -10,51 +10,98 @@
     root.classList.add('motion-reduce');
   }
 
-  var toggle = document.querySelector('[data-menu-toggle]');
-  var mobileNav = document.querySelector('[data-mobile-nav]');
+  function getMobileNavEls() {
+    return {
+      toggle: document.querySelector('[data-menu-toggle]'),
+      mobileNav: document.querySelector('[data-mobile-nav]')
+    };
+  }
 
-  if (toggle && mobileNav) {
-    if (!prefersReducedMotion) {
+  function enhanceMobileNav(mobileNav) {
+    if (!mobileNav || prefersReducedMotion) {
+      return;
+    }
+
+    if (mobileNav.getAttribute('data-enhanced') === 'true') {
+      return;
+    }
+
+    mobileNav.classList.remove('hidden');
+    mobileNav.setAttribute('data-enhanced', 'true');
+    mobileNav.setAttribute('data-open', 'false');
+  }
+
+  function setMobileNavState(isOpen) {
+    var els = getMobileNavEls();
+    var toggle = els.toggle;
+    var mobileNav = els.mobileNav;
+
+    if (!toggle || !mobileNav) {
+      return;
+    }
+
+    enhanceMobileNav(mobileNav);
+
+    if (mobileNav.getAttribute('data-enhanced') === 'true') {
+      mobileNav.setAttribute('data-open', String(isOpen));
       mobileNav.classList.remove('hidden');
-      mobileNav.setAttribute('data-enhanced', 'true');
-      mobileNav.setAttribute('data-open', 'false');
+    } else {
+      mobileNav.classList.toggle('hidden', !isOpen);
     }
 
-    function setMobileNavState(isOpen) {
-      if (mobileNav.getAttribute('data-enhanced') === 'true') {
-        mobileNav.setAttribute('data-open', String(isOpen));
-      } else {
-        mobileNav.classList.toggle('hidden', !isOpen);
-      }
-      mobileNav.setAttribute('aria-hidden', String(!isOpen));
-      toggle.setAttribute('aria-expanded', String(isOpen));
-    }
+    mobileNav.setAttribute('aria-hidden', String(!isOpen));
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  }
 
-    setMobileNavState(false);
-
-    toggle.addEventListener('click', function () {
+  document.addEventListener('click', function (event) {
+    var toggle = event.target.closest('[data-menu-toggle]');
+    if (toggle) {
       var isOpen = toggle.getAttribute('aria-expanded') === 'true';
       setMobileNavState(!isOpen);
-    });
+      return;
+    }
 
-    mobileNav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        setMobileNavState(false);
-      });
-    });
+    var mobileLink = event.target.closest('[data-mobile-nav] a');
+    if (mobileLink) {
+      setMobileNavState(false);
+    }
+  });
 
-    window.addEventListener('resize', function () {
-      if (window.innerWidth >= 1024) {
-        setMobileNavState(false);
-      }
-    });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 1024) {
+      setMobileNavState(false);
+    }
+  });
 
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') {
-        setMobileNavState(false);
-      }
-    });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      setMobileNavState(false);
+    }
+  });
+
+  // React mounts after this script; enhance when header appears.
+  function watchMobileNav() {
+    var els = getMobileNavEls();
+    if (els.toggle && els.mobileNav) {
+      enhanceMobileNav(els.mobileNav);
+      setMobileNavState(false);
+      return true;
+    }
+    return false;
   }
+
+  if (!watchMobileNav()) {
+    var observer = new MutationObserver(function () {
+      if (watchMobileNav()) {
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  window.initSiteChrome = function () {
+    watchMobileNav();
+  };
 
   function normalizeRoute(pathname) {
     var segments = (pathname || '/').toLowerCase().split('/').filter(Boolean);

@@ -1,203 +1,147 @@
-# Panduan SEO - Cara Mendarat di Page 1 Google
+# Panduan SEO — OCEANSPACE
 
-## Status SEO Website Saat Ini
+Status teknis diselaraskan dengan codebase SPA (React + Vite) saat ini. Claim di dokumen ini hanya mencerminkan file yang benar-benar ada.
 
-### Yang Sudah Lengkap ✅
-| Komponen | Status | Nilai |
-|----------|--------|-------|
-| Title Tags | ✅ | Unik di setiap halaman |
-| Meta Description | ✅ | 150-170 karakter |
-| H1 Structure | ✅ | 1 H1 per halaman |
-| Canonical URLs | ✅ | Ada di semua halaman |
-| Open Graph | ✅ | Lengkap dengan image |
-| Twitter Cards | ✅ | Lengkap |
-| Sitemap XML | ✅ | Dengan priority |
-| Robots.txt | ✅ | Allow all + sitemap |
-| JSON-LD Schema | ✅ | Organization + WebSite + Navigation |
-| Breadcrumbs | ✅ | Di sub-halaman |
-| Mobile Responsive | ✅ | 100% responsive |
-| Page Speed | ✅ | Optimized (20KB CSS) |
-| HTTPS | ⚠️ | Perlu setup saat deploy |
+## Status SEO Saat Ini
 
----
+### Yang sudah ada
 
-## Cara Mendarat di Page 1 Google
+| Komponen | Status | Catatan |
+|----------|--------|---------|
+| `robots.txt` | Ada | Allow `/` + sitemap `https://oceanspace.co.id/sitemap.xml` |
+| `sitemap.xml` | Ada | 8 URL clean path (tanpa `.html`); belum termasuk `/career-apply` |
+| Title (global) | Ada | Di `index.html`: `Ocean Space \| Bertumbuh dengan Integritas` |
+| Favicon | Ada | `/images/logo.png` |
+| Mobile viewport | Ada | Meta viewport di `index.html` |
+| Clean URLs | Ada | Routes React (`/about`, `/career`, …) |
+| Aset OG | Partial | `public/images/og-image.png` ada; belum dipakai di meta tag |
+| HTTPS | Deploy-time | Setup di hosting |
 
-### 1. Faktor On-Page (Sudah Dioptimalkan)
+### Belum / gap (penting untuk crawler SPA)
 
-#### A. Technical SEO ✅
-- [x] Website cepat (20KB CSS)
-- [x] Mobile-friendly
-- [x] SSL/HTTPS (setup saat deploy)
-- [x] Clean URLs tanpa .html
-- [x] Sitemap terdaftar
-- [x] Robots.txt benar
-
-#### B. Content SEO ✅
-- [x] Title mengandung keyword
-- [x] Meta description menarik
-- [x] H1 unik per halaman
-- [x] Konten berkualitas
-- [x] Internal linking antar halaman
-
-#### C. Schema Markup ✅
-- [x] Organization schema
-- [x] WebSite schema + SearchAction
-- [x] SiteNavigationElement
-- [x] BreadcrumbList
+| Komponen | Status | Catatan |
+|----------|--------|---------|
+| Meta description per halaman | Belum | `index.html` tidak punya description |
+| Title unik per route | Belum | Satu title global; React belum set `document.title` / Helmet |
+| Canonical per halaman | Belum | — |
+| Open Graph / Twitter Cards | Belum | Tidak ada tag OG/Twitter di head |
+| JSON-LD (Organization, WebSite, Breadcrumb) | Belum | Tidak ada schema di source |
+| SSR / prerender | Belum | Crawler yang tidak menjalankan JS hanya melihat shell kosong `#root` |
+| SPA fallback di `.htaccess` | Partial | File masih rewrite legacy `.html`; untuk production SPA perlu fallback ke `index.html` |
 
 ---
 
-### 2. Faktor Off-Page (Perlu Dilakukan)
+## Sitemap (sumber kebenaran)
 
-#### A. Google Search Console (WAJIB!)
-```
-1. Kunjungi: https://search.google.com/search-console
-2. Tambahkan property: https://oceanspace.co.id
-3. Verifikasi dengan:
-   - HTML file upload (termudah)
-   - Atau DNS record
-4. Submit sitemap: https://oceanspace.co.id/sitemap.xml
-5. Tunggu 1-2 minggu untuk indexing
-```
+URL di `sitemap.xml` saat ini:
 
-#### B. Backlinks (Penting!)
-Cara mendapatkan backlinks berkualitas:
-1. **Business Directory Indonesia**
-   - Daftarkan di Google My Business
-   -Daftarkan di direktori bisnis lokal
+- `https://oceanspace.co.id/`
+- `https://oceanspace.co.id/about`
+- `https://oceanspace.co.id/distribusi`
+- `https://oceanspace.co.id/retail`
+- `https://oceanspace.co.id/sub-retail`
+- `https://oceanspace.co.id/lifestyle`
+- `https://oceanspace.co.id/career`
+- `https://oceanspace.co.id/contact`
 
-2. **Social Media**
-   - LinkedIn Company Page (sudah ada)
-   - Facebook Business Page
-   - Posting rutin dengan link ke website
-
-3. **Partnership**
-   - Minta partner/client link ke website
-   - Guest post di website industri terkait
+Opsional ditambahkan nanti: `/career-apply` (biasanya `noindex` karena form dinamis).
 
 ---
 
-### 3. Google Sitelinks (Menu di bawah Website)
+## Prioritas perbaikan on-page
 
-**Faktor yang mempengaruhi:**
-| Faktor | Status | Catatan |
-|--------|--------|---------|
-| Website Structure | ✅ | Navigasi jelas |
-| Internal Links | ✅ | Link ke semua halaman |
-| Schema Navigation | ✅ | SiteNavigationElement |
-| Brand Authority | ⚠️ | Butuh waktu |
-| Traffic | ⚠️ | Butuh waktu |
-| Age | ⚠️ | Butuh 3-6 bulan |
+Urutan yang paling berdampak untuk SPA:
 
-**Tidak bisa dipaksa!** Google menentukan sendiri berdasarkan:
-- Relevansi halaman
-- User behavior
-- Website authority
+1. **Prerender atau SSR** untuk route publik (atau meta diinject saat build) agar bot melihat HTML berisi konten
+2. **Title + meta description unik** per route
+3. **Open Graph / Twitter** memakai `/images/og-image.png`
+4. **JSON-LD** Organization (+ WebSite); BreadcrumbList di sub-halaman
+5. **Canonical** per URL
+6. Pastikan host: HTTPS + rewrite semua path non-file → `index.html`
+
+Tanpa langkah 1, checklist “title/meta/schema lengkap di React” tetap lemah untuk Googlebot jika JS tidak dijalankan.
 
 ---
 
-### 4. Timeline Realistis
+## Cara mendarat di Page 1 Google
+
+### 1. On-page (sedang dikerjakan / gap di atas)
+
+- [x] Mobile-friendly layout
+- [x] Clean URLs
+- [x] Sitemap + robots
+- [ ] Meta & title per halaman
+- [ ] OG / Twitter / JSON-LD
+- [ ] Prerender atau setara untuk crawlability
+- [ ] SSL di production
+
+### 2. Off-page (setelah deploy)
+
+#### Google Search Console (wajib)
+
+1. https://search.google.com/search-console
+2. Property: `https://oceanspace.co.id`
+3. Verifikasi (HTML file / DNS)
+4. Submit sitemap: `https://oceanspace.co.id/sitemap.xml`
+
+#### Backlinks & social
+
+- Google Business Profile
+- LinkedIn / Facebook company page + tautan ke situs
+- Partner/client link & guest post industri terkait
+
+### 3. Sitelinks
+
+Google menentukan sendiri. Bantu dengan navigasi jelas, internal link konsisten, dan (nanti) `SiteNavigationElement`. Tidak bisa dipaksa.
+
+### 4. Timeline realistis
 
 | Periode | Target |
 |---------|--------|
-| **Minggu 1-2** | Submit ke Google Search Console |
-| **Bulan 1** | Mulai terindex, muncul di SERP |
-| **Bulan 2-3** | Ranking untuk brand keyword "OCEANSPACE" |
-| **Bulan 4-6** | Sitelinks mulai muncul |
-| **Bulan 6-12** | Ranking untuk keyword bisnis |
+| Minggu 1–2 | Deploy, SSL, GSC, submit sitemap |
+| Bulan 1 | Mulai terindex |
+| Bulan 2–3 | Ranking brand “OCEANSPACE” |
+| Bulan 4–6 | Sitelinks mungkin muncul |
+| Bulan 6–12 | Keyword bisnis non-brand |
+
+### 5. Keyword target
+
+**Brand:** OCEANSPACE, OCEANSPACE Indonesia, OCEANSPACE distribusi / retail
+
+**Bisnis:** distribusi handphone Indonesia, toko handphone terpercaya, retail HP Indonesia
+
+**Long-tail:** distribusi handphone terpercaya di Indonesia, grup retail dan distribusi, toko HP asli bergaransi
 
 ---
 
-### 5. Keyword yang Bisa Ditarget
+## Checklist setelah deploy
 
-#### Brand Keywords (Mudah)
-- "OCEANSPACE"
-- "OCEANSPACE Indonesia"
-- "OCEANSPACE distribusi"
-- "OCEANSPACE retail"
+### Minggu 1
 
-#### Business Keywords (Sedang)
-- "distribusi handphone Indonesia"
-- "toko handphone terpercaya"
-- "retail HP Indonesia"
+- [ ] `npm run build` + deploy `dist/`
+- [ ] SPA fallback ke `index.html` aktif
+- [ ] HTTPS
+- [ ] GSC + sitemap
+- [ ] Bing Webmaster Tools
 
-#### Long-tail Keywords (Lebih Mudah)
-- "distribusi handphone terpercaya di Indonesia"
-- "grup perusahaan retail dan distribusi"
-- "toko HP asli dan bergaransi"
+### Bulan 1+
 
----
-
-### 6. Yang Perlu Dilakukan Setelah Deploy
-
-#### Minggu 1
-- [ ] Deploy website
-- [ ] Setup SSL/HTTPS
-- [ ] Submit ke Google Search Console
-- [ ] Submit sitemap
-- [ ] Submit ke Bing Webmaster Tools
-
-#### Bulan 1
-- [ ] Daftar Google My Business
-- [ ] Buat social media pages
-- [ ] Posting konten rutin
-- [ ] Minta review dari client
-
-#### Bulan 2-3
-- [ ] Bangun backlinks
-- [ ] Monitor ranking di GSC
-- [ ] Optimasi berdasarkan data
-- [ ] Tambah konten baru
+- [ ] Google Business Profile
+- [ ] Social pages + posting rutin
+- [ ] Monitor GSC (coverage, crawl errors)
+- [ ] Update `sitemap.xml` `lastmod` bila konten berubah
 
 ---
 
-### 7. Checklist Harian/Mingguan
-
-#### Harian
-- [ ] Check Google Search Console untuk error
-- [ ] Monitor traffic (jika pakai Analytics)
-
-#### Mingguan
-- [ ] Review keyword rankings
-- [ ] Check untuk crawl errors
-- [ ] Update konten jika perlu
-
-#### Bulanan
-- [ ] Analisa performance
-- [ ] Update sitemap jika ada halaman baru
-- [ ] Review backlinks profile
-
----
-
-## Kesimpulan
-
-### SEO On-Page: 95/100 ✅
-Website sudah sangat baik dari sisi teknis SEO.
-
-### Yang Perlu Waktu:
-1. **Indexing** - 1-2 minggu
-2. **Ranking** - 1-3 bulan
-3. **Sitelinks** - 4-6 bulan
-4. **Authority** - 6-12 bulan
-
-### Yang Perlu Dilakukan:
-1. Submit ke Google Search Console
-2. Bangun backlinks berkualitas
-3. Konsisten posting di social media
-4. Sabar dan konsisten
-
----
-
-## Tools SEO Recommended
+## Tools
 
 | Tool | Fungsi |
 |------|--------|
-| Google Search Console | Monitor indexing & ranking |
-| Google Analytics | Monitor traffic |
-| Google PageSpeed Insights | Check performance |
-| Ahrefs/SEMrush | Analisa backlinks & keywords |
-| Screaming Frog | Technical SEO audit |
+| Google Search Console | Indexing & ranking |
+| Google Analytics | Traffic |
+| PageSpeed Insights | Performance |
+| Screaming Frog / setara | Audit teknis |
+| Playwright + axe (`tests/audit.spec.js`) | A11y regresi lokal |
 
 ---
 
