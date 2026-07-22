@@ -1,7 +1,13 @@
-import { copyFileSync, mkdirSync } from 'node:fs'
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import {
+  PAGE_SEO,
+  buildCrawlableRoot,
+  buildHeadTags,
+  getPageSeo,
+} from './src/seo/pages.js'
 
 /** SPA routes that need a physical shell on hosts without URL rewrite (LiteSpeed). */
 const SPA_ROUTES = [
@@ -11,23 +17,57 @@ const SPA_ROUTES = [
   'contact',
   'distribusi',
   'lifestyle',
+  'privacy',
   'retail',
+  'subprocessors',
   'sub-retail',
 ]
+
+function injectSeoIntoHtml(html, page) {
+  const headTags = buildHeadTags(page)
+  const rootHtml = buildCrawlableRoot(page)
+  let next = html.replace(
+    /<title>[^<]*<\/title>/,
+    `<title>${page.title.replace(/</g, '&lt;')}</title>\n    ${headTags}`,
+  )
+  next = next.replace(
+    /<div id="root"><\/div>/,
+    `<div id="root">${rootHtml}</div>`,
+  )
+  return next
+}
 
 function spaRouteShells() {
   return {
     name: 'spa-route-shells',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html) {
+        // Discover CSS earlier; still one stylesheet request (SPA tradeoff).
+        return html.replace(
+          /<link rel="stylesheet"[^>]*href="(\/assets\/[^"]+\.css)"[^>]*>/,
+          (full, href) =>
+            `<link rel="preload" href="${href}" as="style" />\n    ${full}`,
+        )
+      },
+    },
     closeBundle() {
       const dist = join(process.cwd(), 'dist')
-      const indexHtml = join(dist, 'index.html')
+      const indexHtmlPath = join(dist, 'index.html')
+      const baseHtml = readFileSync(indexHtmlPath, 'utf8')
+
+      // Home shell with SEO
+      writeFileSync(indexHtmlPath, injectSeoIntoHtml(baseHtml, getPageSeo('/')))
+
       for (const route of SPA_ROUTES) {
+        const page = getPageSeo(`/${route}`)
         const dir = join(dist, route)
         mkdirSync(dir, { recursive: true })
-        copyFileSync(indexHtml, join(dir, 'index.html'))
+        writeFileSync(join(dir, 'index.html'), injectSeoIntoHtml(baseHtml, page))
       }
-      // Custom 404 → same SPA shell (backup when rewrite / ErrorDocument works)
-      copyFileSync(indexHtml, join(dist, '404.html'))
+
+      // Custom 404 → home shell (backup when rewrite / ErrorDocument works)
+      copyFileSync(indexHtmlPath, join(dist, '404.html'))
     },
   }
 }
@@ -66,3 +106,6 @@ export default defineConfig({
     },
   },
 })
+
+// Keep PAGE_SEO referenced so tree-shaking tooling knows the map is intentional for build.
+void PAGE_SEO

@@ -1,11 +1,39 @@
 # Apache / LiteSpeed — SPA + physical route shells
 # Vite copies public/.htaccess → dist/.htaccess on build
+# Canonical: /about (no trailing slash). /about/ 301 → /about.
 
 Options -MultiViews
-DirectorySlash On
+DirectorySlash Off
 RewriteEngine On
 RewriteBase /
 DirectoryIndex index.html
+
+# Agents requesting Markdown get llms.txt
+RewriteCond %{HTTP:Accept} text/markdown [NC]
+RewriteRule ^$ /llms.txt [L]
+
+<IfModule mod_mime.c>
+  AddType text/markdown .md .markdown
+  AddType text/markdown llms.txt
+</IfModule>
+<Files "llms.txt">
+  ForceType text/markdown
+  Header set Content-Type "text/markdown; charset=utf-8"
+</Files>
+
+# Drop trailing slash on physical route dirs
+RewriteCond %{REQUEST_URI} ^(.+)/$
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# Serve /about from about/index.html without a slash redirect
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.*)$ $1/index.html [L]
+
+# Unknown WordPress-style sitemap probes → real 404 (not SPA shell)
+RewriteRule ^(news-sitemap|page-sitemap|post-sitemap|sitemap_index|sitemap-index|sitemap1|sitemaps)\.xml$ - [R=404,L]
 
 # If rewrite is allowed: serve existing files, else fall back to SPA shell
 RewriteRule ^index\.html$ - [L]
@@ -18,17 +46,40 @@ ErrorDocument 404 /index.html
 
 # Enable compression
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/xml image/svg+xml
 </IfModule>
 
-# Enable browser caching
+# Browser caching + freshness lifetime
 <IfModule mod_expires.c>
   ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
   ExpiresByType text/html "access plus 1 hour"
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
   ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType application/xml "access plus 1 day"
+  ExpiresByType text/plain "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Default short cache for HTML shells and directory indexes
+  Header set Cache-Control "public, max-age=3600, must-revalidate"
+
+  # Fingerprinted assets: long cache
+  <FilesMatch "\.(css|js|mjs|png|jpe?g|gif|svg|webp|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  # SPA + career API; keep 'unsafe-inline' for Vite runtime/styles until nonces are introduced
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; img-src 'self' data: https:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://cesa.completeselular.com; upgrade-insecure-requests"
 </IfModule>

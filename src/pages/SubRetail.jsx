@@ -40,7 +40,7 @@ const SubRetail = () => {
       </div>
     </nav>
   </header>
-  <main className="w-full overflow-x-hidden">
+  <main id="main-content" tabIndex={-1} className="w-full overflow-x-hidden">
     <section className="lc-band bg-white">
       <div className="lc-shell py-14 sm:py-16 lg:py-20">
         <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
@@ -48,8 +48,8 @@ const SubRetail = () => {
         <div className="lc-hero-grid grid gap-10 lg:grid-cols-[minmax(0,0.96fr)_minmax(22rem,0.84fr)] lg:items-center lg:gap-12">
           <div className="lc-hero-copy max-w-[40rem]">
             <p data-motion-enter="eyebrow" className="lc-eyebrow">Unit Bisnis: Sub Retail</p>
-            <h1 data-motion-enter="heading" className="lc-hero-title mt-4 max-w-full sm:max-w-[15ch] font-display text-[clamp(2.55rem,4.6vw,4rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Menjadi ekosistem ritel dan layanan teknologi rumah tangga yang paling dipercaya.</h1>
-            <p data-motion-enter="summary" className="lc-hero-body mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Kejujuran dan kinerja unggul, dengan pertumbuhan berkelanjutan.</p>
+            <h1 data-motion-enter="heading" className="lc-hero-title mt-4 max-w-full sm:max-w-[15ch] font-display text-[clamp(2.55rem,4.6vw,4rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Menjadi ekosistem ritel serta layanan teknologi rumah tangga yang paling dipercaya.</h1>
+            <p data-motion-enter="summary" className="lc-hero-body mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Kejujuran bersama kinerja unggul, dengan pertumbuhan berkelanjutan.</p>
             <div data-motion-enter="meta" className="lc-brand-shelf max-w-[42rem]" aria-label="Entitas unit Sub Retail">
               <p className="lc-brand-kicker">Entitas operasional</p>
               <div className="lc-brand-grid sm:grid-cols-3">
@@ -64,7 +64,7 @@ const SubRetail = () => {
                     <img src="/images/unit-unboxing.png" alt="Logo Toko Unboxing" loading="lazy" decoding="async" />
                   </div>
                   <p className="lc-brand-name">Toko Unboxing</p>
-                  <a href="http://unboxing.id/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-[#243041] transition-colors hover:text-[#1d4ed8]">Kunjungi website <ArrowUpRightIcon className="w-4 h-4 text-[#2563eb]" aria-hidden="true" /></a>
+                  <a href="https://unboxing.id/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-[#243041] transition-colors hover:text-[#1d4ed8]">Kunjungi website <ArrowUpRightIcon className="w-4 h-4 text-[#2563eb]" aria-hidden="true" /></a>
                 </article>
                 <article className="lc-brand-card">
                   <div className="lc-brand-mark">
@@ -115,7 +115,7 @@ const SubRetail = () => {
           <div data-motion-reveal="intro" className="max-w-[28rem]">
             <p className="lc-eyebrow">Visi &amp; Misi</p>
             <h2 className="mt-3 max-w-full sm:max-w-[14ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Arah utama unit bisnis Sub Retail.</h2>
-            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Visi dan misi yang memandu kerja unit ini.</p>
+            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Visi beserta misi yang memandu kerja unit ini.</p>
           </div>
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[minmax(14rem,0.85fr)_minmax(0,1.15fr)]">
@@ -124,7 +124,7 @@ const SubRetail = () => {
                 <div className="absolute bottom-6 left-6 z-20 pr-4">
                   <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#FF2D20] font-semibold">Visi &amp; Misi</p>
                   <p className="mt-1 text-[2.5rem] font-extrabold tracking-tight text-slate-900 drop-shadow-sm leading-tight">Dipercaya</p>
-                  <p className="mt-2 rounded bg-white px-2 text-sm font-medium leading-relaxed text-slate-600 shadow-sm">Kejujuran, kinerja unggul, dan pertumbuhan berkelanjutan.</p>
+                  <p className="mt-2 rounded bg-white px-2 text-sm font-medium leading-relaxed text-slate-600 shadow-sm">Kejujuran, kinerja unggul, serta pertumbuhan berkelanjutan.</p>
                 </div>
               </div>
               <div className="px-6 py-8 sm:px-8 bg-white">
@@ -132,23 +132,23 @@ const SubRetail = () => {
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   <article className="group rounded-xl border border-slate-100 bg-slate-50 px-5 py-5 transition-all duration-300 hover:bg-white hover:border-slate-300 hover:shadow-sm">
                     <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-400 group-hover:text-[#0062FF] transition-colors">01</p>
-                    <h3 className="mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Produk dan Layanan yang Asli, Transparan, dan Bertanggung Jawab</h3>
+                    <h3 className="mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Produk serta Layanan yang Asli, Transparan, penuh Tanggung Jawab</h3>
                     <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">dengan informasi yang jelas serta proses yang adil bagi pelanggan.</p>
                   </article>
                   <article className="group rounded-xl border border-slate-100 bg-slate-50 px-5 py-5 transition-all duration-300 hover:bg-white hover:border-slate-300 hover:shadow-sm">
                     <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-400 group-hover:text-[#FF2D20] transition-colors">02</p>
-                    <h3 className="mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Pelayanan dan Eksekusi Operasional yang Unggul</h3>
-                    <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">melalui standar kerja yang rapi, sistem yang disiplin, dan tim yang profesional.</p>
+                    <h3 className="mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Pelayanan serta Eksekusi Operasional yang Unggul</h3>
+                    <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">melalui standar kerja yang rapi, sistem yang disiplin, serta tim yang profesional.</p>
                   </article>
                   <article className="group rounded-xl border border-slate-100 bg-slate-50 px-5 py-5 transition-all duration-300 hover:bg-white hover:border-slate-300 hover:shadow-sm">
                     <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-400 group-hover:text-[#0062FF] transition-colors">03</p>
                     <h3 className="mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Hubungan Jangka Panjang</h3>
-                    <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">dengan pelanggan serta lingkungan kerja yang adil, aman, dan saling menghargai bagi tim.</p>
+                    <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">dengan pelanggan serta lingkungan kerja yang adil, aman, penuh saling menghargai bagi tim.</p>
                   </article>
                   <article className="group rounded-xl border border-slate-100 bg-slate-50 px-5 py-5 transition-all duration-300 hover:bg-white hover:border-slate-300 hover:shadow-sm">
                     <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-400 group-hover:text-[#FF2D20] transition-colors">04</p>
-                    <h3 className="mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Jaringan, Layanan, dan Kapabilitas Tim</h3>
-                    <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">dikembangkan secara bertahap dan berkelanjutan sesuai kebutuhan pelanggan dan pasar.</p>
+                    <h3 className="mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Jaringan, Layanan, serta Kapabilitas Tim</h3>
+                    <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">dikembangkan secara bertahap dan berkelanjutan sesuai kebutuhan pelanggan serta pasar.</p>
                   </article>
                 </div>
               </div>
@@ -179,23 +179,23 @@ const SubRetail = () => {
             <div className="relative z-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm flex flex-col">
               <div className="group grid gap-4 border-b border-slate-100 px-6 py-5 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-start hover:bg-slate-50 transition-colors">
                 <p className="font-mono text-[1.75rem] font-extrabold tracking-tight text-slate-300 group-hover:text-[#0062FF] transition-colors">01</p>
-                <p className="text-sm font-medium leading-relaxed text-slate-600">Menyediakan produk dan layanan yang asli, transparan, dan bertanggung jawab, dengan informasi yang jelas serta proses yang adil bagi pelanggan.</p>
+                <p className="text-sm font-medium leading-relaxed text-slate-600">Menyediakan produk serta layanan yang asli, transparan, penuh tanggung jawab, dengan informasi yang jelas serta proses yang adil bagi pelanggan.</p>
               </div>
               <div className="group grid gap-4 border-b border-slate-100 px-6 py-5 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-start hover:bg-slate-50 transition-colors">
                 <p className="font-mono text-[1.75rem] font-extrabold tracking-tight text-slate-300 group-hover:text-[#FF2D20] transition-colors">02</p>
-                <p className="text-sm font-medium leading-relaxed text-slate-600">Memberikan pelayanan dan eksekusi operasional yang unggul melalui standar kerja yang rapi, sistem yang disiplin, dan tim yang profesional.</p>
+                <p className="text-sm font-medium leading-relaxed text-slate-600">Memberikan pelayanan serta eksekusi operasional yang unggul melalui standar kerja yang rapi, sistem yang disiplin, serta tim yang profesional.</p>
               </div>
               <div className="group grid gap-4 border-b border-slate-100 px-6 py-5 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-start hover:bg-slate-50 transition-colors">
                 <p className="font-mono text-[1.75rem] font-extrabold tracking-tight text-slate-300 group-hover:text-[#0062FF] transition-colors">03</p>
-                <p className="text-sm font-medium leading-relaxed text-slate-600">Membangun hubungan jangka panjang dengan pelanggan serta menciptakan lingkungan kerja yang adil, aman, dan saling menghargai bagi tim.</p>
+                <p className="text-sm font-medium leading-relaxed text-slate-600">Membangun hubungan jangka panjang dengan pelanggan serta menciptakan lingkungan kerja yang adil, aman, penuh saling menghargai bagi tim.</p>
               </div>
               <div className="group grid gap-4 border-b border-slate-100 px-6 py-5 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-start hover:bg-slate-50 transition-colors">
                 <p className="font-mono text-[1.75rem] font-extrabold tracking-tight text-slate-300 group-hover:text-[#FF2D20] transition-colors">04</p>
-                <p className="text-sm font-medium leading-relaxed text-slate-600">Mengembangkan jaringan, layanan, dan kapabilitas tim secara bertahap dan berkelanjutan sesuai kebutuhan pelanggan dan pasar.</p>
+                <p className="text-sm font-medium leading-relaxed text-slate-600">Mengembangkan jaringan, layanan, serta kapabilitas tim secara bertahap dan berkelanjutan sesuai kebutuhan pelanggan serta pasar.</p>
               </div>
               <div className="group grid gap-4 border-b border-slate-100 px-6 py-5 last:border-b-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:items-start hover:bg-slate-50 transition-colors">
                 <p className="font-mono text-[1.75rem] font-extrabold tracking-tight text-slate-300 group-hover:text-[#0062FF] transition-colors">05</p>
-                <p className="text-sm font-medium leading-relaxed text-slate-600">Menyelesaikan setiap transaksi, layanan purna jual, perbaikan, dan komitmen pelanggan secara tuntas dan dapat dipertanggungjawabkan.</p>
+                <p className="text-sm font-medium leading-relaxed text-slate-600">Menyelesaikan setiap transaksi, layanan purna jual, perbaikan, serta komitmen pelanggan secara tuntas dan dapat dipertanggungjawabkan.</p>
               </div>
             </div>
           </div>
@@ -212,16 +212,16 @@ const SubRetail = () => {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-[32rem]">
             <p className="lc-eyebrow">Visi Utama</p>
-            <h2 className="mt-3 max-w-full sm:max-w-[17ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Menjadi ekosistem ritel dan layanan teknologi rumah tangga yang paling dipercaya, dibangun atas kejujuran, kinerja unggul, dan pertumbuhan berkelanjutan.</h2>
+            <h2 className="mt-3 max-w-full sm:max-w-[17ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Menjadi ekosistem ritel serta layanan teknologi rumah tangga yang paling dipercaya, dibangun atas kejujuran, kinerja unggul, serta pertumbuhan berkelanjutan.</h2>
           </div>
-          <p className="max-w-[24rem] text-[0.98rem] leading-7 text-[#596171]">Kejujuran dan kinerja unggul, dengan pertumbuhan berkelanjutan.</p>
+          <p className="max-w-[24rem] text-[0.98rem] leading-7 text-[#596171]">Kejujuran bersama kinerja unggul, dengan pertumbuhan berkelanjutan.</p>
         </div>
         <div className="mt-10 grid gap-4 lg:grid-cols-3">
           <article className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md">
             <span aria-hidden="true" className="absolute right-6 top-6 font-mono text-[2.5rem] font-extrabold tracking-tight text-slate-100 transition-colors group-hover:text-slate-200">01</span>
             <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF]">Visi</p>
             <h3 className="mt-8 text-[1.5rem] font-extrabold tracking-tight text-slate-900 leading-tight">Paling Dipercaya</h3>
-            <p className="mt-3 text-sm font-medium leading-relaxed text-slate-600">Menjadi ekosistem ritel dan layanan teknologi rumah tangga yang paling dipercaya.</p>
+            <p className="mt-3 text-sm font-medium leading-relaxed text-slate-600">Menjadi ekosistem ritel serta layanan teknologi rumah tangga yang paling dipercaya.</p>
             <div className="mt-8 border-t border-slate-100 pt-5">
               <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-400">Inti</p>
               <p className="mt-1 text-sm font-bold text-slate-900">Paling dipercaya.</p>
@@ -230,18 +230,18 @@ const SubRetail = () => {
           <article className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md">
             <span aria-hidden="true" className="absolute right-6 top-6 font-mono text-[2.5rem] font-extrabold tracking-tight text-slate-100 transition-colors group-hover:text-slate-200">02</span>
             <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#FF2D20]">Nilai</p>
-            <h3 className="mt-8 text-[1.5rem] font-extrabold tracking-tight text-slate-900 leading-tight">Kejujuran dan Kinerja Unggul</h3>
-            <p className="mt-3 text-sm font-medium leading-relaxed text-slate-600">Kejujuran dan kinerja unggul, dengan pertumbuhan berkelanjutan.</p>
+            <h3 className="mt-8 text-[1.5rem] font-extrabold tracking-tight text-slate-900 leading-tight">Kejujuran bersama Kinerja Unggul</h3>
+            <p className="mt-3 text-sm font-medium leading-relaxed text-slate-600">Kejujuran bersama kinerja unggul, dengan pertumbuhan berkelanjutan.</p>
             <div className="mt-8 border-t border-slate-100 pt-5">
               <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-400">Inti</p>
-              <p className="mt-1 text-sm font-bold text-slate-900">Kejujuran dan kinerja unggul.</p>
+              <p className="mt-1 text-sm font-bold text-slate-900">Kejujuran bersama kinerja unggul.</p>
             </div>
           </article>
           <article className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md">
             <span aria-hidden="true" className="absolute right-6 top-6 font-mono text-[2.5rem] font-extrabold tracking-tight text-slate-100 transition-colors group-hover:text-slate-200">03</span>
             <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF]">Komitmen</p>
-            <h3 className="mt-8 text-[1.5rem] font-extrabold tracking-tight text-slate-900 leading-tight">Purna Jual dan Perbaikan Tuntas</h3>
-            <p className="mt-3 text-sm font-medium leading-relaxed text-slate-600">Menyelesaikan setiap transaksi, layanan purna jual, perbaikan, dan komitmen pelanggan secara tuntas dan dapat dipertanggungjawabkan.</p>
+            <h3 className="mt-8 text-[1.5rem] font-extrabold tracking-tight text-slate-900 leading-tight">Purna Jual serta Perbaikan Tuntas</h3>
+            <p className="mt-3 text-sm font-medium leading-relaxed text-slate-600">Menyelesaikan setiap transaksi, layanan purna jual, perbaikan, serta komitmen pelanggan secara tuntas dan dapat dipertanggungjawabkan.</p>
             <div className="mt-8 border-t border-slate-100 pt-5">
               <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-400">Inti</p>
               <p className="mt-1 text-sm font-bold text-slate-900">Dapat dipertanggungjawabkan.</p>
@@ -272,7 +272,7 @@ const SubRetail = () => {
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
         <div className="pb-10 lg:border-r lg:border-black/10 lg:pb-0 lg:pr-12">
           <p className="lc-eyebrow">Terhubung dengan Ocean Space</p>
-          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, dan lifestyle. Empat unit, satu standar operasi.</p>
+          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, serta lifestyle. Empat unit, satu standar operasi.</p>
           <div className="mt-8 border-t border-black/10 pt-5">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
               <a href="https://www.linkedin.com/company/ocean-space-group/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-[#243041] transition-colors hover:text-[#1d4ed8]">LinkedIn <ArrowUpRightIcon className="w-4 h-4 text-[#2563eb]" aria-hidden="true" /></a>
@@ -289,6 +289,8 @@ const SubRetail = () => {
                 <li><a href="/about" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Tentang</a></li>
                 <li><a href="/career" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Karier</a></li>
                 <li><a href="/contact" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kontak</a></li>
+                <li><a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a></li>
+                <li><a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a></li>
               </ul>
             </div>
             <div>
@@ -316,7 +318,9 @@ const SubRetail = () => {
         <div className="grid gap-4 text-sm text-[#6b7280] sm:grid-cols-2 sm:items-center">
           <p>&copy; <span data-year></span> Ocean Space | Tumbuh dengan Integritas, Melaju dengan Eksekusi.</p>
           <div className="flex flex-wrap items-center gap-6 sm:justify-end">
-            <a href="sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
+            <a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a>
+            <a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a>
+            <a href="/sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
             <a href="https://apriansyah.rizqis.com" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]" target="_blank" rel="noopener noreferrer">Crafted by Web App Developer</a>
           </div>
         </div>

@@ -40,7 +40,7 @@ const About = () => {
       </div>
     </nav>
   </header>
-  <main className="w-full overflow-x-hidden">
+  <main id="main-content" tabIndex={-1} className="w-full overflow-x-hidden">
     <section className="lc-band bg-white">
       <div className="lc-shell py-14 sm:py-16 lg:py-20">
         <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
@@ -191,7 +191,7 @@ const About = () => {
             <p className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[#62718a]">03</p>
             <div>
               <h3 className="text-lg font-semibold tracking-[-0.03em] text-[#171a22]">Sub Retail</h3>
-              <p className="mt-2 text-sm leading-6 text-[#596171]">Toko Complite+, <a href="http://unboxing.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Toko Unboxing</a>, dan <a href="https://completeselular.co.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Complete Selular</a>.</p>
+              <p className="mt-2 text-sm leading-6 text-[#596171]">Toko Complite+, <a href="https://unboxing.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Toko Unboxing</a>, dan <a href="https://completeselular.co.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Complete Selular</a>.</p>
             </div>
             <div className="lc-ecosystem-logos">
               <div className="lc-ecosystem-logo"><img src="/images/unit-complite-plus.png" alt="Logo Toko Complite+" loading="lazy" decoding="async" /></div>
@@ -251,6 +251,8 @@ const About = () => {
                 <li><a href="/about" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Tentang</a></li>
                 <li><a href="/career" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Karier</a></li>
                 <li><a href="/contact" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kontak</a></li>
+                <li><a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a></li>
+                <li><a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a></li>
               </ul>
             </div>
             <div>
@@ -278,7 +280,9 @@ const About = () => {
         <div className="grid gap-4 text-sm text-[#6b7280] sm:grid-cols-2 sm:items-center">
           <p>&copy; <span data-year></span> Ocean Space | Tumbuh dengan Integritas, Melaju dengan Eksekusi.</p>
           <div className="flex flex-wrap items-center gap-6 sm:justify-end">
-            <a href="sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
+            <a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a>
+            <a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a>
+            <a href="/sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
             <a href="https://apriansyah.rizqis.com" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]" target="_blank" rel="noopener noreferrer">Crafted by Web App Developer</a>
           </div>
         </div>

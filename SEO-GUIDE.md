@@ -21,12 +21,12 @@ Status teknis diselaraskan dengan codebase SPA (React + Vite) saat ini. Claim di
 
 | Komponen | Status | Catatan |
 |----------|--------|---------|
-| Meta description per halaman | Belum | `index.html` tidak punya description |
-| Title unik per route | Belum | Satu title global; React belum set `document.title` / Helmet |
-| Canonical per halaman | Belum | — |
-| Open Graph / Twitter Cards | Belum | Tidak ada tag OG/Twitter di head |
-| JSON-LD (Organization, WebSite, Breadcrumb) | Belum | Tidak ada schema di source |
-| SSR / prerender | Belum | Crawler yang tidak menjalankan JS hanya melihat shell kosong `#root` |
+| Meta description per halaman | Ada | Via `src/seo/pages.js` + build shells |
+| Title unik per route | Ada | `PageSeo` + per-route HTML shells |
+| Canonical per halaman | Ada | Injected di build + runtime |
+| Open Graph / Twitter Cards | Ada | OG + Twitter + `og-image.png` |
+| JSON-LD (Organization, WebSite, Breadcrumb) | Partial | Organization + WebPage di setiap route |
+| SSR / prerender | Partial | Crawlable HTML di `#root` per route shell (diganti React setelah load) |
 | SPA fallback di `.htaccess` | Partial | File masih rewrite legacy `.html`; untuk production SPA perlu fallback ke `index.html` |
 
 ---
