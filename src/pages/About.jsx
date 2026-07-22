@@ -48,8 +48,8 @@ const About = () => {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.94fr)_minmax(22rem,0.86fr)] lg:items-center lg:gap-12">
           <div className="max-w-[38rem]">
             <p data-motion-enter="eyebrow" className="lc-eyebrow">Tentang Ocean Space</p>
-            <h1 data-motion-enter="heading" className="mt-4 max-w-full sm:max-w-[12ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Organisasi yang bertumbuh melalui integritas, sistem, dan disiplin eksekusi.</h1>
-            <p data-motion-enter="summary" className="mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Ocean Space menaungi distribusi, retail, sub retail, dan lifestyle dalam satu ekosistem operasional yang rapi, disiplin, dan siap berkembang secara nasional.</p>
+            <h1 data-motion-enter="heading" className="mt-4 max-w-full sm:max-w-[12ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Ocean Space tumbuh lewat integritas dan disiplin eksekusi.</h1>
+            <p data-motion-enter="summary" className="mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Kami menaungi distribusi, retail, sub retail, dan lifestyle dalam satu ekosistem operasional nasional.</p>
             <div data-motion-enter="actions" className="mt-8 flex flex-wrap items-center gap-4">
               <a href="/contact" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Hubungi tim korporat</a>
               <a href="/career" data-motion-cta="true" className="button-secondary">Lihat peluang karier</a>
@@ -67,7 +67,7 @@ const About = () => {
                    <img src="images/about_ecosystem.png" alt="Visual ekosistem 4 node Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="eager" />
                 </div>
                 <div className="p-6 bg-white">
-                  <p className="text-sm font-medium leading-relaxed text-slate-600">Grup ini dibangun dari standar kerja, bukan sekadar skala. Pertumbuhan dijaga tetap tertib dan transparan melalui operasional terpusat.</p>
+                  <p className="text-sm font-medium leading-relaxed text-slate-600">Kami membangun grup dari standar kerja. Tim menjaga pertumbuhan lewat operasional terpusat.</p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-widest text-slate-700">Fondasi: JUJUR</span>
                     <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-widest text-slate-700">Model: 4 Unit</span>
@@ -98,7 +98,7 @@ const About = () => {
           <div data-motion-reveal="intro" className="max-w-[29rem]">
             <p className="lc-eyebrow">Cara Grup Ini Bekerja</p>
             <h2 className="mt-3 max-w-full sm:max-w-[11ch] font-display text-[clamp(1.95rem,3.3vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Pertumbuhan dibangun dari standar kerja yang sama.</h2>
-            <p className="mt-4 max-w-[28rem] text-[0.98rem] leading-7 text-[#596171]">Ocean Space memperluas unit bisnis tanpa memisahkan bahasa operasional. Inilah yang membuat organisasi tetap terbaca rapi saat skala bertambah.</p>
+            <p className="mt-4 max-w-[28rem] text-[0.98rem] leading-7 text-[#596171]">Ocean Space menambah unit bisnis tanpa memisahkan bahasa operasional. Organisasi tetap terbaca saat skala naik.</p>
           </div>
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[minmax(14rem,0.85fr)_minmax(0,1.15fr)]">
@@ -107,7 +107,7 @@ const About = () => {
                 <div className="absolute bottom-6 left-6 z-20 pr-4">
                   <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF] font-semibold">Operating Model</p>
                   <p className="mt-1 text-[2.5rem] font-extrabold tracking-tight text-slate-900 drop-shadow-sm leading-tight">JUJUR</p>
-                  <p className="mt-2 rounded bg-white px-2 text-sm font-medium leading-relaxed text-slate-600 shadow-sm">Akronim lima prinsip sentral pusat ekosistem.</p>
+                  <p className="mt-2 rounded bg-white px-2 text-sm font-medium leading-relaxed text-slate-600 shadow-sm">Lima prinsip kerja inti grup.</p>
                 </div>
               </div>
               <div className="px-6 py-8 sm:px-8 bg-white">
@@ -121,7 +121,7 @@ const About = () => {
                   <article className="group relative overflow-hidden rounded-xl border border-slate-100 bg-slate-50 px-5 py-5 transition-all duration-300 hover:bg-white hover:border-slate-300 hover:shadow-sm">
                     <p className="relative z-10 font-mono text-[0.64rem] uppercase tracking-widest text-slate-400 group-hover:text-[#0062FF] transition-colors">Prinsip 02</p>
                     <h3 className="relative z-10 mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Unggul Berkinerja</h3>
-                    <p className="relative z-10 mt-1 text-sm font-medium leading-relaxed text-slate-500 transition-colors">Eksekusi super disiplin dan mengejar kualitas.</p>
+                    <p className="relative z-10 mt-1 text-sm font-medium leading-relaxed text-slate-500 transition-colors">Eksekusi disiplin dan mengejar kualitas.</p>
                   </article>
                   <article className="group relative overflow-hidden rounded-xl border border-slate-100 bg-slate-50 px-5 py-5 transition-all duration-300 hover:bg-white hover:border-slate-300 hover:shadow-sm">
                     <p className="relative z-10 font-mono text-[0.64rem] uppercase tracking-widest text-slate-400 group-hover:text-[#FF2D20] transition-colors">Prinsip 03</p>
@@ -136,15 +136,15 @@ const About = () => {
                   <article className="group relative overflow-hidden rounded-xl border border-slate-100 bg-slate-50 px-5 py-5 sm:col-span-2 transition-all duration-300 hover:bg-white hover:border-slate-300 hover:shadow-sm">
                     <p className="relative z-10 font-mono text-[0.64rem] uppercase tracking-widest text-slate-400 group-hover:text-[#FF2D20] transition-colors">Prinsip 05</p>
                     <h3 className="relative z-10 mt-2 text-[1.1rem] font-extrabold tracking-tight text-slate-900">Rampung Tuntas</h3>
-                    <p className="relative z-10 mt-1 text-sm font-medium leading-relaxed text-slate-500 transition-colors">Setiap eksekusi diselesaikan secara penuh dan akuntabel tanpa sisa.</p>
+                    <p className="relative z-10 mt-1 text-sm font-medium leading-relaxed text-slate-500 transition-colors">Tim menyelesaikan setiap eksekusi sampai tuntas.</p>
                   </article>
                 </div>
               </div>
             </div>
             <div className="relative z-10 mt-3 sm:mt-4 grid gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white px-6 py-5 text-sm font-medium text-slate-600 shadow-sm sm:grid-cols-3">
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Lima prinsip baku mendesain arsitektur kerja nyata.</p>
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Fear, Desire, Duty, dan Love digunakan sebagai akselerator.</p>
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Menumbuhkan skala tim tanpa mengurangi ketajaman eksekusi.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Tim memakai lima prinsip JUJUR sebagai standar kerja.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Fear, Desire, Duty, dan Love mempercepat eksekusi.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Tim menambah skala tanpa mengorbankan ketajaman kerja.</p>
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@ const About = () => {
             <p className="lc-eyebrow">Peta Ekosistem</p>
             <h2 className="mt-3 max-w-full sm:max-w-[12ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Empat unit bisnis, satu bahasa operasional.</h2>
           </div>
-          <p data-motion-reveal="intro" className="max-w-[24rem] text-[0.98rem] leading-7 text-[#596171]">Level utamanya tetap empat unit bisnis, lalu tiap unit menaungi badan usaha atau brand yang bergerak dalam ritme operasional yang sama.</p>
+          <p data-motion-reveal="intro" className="max-w-[24rem] text-[0.98rem] leading-7 text-[#596171]">Empat unit bisnis. Tiap unit menaungi badan usaha atau brand di bawah standar operasi yang sama.</p>
         </div>
         <div data-motion-group="cards" className="lc-ecosystem-grid">
           <article data-motion-reveal="card" className="lc-ecosystem-card">
@@ -218,9 +218,9 @@ const About = () => {
         <span aria-hidden="true" className="lc-node left-0 top-0 -translate-x-1/2 -translate-y-1/2"></span>
         <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
         <div data-motion-reveal="intro" className="mx-auto max-w-[42rem] text-center">
-          <p className="lc-eyebrow">Lanjutkan Percakapan</p>
-          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Ingin mengenal Ocean Space lebih dekat?</h2>
-          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Kami siap melanjutkan percakapan mengenai budaya kerja, struktur grup, peluang karier, maupun kolaborasi strategis.</p>
+          <p className="lc-eyebrow">Langkah berikutnya</p>
+          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Hubungi tim untuk budaya kerja, struktur grup, atau kolaborasi.</h2>
+          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Tim menjawab pertanyaan tentang karier dan kerja sama strategis.</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a href="/contact" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Hubungi tim korporat</a>
             <a href="/career" data-motion-cta="true" className="button-secondary">Lihat peluang karier</a>
@@ -234,7 +234,7 @@ const About = () => {
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
         <div className="pb-10 lg:border-r lg:border-black/10 lg:pb-0 lg:pr-12">
           <p className="lc-eyebrow">Terhubung dengan Ocean Space</p>
-          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Ekosistem distribusi, retail, sub retail, dan lifestyle yang dibangun untuk kecepatan eksekusi, kontrol operasional, dan pertumbuhan berkelanjutan.</p>
+          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, dan lifestyle. Empat unit, satu standar operasi.</p>
           <div className="mt-8 border-t border-black/10 pt-5">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
               <a href="https://www.linkedin.com/company/ocean-space-group/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-[#243041] transition-colors hover:text-[#1d4ed8]">LinkedIn <ArrowUpRightIcon className="w-4 h-4 text-[#2563eb]" aria-hidden="true" /></a>

@@ -96,7 +96,7 @@ const Contact = () => {
                   <span className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF]">Head Office First</span>
                 </div>
                 <div className="p-6 sm:p-8 bg-white flex-1 flex flex-col justify-center">
-                  <p className="text-[1.15rem] sm:text-[1.35rem] font-medium leading-relaxed text-slate-700">Mulai dari <span className="text-slate-900 font-semibold">Head Office</span> untuk kebutuhan rekrutmen dan komunikasi utama. Jika urusan Anda membutuhkan tindak lanjut lapangan, silakan gunakan direktori wilayah.</p>
+                  <p className="text-[1.15rem] sm:text-[1.35rem] font-medium leading-relaxed text-slate-700">Mulai dari <span className="text-slate-900 font-semibold">Head Office</span> untuk rekrutmen dan komunikasi utama. Untuk tindak lanjut lapangan, gunakan direktori wilayah.</p>
                 </div>
               </div>
               <div className="grid gap-3 sm:gap-4">
@@ -398,12 +398,11 @@ const Contact = () => {
         <span aria-hidden="true" className="lc-node left-0 top-0 -translate-x-1/2 -translate-y-1/2"></span>
         <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
         <div data-motion-reveal="intro" className="mx-auto max-w-[42rem] text-center">
-          <p className="lc-eyebrow">Butuh Bantuan Lanjut?</p>
+          <p className="lc-eyebrow">Butuh bantuan?</p>
           <h2
             className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">
             Mulai dari Head Office, lalu lanjutkan ke wilayah yang relevan.</h2>
-          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Jika Anda masih belum yakin harus menghubungi siapa,
-            gunakan kontak pusat terlebih dahulu. Setelah itu, tim dapat mengarahkan Anda ke lokasi yang paling tepat.
+          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Mulai dari kontak pusat. Tim mengarahkan Anda ke lokasi yang tepat.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a href="mailto:recruitment@completeselular.com" data-motion-cta="true"
@@ -420,9 +419,7 @@ const Contact = () => {
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
         <div className="pb-10 lg:border-r lg:border-black/10 lg:pb-0 lg:pr-12">
           <p className="lc-eyebrow">Terhubung dengan Ocean Space</p>
-          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Ekosistem distribusi, retail, sub
-            retail, dan lifestyle yang dibangun untuk kecepatan eksekusi, kontrol operasional, dan pertumbuhan
-            berkelanjutan.</p>
+          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, dan lifestyle. Empat unit, satu standar operasi.</p>
           <div className="mt-8 border-t border-black/10 pt-5">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
               <a href="https://www.linkedin.com/company/ocean-space-group/" target="_blank" rel="noopener noreferrer"

@@ -8,15 +8,12 @@ window.initCareerApply = () => {
   const errorNode = document.getElementById('apply-page-error');
   const contentNode = document.getElementById('apply-page-content');
   const detailsNode = document.getElementById('apply-page-details');
+  const prepWrapNode = document.getElementById('apply-page-prep-wrap');
   const descriptionNode = document.getElementById('apply-page-description');
   const requirementsNode = document.getElementById('apply-page-requirements');
   const prepNode = document.getElementById('apply-page-prep');
   const formNode = document.getElementById('apply-form');
   const formAlerts = document.getElementById('form-alerts');
-  const heroSection = document.getElementById('apply-hero-section');
-  const contentBandNodes = Array.from(document.querySelectorAll('[data-content-band-node]'));
-  const defaultTitleClasses = ['sm:max-w-[14ch]', 'text-[clamp(2.2rem,4vw,3.5rem)]', 'leading-[0.98]', 'tracking-[-0.04em]'];
-  const uppercaseTitleClasses = ['sm:max-w-[16ch]', 'text-[clamp(2rem,3.5vw,3rem)]', 'leading-[1.05]', 'tracking-[0.015em]'];
   const notifyMotionRefresh = () => {
     window.dispatchEvent(new CustomEvent('oceanspace:motion-refresh'));
   };
@@ -28,7 +25,7 @@ window.initCareerApply = () => {
       accept: '.jpg,.jpeg,.png,.webp',
       extensions: ['jpg', 'jpeg', 'png', 'webp'],
       maxSizeBytes: 5 * 1024 * 1024,
-      note: 'Format yang diterima backend: JPG, JPEG, PNG, atau WEBP. Ukuran maksimal 5 MB.',
+      note: 'JPG, PNG, WEBP · maks. 5 MB',
       invalidTypeMessage: 'Photo diri terbaru harus berupa gambar.',
       invalidFormatMessage: 'Photo diri terbaru harus berformat jpg, jpeg, png, atau webp.',
       maxSizeMessage: 'Ukuran photo diri terbaru maksimal 5 MB.',
@@ -37,7 +34,7 @@ window.initCareerApply = () => {
       accept: '.pdf,.doc,.docx',
       extensions: ['pdf', 'doc', 'docx'],
       maxSizeBytes: 5 * 1024 * 1024,
-      note: 'Format yang diterima backend: PDF, DOC, atau DOCX. Ukuran maksimal 5 MB.',
+      note: 'PDF, DOC, DOCX · maks. 5 MB',
       invalidFormatMessage: 'File CV/Resume harus berformat pdf, doc, atau docx.',
       maxSizeMessage: 'Ukuran file CV/Resume maksimal 5 MB.',
     }
@@ -97,20 +94,21 @@ window.initCareerApply = () => {
     }).join('');
   };
 
+  const setVisibility = (node, visible) => {
+    if (!node) {
+      return;
+    }
+
+    node.classList.toggle('hidden', !visible);
+    node.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  };
+
   const setState = (state) => {
-    loadingNode.classList.toggle('hidden', state !== 'loading');
-    emptyNode.classList.toggle('hidden', state !== 'empty');
-    errorNode.classList.toggle('hidden', state !== 'error');
-    contentNode.classList.toggle('hidden', state !== 'content');
-    if (detailsNode) {
-      detailsNode.classList.toggle('hidden', state !== 'content');
-    }
-    if (heroSection) {
-      heroSection.classList.toggle('hidden', state === 'empty' || state === 'error');
-    }
-    contentBandNodes.forEach((node) => {
-      node.classList.toggle('lg:block', state !== 'empty');
-    });
+    setVisibility(loadingNode, state === 'loading');
+    setVisibility(emptyNode, state === 'empty');
+    setVisibility(errorNode, state === 'error');
+    setVisibility(contentNode, state === 'content');
+    setVisibility(detailsNode, state === 'content');
     requestAnimationFrame(() => {
       notifyMotionRefresh();
     });
@@ -123,6 +121,9 @@ window.initCareerApply = () => {
     });
     formNode.querySelectorAll('.border-red-500').forEach((node) => {
       node.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+    });
+    formNode.querySelectorAll('.apply-file--error').forEach((node) => {
+      node.classList.remove('apply-file--error');
     });
     formAlerts.innerHTML = '';
   };
@@ -138,6 +139,7 @@ window.initCareerApply = () => {
 
     if (inputEl) {
       inputEl.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+      inputEl.closest('.apply-file')?.classList.add('apply-file--error');
     }
   };
 
@@ -152,6 +154,7 @@ window.initCareerApply = () => {
 
     if (inputEl) {
       inputEl.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+      inputEl.closest('.apply-file')?.classList.remove('apply-file--error');
     }
   };
 
@@ -211,6 +214,50 @@ window.initCareerApply = () => {
     });
   };
 
+  const formatFileSize = (bytes) => {
+    if (!Number.isFinite(bytes) || bytes <= 0) {
+      return '';
+    }
+
+    if (bytes < 1024 * 1024) {
+      return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+    }
+
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const updateFileFieldUI = (inputEl) => {
+    const shell = inputEl?.closest('.apply-file');
+    if (!shell) {
+      return;
+    }
+
+    const file = inputEl.files && inputEl.files[0];
+    const metaNode = shell.querySelector('[data-file-meta]');
+    const actionNode = shell.querySelector('[data-file-action]');
+    const emptyMeta = metaNode?.dataset.emptyMeta || '';
+
+    if (!file) {
+      shell.classList.remove('has-file');
+      if (metaNode) {
+        metaNode.textContent = emptyMeta;
+      }
+      if (actionNode) {
+        actionNode.textContent = 'Pilih';
+      }
+      return;
+    }
+
+    shell.classList.add('has-file');
+    if (metaNode) {
+      const size = formatFileSize(file.size);
+      metaNode.textContent = size ? `${file.name} · ${size}` : file.name;
+    }
+    if (actionNode) {
+      actionNode.textContent = 'Ganti';
+    }
+  };
+
   const attachFileValidationListeners = () => {
     Object.keys(FILE_VALIDATIONS).forEach((fieldName) => {
       const inputEl = formNode.querySelector(`input[name="${fieldName}"]`);
@@ -220,29 +267,57 @@ window.initCareerApply = () => {
       }
 
       inputEl.addEventListener('change', () => {
+        updateFileFieldUI(inputEl);
         validateFileInput(inputEl);
       });
+
+      updateFileFieldUI(inputEl);
     });
+  };
+
+  const getFileFieldMarkup = (field, options) => {
+    const { fieldLabel, optionalNote, isRequired, acceptTypes, fileFormatNote } = options;
+
+    return `
+      <div class="apply-file" data-file-field="${escapeHtml(field.name)}">
+        <label class="apply-file__control">
+          <input
+            id="field-${escapeHtml(field.name)}"
+            type="file"
+            name="${escapeHtml(field.name)}"
+            class="apply-file__input"
+            ${isRequired}
+            accept="${acceptTypes}"
+          >
+          <span class="apply-file__body">
+            <span class="apply-file__title">${escapeHtml(fieldLabel)} ${optionalNote}</span>
+            <span class="apply-file__meta" data-file-meta data-empty-meta="${escapeHtml(fileFormatNote)}">${escapeHtml(fileFormatNote)}</span>
+          </span>
+          <span class="apply-file__action" data-file-action>Pilih</span>
+        </label>
+      </div>
+      <p class="mt-2 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
+    `;
   };
 
   const renderRequirements = (text) => {
     requirementsNode.innerHTML = renderTextareaBlocks(text, {
-      emptyHtml: '<p>Informasi kualifikasi akan ditampilkan setelah posisi dipilih.</p>',
+      emptyHtml: '<p>Informasi kualifikasi belum tersedia.</p>',
       lineList: true,
-      listClass: 'space-y-3 [&_li]:flex [&_li]:items-start [&_li]:gap-3 [&_li]:leading-8 [&_li]:text-[#556070] [&_li]:before:mt-2 [&_li]:before:inline-flex [&_li]:before:h-2.5 [&_li]:before:w-2.5 [&_li]:before:shrink-0 [&_li]:before:rounded-full [&_li]:before:bg-[#2563eb] [&_li]:before:content-[\"\"]',
-      paragraphClass: 'text-[15px] leading-8 text-[#556070]'
+      listClass: 'space-y-2.5 [&_li]:flex [&_li]:items-start [&_li]:gap-3 [&_li]:leading-7 [&_li]:text-[#556070] [&_li]:before:mt-2 [&_li]:before:inline-flex [&_li]:before:h-2 [&_li]:before:w-2 [&_li]:before:shrink-0 [&_li]:before:rounded-full [&_li]:before:bg-[#2563eb] [&_li]:before:content-[\"\"]',
+      paragraphClass: 'text-[15px] leading-7 text-[#556070]'
     });
   };
 
   const renderMeta = (job) => {
     metaNode.innerHTML = `
-      <div data-motion-reveal="panel" class="border border-black/10 bg-white px-4 py-4">
+      <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4">
         <p class="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Lokasi</p>
-        <p class="mt-2 text-sm font-bold text-slate-900">${escapeHtml(job.location)}</p>
+        <p class="mt-2 text-sm font-semibold text-[#171a22]">${escapeHtml(job.location)}</p>
       </div>
-      <div data-motion-reveal="panel" class="border border-black/10 bg-white px-4 py-4">
+      <div class="rounded-2xl border border-slate-200 bg-white px-4 py-4">
         <p class="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Penutupan</p>
-        <p class="mt-2 text-sm font-bold text-slate-900">${formatDate(job.closing_date)}</p>
+        <p class="mt-2 text-sm font-semibold text-[#171a22]">${formatDate(job.closing_date)}</p>
       </div>
     `;
   };
@@ -252,36 +327,47 @@ window.initCareerApply = () => {
     const prepItems = [];
 
     if (fields.some((field) => field.name === 'photo')) {
-      prepItems.push('Siapkan photo terbaru sebelum mulai mengisi form.');
+      prepItems.push('Foto diri terbaru');
     }
 
     if (fields.some((field) => field.name === 'resume')) {
-      prepItems.push('Siapkan CV/Resume terbaru dalam format yang diminta sistem.');
+      prepItems.push('CV/Resume (PDF/DOC/DOCX)');
     }
 
     if (fields.some((field) => field.name === 'whatsapp_number' || field.name === 'active_phone')) {
-      prepItems.push('Pastikan nomor kontak aktif agar tim dapat menghubungi Anda.');
+      prepItems.push('Nomor kontak aktif');
     }
 
     if (fields.some((field) => field.name && field.name.startsWith('emergency_contact_'))) {
-      prepItems.push('Siapkan data kontak darurat yang benar sebelum submit.');
+      prepItems.push('Kontak darurat');
+    }
+
+    if (!prepItems.length) {
+      if (prepWrapNode) {
+        prepWrapNode.classList.add('hidden');
+      }
+      prepNode.innerHTML = '';
+      return;
     }
 
     prepNode.innerHTML = prepItems.map((item) => `
-      <p class="flex items-start gap-3">
+      <li class="flex items-start gap-3">
         <span aria-hidden="true" class="mt-2 inline-flex h-2.5 w-2.5 shrink-0 rounded-full bg-[#2563eb]"></span>
         <span>${escapeHtml(item)}</span>
-      </p>
+      </li>
     `).join('');
+    if (prepWrapNode) {
+      prepWrapNode.classList.remove('hidden');
+    }
   };
 
   const groupDescriptions = {
-    'Data Diri': 'Gunakan identitas dasar yang sama dengan data resmi Anda.',
-    'Alamat': 'Isi alamat sesuai kondisi terbaru agar verifikasi lebih mudah.',
-    'Kontak': 'Pastikan nomor aktif dan mudah dihubungi.',
-    'Kontak Darurat': 'Isi kontak yang benar dan mudah dihubungi saat darurat.',
-    'Dokumen': 'Unggah berkas terbaru dengan format yang diminta.',
-    'Informasi Tambahan': 'Lengkapi informasi pendukung yang diminta sistem.',
+    'Data Diri': '',
+    'Alamat': '',
+    'Kontak': '',
+    'Kontak Darurat': '',
+    'Dokumen': '',
+    'Informasi Tambahan': '',
   };
 
   const getFieldGroup = (field) => {
@@ -307,11 +393,11 @@ window.initCareerApply = () => {
 
   const getFieldLabel = (field) => {
     if (field.name === 'photo') {
-      return 'Foto Diri Terbaru';
+      return 'Foto diri';
     }
 
     if (field.name === 'resume') {
-      return 'CV / Resume Terbaru';
+      return 'CV / Resume';
     }
 
     return field.label || field.name || 'Field';
@@ -335,6 +421,18 @@ window.initCareerApply = () => {
     return lettersOnly === lettersOnly.toUpperCase();
   };
 
+  const formatJobTitle = (value) => {
+    const text = String(value || '').trim();
+    if (!isUppercaseHeavyTitle(text)) {
+      return text;
+    }
+
+    return text
+      .toLowerCase()
+      .replace(/(^|[^a-zà-ÿ])([a-zà-ÿ])/g, (_, boundary, letter) => boundary + letter.toUpperCase())
+      .replace(/\b(Cv|Pdf|Doc|Docx)\b/g, (match) => match.toUpperCase());
+  };
+
   const renderFormStatus = (tone, title, message) => {
     const tones = {
       warning: {
@@ -350,7 +448,7 @@ window.initCareerApply = () => {
     const config = tones[tone] || tones.error;
 
     return `
-      <div class="mb-5 border ${config.panelClass} p-4 sm:p-5">
+      <div class="mb-5 border ${config.panelClass} p-4 sm:p-5 rounded-lg">
         <p class="lc-eyebrow ${config.textClass}">${escapeHtml(title)}</p>
         <p class="mt-2 text-sm leading-7 ${config.textClass}">${escapeHtml(message)}</p>
       </div>
@@ -373,16 +471,13 @@ window.initCareerApply = () => {
 
     groupOrder.filter((groupName) => groups.has(groupName)).forEach((groupName) => {
       const section = document.createElement('section');
-      section.className = 'space-y-4 border-t border-black/10 pt-5 first:border-t-0 first:pt-0';
+      section.className = 'apply-form-section';
       section.innerHTML = `
-        <div class="space-y-1">
-          <p class="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">${groupName}</p>
-          <p class="text-sm leading-7 text-[#556070]">${groupDescriptions[groupName] || ''}</p>
-        </div>
+        <p class="apply-form-section__label">${groupName}</p>
       `;
 
       const fieldsGrid = document.createElement('div');
-      fieldsGrid.className = 'grid gap-4';
+      fieldsGrid.className = 'apply-fields';
 
       groups.get(groupName).forEach((field) => {
         const wrapper = document.createElement('div');
@@ -391,9 +486,9 @@ window.initCareerApply = () => {
           ? '<span class="text-red-500">*</span>'
           : '<span class="text-black/40 text-xs font-normal ml-1">(Opsional)</span>';
         const fieldLabel = getFieldLabel(field);
-        const labelClass = 'block text-sm font-medium text-black/80 mb-2';
-        const inputClass = 'block w-full rounded-md border border-black/20 bg-white px-3 py-2 text-sm text-black placeholder-black/30 focus:border-[#006AFF] focus:outline-none focus:ring-1 focus:ring-[#006AFF]';
-        const isLongField = field.type === 'textarea' || field.type === 'file' || field.name === 'photo' || field.name === 'resume';
+        const labelClass = 'block text-sm font-medium text-[#243041] mb-2';
+        const inputClass = 'apply-input';
+        const isLongField = field.type === 'textarea' || field.name === 'address_ktp' || field.name === 'address_domicile';
         const placeholders = {
           full_name: 'Nama lengkap sesuai identitas',
           email: 'nama@email.com',
@@ -404,12 +499,8 @@ window.initCareerApply = () => {
           emergency_contact_phone: '08xxxxxxxxxx',
         };
 
-        if (!isLongField && groups.get(groupName).length > 1) {
-          fieldsGrid.classList.add('sm:grid-cols-2');
-        }
-
         if (field.type === 'select') {
-          const optionsHtml = [`<option value="">-- Pilih ${escapeHtml(field.label)} --</option>`]
+          const optionsHtml = [`<option value="">Pilih ${escapeHtml(field.label)}</option>`]
             .concat((field.options || []).map((option) => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`))
             .join('');
           wrapper.innerHTML = `
@@ -429,12 +520,13 @@ window.initCareerApply = () => {
           const fileValidation = getFileValidation(field.name);
           const acceptTypes = fileValidation ? fileValidation.accept : '.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp';
           const fileFormatNote = getFileFormatNote(field);
-          wrapper.innerHTML = `
-            <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
-            <input type="file" name="${escapeHtml(field.name)}" class="block w-full text-sm text-black/80 file:mr-4 file:rounded-md file:border-0 file:bg-black/5 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-black/10 focus:outline-none" ${isRequired} accept="${acceptTypes}">
-            ${fileFormatNote ? `<p class="mt-2 text-xs leading-6 text-[#556070]">${escapeHtml(fileFormatNote)}</p>` : ''}
-            <p class="mt-1 hidden text-xs text-red-500" id="error-${escapeHtml(field.name)}"></p>
-          `;
+          wrapper.innerHTML = getFileFieldMarkup(field, {
+            fieldLabel,
+            optionalNote,
+            isRequired,
+            acceptTypes,
+            fileFormatNote,
+          });
         } else if (field.type === 'date') {
           wrapper.innerHTML = `
             <label class="${labelClass}">${escapeHtml(fieldLabel)} ${optionalNote}</label>
@@ -454,7 +546,7 @@ window.initCareerApply = () => {
         }
 
         if (isLongField) {
-          wrapper.classList.add('sm:col-span-2');
+          wrapper.classList.add('apply-field-span');
         }
 
         fieldsGrid.appendChild(wrapper);
@@ -472,10 +564,9 @@ window.initCareerApply = () => {
     submitBtn.type = 'button';
     submitBtn.id = 'btn-submit';
     submitBtn.setAttribute('data-motion-cta', 'true');
-    submitBtn.className = 'flex w-full items-center justify-center rounded-lg bg-[#2563eb] px-4 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70';
-    submitBtn.textContent = 'Kirim Lamaran Pekerjaan';
+    submitBtn.className = 'apply-submit';
+    submitBtn.textContent = 'Kirim Lamaran';
     submitBtn.addEventListener('click', (e) => {
-      // Validate form natively first
       if (formNode.checkValidity()) {
         handleSubmit(e);
       } else {
@@ -552,21 +643,22 @@ window.initCareerApply = () => {
 
   const renderJob = (job) => {
     document.title = `Lamaran: ${job.title} | Ocean Space`;
-    titleNode.textContent = job.title;
-    titleNode.classList.remove(...defaultTitleClasses, ...uppercaseTitleClasses);
-    titleNode.classList.add(...(isUppercaseHeavyTitle(job.title) ? uppercaseTitleClasses : defaultTitleClasses));
-    summaryNode.textContent = 'Baca dulu tanggung jawab dan kualifikasinya. Kalau cocok, lanjut isi lamaran di bawah.';
+    titleNode.textContent = formatJobTitle(job.title);
+    summaryNode.textContent = 'Baca deskripsi dan kualifikasi. Kalau cocok, isi lamaran di bawah.';
     descriptionNode.innerHTML = renderTextareaBlocks(job.description, {
-      emptyHtml: '<p>Informasi deskripsi akan ditampilkan setelah posisi dipilih.</p>',
-      paragraphClass: 'text-[15px] leading-8 text-[#556070]'
+      emptyHtml: '<p>Informasi deskripsi belum tersedia.</p>',
+      paragraphClass: 'text-[15px] leading-7 text-[#556070]'
     });
     renderRequirements(job.requirements);
     renderPrep(job);
     renderMeta(job);
     renderForm(job);
-    formNode.addEventListener('submit', handleSubmit);
+    formNode.onsubmit = handleSubmit;
     setState('content');
   };
+
+  const runId = (window.__oceanSpaceApplyRunId || 0) + 1;
+  window.__oceanSpaceApplyRunId = runId;
 
   const init = async () => {
     if (!slug) {
@@ -574,10 +666,21 @@ window.initCareerApply = () => {
       return;
     }
 
+    if (!api || typeof api.getJobDetail !== 'function') {
+      setState('error');
+      return;
+    }
+
     try {
       const payload = await api.getJobDetail(slug);
+      if (runId !== window.__oceanSpaceApplyRunId) {
+        return;
+      }
       renderJob(payload.data);
     } catch (error) {
+      if (runId !== window.__oceanSpaceApplyRunId) {
+        return;
+      }
       setState('error');
     }
   };

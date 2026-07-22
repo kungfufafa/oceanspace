@@ -1,35 +1,35 @@
 import { ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { loadExternalScript } from '../lib/loadExternalScript';
 
 const CareerApply = () => {
   useEffect(() => {
-    const loadScript = (src) => {
-      return new Promise((resolve) => {
-        const baseSrc = src.split('?')[0];
-        if (document.querySelector(`script[src^="${baseSrc}"]`)) {
-          resolve();
-          return;
-        }
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = false;
-        script.onload = resolve;
-        document.body.appendChild(script);
-      });
-    };
+    let cancelled = false;
 
     const initScripts = async () => {
-      const ts = Date.now();
-      await loadScript(`/js/career-api.js?v=${ts}`);
-      await loadScript(`/js/career-apply.js?v=${ts}`);
-      
-      if (window.initCareerApply) {
-         window.initCareerApply();
+      try {
+        const ts = Date.now();
+        await loadExternalScript(`/js/career-api.js?v=${ts}`, () => Boolean(window.OceanSpaceCareerApi));
+        await loadExternalScript(`/js/career-apply.js?v=${ts}`, () => typeof window.initCareerApply === 'function');
+
+        if (!cancelled && window.initCareerApply) {
+          window.initCareerApply();
+        }
+      } catch (error) {
+        console.error(error);
+        if (!cancelled) {
+          document.getElementById('apply-page-loading')?.classList.add('hidden');
+          document.getElementById('apply-page-error')?.classList.remove('hidden');
+        }
       }
     };
-    
+
     initScripts();
+
+    return () => {
+      cancelled = true;
+      window.__oceanSpaceApplyRunId = (window.__oceanSpaceApplyRunId || 0) + 1;
+    };
   }, []);
 
   return (
@@ -70,117 +70,52 @@ const CareerApply = () => {
     </nav>
   </header>
 
-  <main className="w-full">
-    <section id="apply-hero-section" className="border-b border-black/10 bg-white">
-      <div className="relative mx-auto w-full max-w-[88rem] px-4 py-10 sm:px-5 sm:py-12 lg:px-6 lg:py-14">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 hidden border-l border-dashed border-black/20 lg:block"></span>
-        <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden border-r border-dashed border-black/20 lg:block"></span>
-        <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 z-20 hidden h-2 w-2 -translate-x-1/2 translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
-        <span aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 z-20 hidden h-2 w-2 translate-x-1/2 translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
+  <main className="w-full overflow-x-hidden">
+    <section className="lc-band bg-white">
+      <div className="lc-shell py-14 sm:py-16 lg:py-20">
+        <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
+        <span aria-hidden="true" className="lc-node right-0 bottom-0 translate-x-1/2 translate-y-1/2"></span>
 
-        {/*  Skeleton loading state  */}
-        <div id="apply-page-loading" className="animate-pulse space-y-6">
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,0.72fr)]">
-            <div className="max-w-[36rem] space-y-4">
-              <div className="h-3 w-24 rounded bg-[#dfe7f5]"></div>
-              <div className="h-16 w-3/4 rounded bg-[#dfe7f5]"></div>
-              <div className="h-4 w-2/3 rounded bg-[#edf2fb]"></div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="h-20 rounded bg-[#edf2fb]"></div>
-                <div className="h-20 rounded bg-[#edf2fb]"></div>
-              </div>
+        <div id="apply-page-loading" className="grid animate-pulse gap-10 lg:grid-cols-[minmax(0,0.94fr)_minmax(22rem,0.86fr)] lg:items-center lg:gap-12" aria-hidden="false">
+          <div className="max-w-[38rem] space-y-4">
+            <div className="h-3 w-40 rounded bg-[#dfe7f5]"></div>
+            <div className="h-16 w-4/5 rounded bg-[#dfe7f5]"></div>
+            <div className="h-4 w-2/3 rounded bg-[#edf2fb]"></div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="h-20 rounded-2xl border border-[#d9e2ef] bg-[#edf2fb]"></div>
+              <div className="h-20 rounded-2xl border border-[#d9e2ef] bg-[#edf2fb]"></div>
             </div>
-            <div className="overflow-hidden border border-black/10 bg-white px-6 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-              <div className="space-y-4">
-                <div className="h-3 w-28 rounded bg-[#dfe7f5]"></div>
-                <div className="h-20 w-full rounded bg-[#edf2fb]"></div>
-                <div className="h-3 w-24 rounded bg-[#dfe7f5]"></div>
-                <div className="h-20 w-full rounded bg-[#edf2fb]"></div>
-              </div>
-            </div>
+            <div className="h-11 w-40 rounded bg-[#dfe7f5]"></div>
           </div>
-          <div className="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-            <div className="h-3 w-32 rounded bg-[#dfe7f5] m-6"></div>
-            <div className="grid gap-0 lg:grid-cols-2">
-              <div className="border-t border-black/10 px-6 py-6 lg:border-r">
-                <div className="h-3 w-28 rounded bg-[#dfe7f5]"></div>
-                <div className="mt-4 h-24 w-full rounded bg-[#edf2fb]"></div>
+          <div className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="h-3 w-28 rounded bg-[#dfe7f5]"></div>
+              <div className="mt-4 space-y-3">
+                <div className="h-4 w-full rounded bg-[#edf2fb]"></div>
+                <div className="h-4 w-5/6 rounded bg-[#edf2fb]"></div>
+                <div className="h-4 w-4/5 rounded bg-[#edf2fb]"></div>
               </div>
-              <div className="border-t border-black/10 px-6 py-6">
-                <div className="h-3 w-24 rounded bg-[#dfe7f5]"></div>
-                <div className="mt-4 h-24 w-full rounded bg-[#edf2fb]"></div>
-              </div>
-            </div>
-          </div>
-          <div className="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-            <div className="space-y-4 px-6 py-6">
-              <div className="h-3 w-24 rounded bg-[#dfe7f5]"></div>
-              <div className="h-8 w-1/2 rounded bg-[#dfe7f5]"></div>
-              <div className="h-4 w-full rounded bg-[#edf2fb]"></div>
-              <div className="h-11 w-full rounded bg-[#edf2fb]"></div>
-              <div className="h-11 w-full rounded bg-[#edf2fb]"></div>
-              <div className="h-24 w-full rounded bg-[#edf2fb]"></div>
-              <div className="h-11 w-full rounded bg-[#dfe7f5]"></div>
             </div>
           </div>
         </div>
 
-        {/*  Content state (toggled by JS)  */}
-        <div id="apply-page-content" className="hidden">
-          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(18rem,0.72fr)] lg:items-start">
-            <div className="max-w-[38rem] pt-2">
-              <a href="/career" data-motion-reveal="intro" className="inline-flex items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[#1d4ed8]">Karier <span aria-hidden="true">/</span> Lamaran</a>
-              <h1 id="apply-page-title" data-motion-reveal="intro" className="mt-4 max-w-full sm:max-w-[14ch] font-display text-[clamp(2.2rem,4vw,3.5rem)] font-semibold leading-[0.98] tracking-[-0.04em] text-[#171a22] [text-wrap:balance]">Memuat posisi yang dipilih.</h1>
-              <p id="apply-page-summary" data-motion-reveal="intro" className="mt-3 max-w-[30rem] text-[0.98rem] leading-7 text-[#556070]">Baca dulu konteks perannya, lalu lanjut isi lamaran jika posisi ini cocok.</p>
-              <div id="apply-page-meta" data-motion-group="soft" className="mt-7 grid gap-3 sm:grid-cols-2">
-                <div className="border border-black/10 bg-[#f8fbff] p-4">
-                  <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Lokasi</p>
-                  <p className="mt-2 text-sm font-bold text-slate-900">Menunggu data</p>
-                </div>
-                <div className="border border-black/10 bg-white p-4">
-                  <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Penutupan</p>
-                  <p className="mt-2 text-sm font-bold text-slate-900">Menunggu data</p>
-                </div>
-              </div>
-            </div>
-
-            <aside data-motion-reveal="panel" className="overflow-hidden border border-black/10 bg-white px-6 py-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-              <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#006AFF]">Sebelum Mulai</p>
-              <div id="apply-page-prep" className="mt-4 space-y-3 text-sm leading-7 text-[#556070]"></div>
-            </aside>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="apply-content-band" className="border-b border-black/10 bg-[#f6f9fd]">
-      <div className="relative mx-auto w-full max-w-[88rem] px-4 py-8 sm:px-5 sm:py-10 lg:px-6 lg:py-12">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 hidden border-l border-dashed border-black/20 lg:block"></span>
-        <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden border-r border-dashed border-black/20 lg:block"></span>
-        <span data-content-band-node aria-hidden="true" className="pointer-events-none absolute left-0 top-0 z-20 hidden h-2 w-2 -translate-x-1/2 -translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
-        <span data-content-band-node aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-20 hidden h-2 w-2 translate-x-1/2 -translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
-        <span data-content-band-node aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 z-20 hidden h-2 w-2 -translate-x-1/2 translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
-        <span data-content-band-node aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 z-20 hidden h-2 w-2 translate-x-1/2 translate-y-1/2 bg-[#2563eb] shadow-[0_0_0_2px_#fbfaf7] lg:block"></span>
-
-        <div id="apply-page-empty" data-motion-reveal="panel" className="hidden border border-[#d9e2ef] bg-white p-8 sm:p-10">
+        <div id="apply-page-empty" data-motion-reveal="panel" className="hidden border border-[#d9e2ef] bg-white p-8 sm:p-10" aria-hidden="true">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div>
               <p className="lc-eyebrow">Pilih Posisi Dulu</p>
-              <h2 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em] text-[#171a22]">Halaman ini membutuhkan posisi yang dipilih.</h2>
-              <p className="mt-3 max-w-[34rem] text-[15px] leading-7 text-[#596171]">Kembali ke halaman karier, lalu buka halaman lamaran dari posisi yang ingin Anda lihat.</p>
+              <h1 className="mt-3 font-display text-2xl font-[500] tracking-[-0.04em] text-[#171a22]">Halaman ini membutuhkan posisi yang dipilih.</h1>
+              <p className="mt-3 max-w-[34rem] text-[15px] leading-7 text-[#596171]">Kembali ke karier, lalu buka lamaran dari posisi yang ingin Anda lihat.</p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <a href="/career" data-motion-cta="true" className="button-primary sm:w-auto">Lihat posisi terbuka</a>
-            </div>
+            <a href="/career" data-motion-cta="true" className="button-primary sm:w-auto">Lihat posisi terbuka</a>
           </div>
         </div>
 
-        <div id="apply-page-error" data-motion-reveal="panel" className="hidden border border-red-100 bg-red-50 p-8 sm:p-10">
+        <div id="apply-page-error" data-motion-reveal="panel" className="hidden border border-red-100 bg-red-50 p-8 sm:p-10" aria-hidden="true">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div>
               <p className="lc-eyebrow text-red-700">Terjadi Kendala</p>
-              <h2 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em] text-red-700">Detail posisi gagal dimuat.</h2>
-              <p className="mt-3 max-w-[34rem] text-[15px] leading-7 text-red-700">Posisi yang Anda buka tidak tersedia atau sedang tidak dapat diakses. Kembali ke halaman karier untuk memilih posisi lain.</p>
+              <h1 className="mt-3 font-display text-2xl font-[500] tracking-[-0.04em] text-red-700">Detail posisi gagal dimuat.</h1>
+              <p className="mt-3 max-w-[34rem] text-[15px] leading-7 text-red-700">Posisi tidak tersedia atau tidak dapat diakses. Kembali ke karier untuk memilih posisi lain.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <a href="/career" data-motion-cta="true" className="button-primary sm:w-auto">Kembali ke Karier</a>
@@ -189,47 +124,107 @@ const CareerApply = () => {
           </div>
         </div>
 
-        <div id="apply-page-details" className="hidden space-y-5">
-          <article data-motion-reveal="panel" className="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-            <div className="border-b border-black/10 px-6 py-5">
-              <p className="font-mono text-[0.66rem] uppercase tracking-widest text-slate-500">Detail Posisi</p>
-            </div>
-            <div className="grid gap-0 lg:grid-cols-[minmax(0,0.98fr)_minmax(0,1.02fr)]">
-              <div className="border-b border-black/10 p-6 lg:border-b-0 lg:border-r">
-                <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Deskripsi Pekerjaan</p>
-                <p id="apply-page-description" className="mt-3 text-[15px] leading-8 text-[#556070]">Menunggu data.</p>
+        <div id="apply-page-content" className="hidden" aria-hidden="true">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.94fr)_minmax(22rem,0.86fr)] lg:items-center lg:gap-12">
+            <div className="max-w-[38rem]">
+              <p data-motion-enter="eyebrow" className="lc-eyebrow">Karier / Lamaran</p>
+              <h1 id="apply-page-title" data-motion-enter="heading" className="mt-4 max-w-full sm:max-w-[16ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">
+                Memuat posisi yang dipilih.
+              </h1>
+              <p id="apply-page-summary" data-motion-enter="summary" className="mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">
+                Baca konteks peran, lalu isi lamaran jika cocok.
+              </p>
+              <div id="apply-page-meta" className="mt-7 grid gap-3 sm:grid-cols-2"></div>
+              <div data-motion-enter="actions" className="mt-8 flex flex-wrap items-center gap-4">
+                <a href="#apply-form-card" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Isi lamaran</a>
+                <a href="#apply-page-details" data-motion-cta="true" className="button-secondary">Baca detail posisi</a>
               </div>
-              <div className="p-6">
-                <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Kualifikasi</p>
-                <div id="apply-page-requirements" className="mt-3 space-y-3 text-[15px] leading-8 text-[#556070]"></div>
-              </div>
             </div>
-          </article>
 
-          <article data-motion-reveal="panel" className="overflow-hidden border border-black/10 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-            <div className="border-b border-black/10 px-6 py-5">
-              <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#006AFF]">Form Lamaran</p>
-              <h2 className="mt-3 font-display text-[2rem] font-semibold tracking-[-0.04em] text-[#171a22]">Kirim Lamaran</h2>
-              <p className="mt-2 max-w-[40rem] text-sm leading-7 text-[#556070]">Isi informasi inti yang diminta, lalu kirim lamaran untuk posisi ini.</p>
-            </div>
-            <div className="px-6 py-6">
-              <div id="form-alerts"></div>
-              <form id="apply-form" className="space-y-5" encType="multipart/form-data"></form>
-            </div>
-          </article>
+            <aside id="apply-page-prep-wrap" data-motion-enter="panel" className="relative hidden overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
+              <div className="relative z-10 overflow-hidden rounded-2xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                  <p className="font-bold tracking-tight text-slate-900">Siapkan dulu</p>
+                  <span className="font-mono text-[0.66rem] uppercase tracking-widest text-slate-500">Checklist</span>
+                </div>
+                <ul id="apply-page-prep" className="mt-5 space-y-3 text-sm leading-7 text-[#556070]"></ul>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="apply-page-details" className="lc-band hidden bg-[#f6f9fd]" aria-hidden="true">
+      <div className="lc-shell relative py-14 sm:py-16 lg:py-20">
+        <span aria-hidden="true" className="lc-node left-0 top-0 -translate-x-1/2 -translate-y-1/2"></span>
+        <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
+        <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
+        <span aria-hidden="true" className="lc-node right-0 bottom-0 translate-x-1/2 translate-y-1/2"></span>
+
+        <div className="mb-8 max-w-[34rem]">
+          <p className="lc-eyebrow">Detail posisi</p>
+          <h2 className="mt-3 font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Deskripsi, kualifikasi, dan form lamaran.</h2>
+          <p className="mt-4 text-[0.98rem] leading-7 text-[#596171]">Baca konteks peran, lalu isi data yang diminta di bawah.</p>
+        </div>
+
+        <div className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
+          <div className="relative z-10 grid gap-3 sm:gap-4">
+            <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="border-b border-slate-100 px-5 py-4 sm:px-6 sm:py-5">
+                <p className="font-mono text-[0.66rem] uppercase tracking-widest text-slate-500">Ringkasan peran</p>
+              </div>
+              <div className="grid gap-0 lg:grid-cols-2">
+                <div className="border-b border-slate-100 p-5 sm:p-6 lg:border-b-0 lg:border-r">
+                  <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Deskripsi pekerjaan</p>
+                  <div id="apply-page-description" className="mt-3 text-[15px] leading-7 text-[#556070]">Menunggu data.</div>
+                </div>
+                <div className="p-5 sm:p-6">
+                  <p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Kualifikasi</p>
+                  <div id="apply-page-requirements" className="mt-3 space-y-3 text-[15px] leading-7 text-[#556070]"></div>
+                </div>
+              </div>
+            </article>
+
+            <article id="apply-form-card" className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <div className="border-b border-slate-100 px-5 py-5 sm:px-6">
+                <p className="lc-eyebrow">Form lamaran</p>
+                <h2 className="mt-3 font-display text-[clamp(1.7rem,3vw,2.2rem)] font-[500] tracking-[-0.04em] text-[#171a22]">Kirim lamaran</h2>
+                <p className="mt-2 max-w-[40rem] text-sm leading-7 text-[#556070]">Isi data yang diminta. Bidang bertanda * wajib diisi.</p>
+              </div>
+              <div className="px-5 py-6 sm:px-6">
+                <div id="form-alerts"></div>
+                <form id="apply-form" className="space-y-5" encType="multipart/form-data"></form>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section className="bg-white">
+      <div className="lc-shell relative py-16 sm:py-20 lg:py-24">
+        <span aria-hidden="true" className="lc-node left-0 top-0 -translate-x-1/2 -translate-y-1/2"></span>
+        <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
+        <div data-motion-reveal="intro" className="mx-auto max-w-[42rem] text-center">
+          <p className="lc-eyebrow">Langkah berikutnya</p>
+          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Siap melamar, atau masih melihat posisi lain?</h2>
+          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Kembali ke daftar lowongan, atau hubungi tim jika Anda butuh klarifikasi.</p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/career" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Lihat posisi terbuka</a>
+            <a href="/contact" data-motion-cta="true" className="button-secondary">Hubungi tim korporat</a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <footer className="border-t border-[#d8e0ec] bg-white text-[#121826]">
-    <div className="relative mx-auto w-full max-w-[88rem] px-4 py-14 sm:px-5 sm:py-16 lg:px-6">
-      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 hidden border-l border-dashed border-black/20 lg:block"></span>
-      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden border-r border-dashed border-black/20 lg:block"></span>
+    <div className="lc-shell py-14 sm:py-16">
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
         <div className="pb-10 lg:border-r lg:border-black/10 lg:pb-0 lg:pr-12">
-          <p className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[#1d4ed8]">Terhubung dengan Ocean Space</p>
-          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Ekosistem distribusi, retail, sub retail, dan lifestyle yang dibangun untuk kecepatan eksekusi, kontrol operasional, dan pertumbuhan berkelanjutan.</p>
+          <p className="lc-eyebrow">Terhubung dengan Ocean Space</p>
+          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, dan lifestyle. Empat unit, satu standar operasi.</p>
           <div className="mt-8 border-t border-black/10 pt-5">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
               <a href="https://www.linkedin.com/company/ocean-space-group/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-[#243041] transition-colors hover:text-[#1d4ed8]">LinkedIn <ArrowUpRightIcon className="w-4 h-4 text-[#2563eb]" aria-hidden="true" /></a>

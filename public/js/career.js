@@ -1,4 +1,12 @@
 window.initCareer = () => {
+  if (window.__oceanSpaceCareerAbort) {
+    window.__oceanSpaceCareerAbort.abort();
+  }
+
+  const abortController = new AbortController();
+  window.__oceanSpaceCareerAbort = abortController;
+  const { signal } = abortController;
+
   const jobsLoading = document.getElementById('jobs-loading');
   const jobsEmpty = document.getElementById('jobs-empty');
   const jobsError = document.getElementById('jobs-error');
@@ -30,6 +38,15 @@ window.initCareer = () => {
     window.dispatchEvent(new CustomEvent('oceanspace:motion-refresh'));
   };
 
+  const setVisibility = (node, visible) => {
+    if (!node) {
+      return;
+    }
+
+    node.classList.toggle('hidden', !visible);
+    node.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  };
+
   function getInitialFilters() {
     const params = new URLSearchParams(window.location.search);
     return {
@@ -50,6 +67,31 @@ window.initCareer = () => {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  };
+
+  const isUppercaseHeavyTitle = (value) => {
+    const text = String(value || '').trim();
+    if (!text) {
+      return false;
+    }
+
+    const lettersOnly = text.replace(/[^A-Za-zÀ-ÿ]/g, '');
+    if (!lettersOnly) {
+      return false;
+    }
+
+    return lettersOnly === lettersOnly.toUpperCase();
+  };
+
+  const formatJobTitle = (value) => {
+    const text = String(value || '').trim();
+    if (!isUppercaseHeavyTitle(text)) {
+      return text;
+    }
+
+    return text
+      .toLowerCase()
+      .replace(/(^|[^a-zà-ÿ])([a-zà-ÿ])/g, (_, boundary, letter) => boundary + letter.toUpperCase());
   };
 
   const getApplyUrl = (slug) => `/career-apply?job=${encodeURIComponent(slug)}`;
@@ -117,12 +159,10 @@ window.initCareer = () => {
       return;
     }
 
-    const paginationText = state.meta
-      ? `Menampilkan ${state.jobs.length} posisi hingga halaman ${state.meta.current_page}.`
-      : `Menampilkan ${state.jobs.length} posisi.`;
+    const paginationText = `Menampilkan ${state.jobs.length} posisi.`;
 
     jobsResultsMeta.textContent = parts.length
-      ? `${paginationText} Filter aktif: ${parts.join(' dan ')}.`
+      ? `${paginationText} Filter: ${parts.join(' dan ')}.`
       : paginationText;
   };
 
@@ -133,28 +173,25 @@ window.initCareer = () => {
 
     jobs.forEach((job) => {
       const card = document.createElement('article');
-      card.className = 'comparison-card group flex h-full flex-col justify-between';
+      card.className = 'comparison-card group';
       card.setAttribute('data-motion-reveal', 'card');
       card.setAttribute('data-motion-card', 'true');
 
-      const thumb = job.thumbnail_url
-        ? `<div class="aspect-[16/10] w-full overflow-hidden border-b border-black/10 bg-[#eef4ff]"><img src="${escapeHtml(job.thumbnail_url)}" alt="${escapeHtml(job.title)}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy"></div>`
-        : `<div class="aspect-[16/10] w-full overflow-hidden border-b border-black/10 bg-[#eef4ff]"><img src="images/career-fallback.png" alt="Posisi Terbuka Ocean Space" class="h-full w-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy"></div>`;
+      const thumbSrc = job.thumbnail_url || 'images/career-fallback.png';
+      const thumb = `<div class="comparison-card__media"><img src="${escapeHtml(thumbSrc)}" alt="" loading="lazy" decoding="async"></div>`;
 
       card.innerHTML = `
         ${thumb}
-        <div class="flex flex-1 flex-col px-5 py-5">
-          <div class="flex-1">
-            <p class="card-kicker">Posisi Terbuka</p>
-            <h3 class="mt-3 font-display text-[1.55rem] font-semibold tracking-[-0.04em] text-[#171a22]">${escapeHtml(job.title)}</h3>
-            <div class="mt-4 flex flex-col gap-2 text-[13px] text-[#556070]">
-              <span class="inline-flex items-center gap-2"><svg class="h-4 w-4 shrink-0 text-[#006AFF]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>${escapeHtml(job.location)}</span>
-              <span class="inline-flex items-center gap-2"><svg class="h-4 w-4 shrink-0 text-orange-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Ditutup ${formatDate(job.closing_date)}</span>
+        <div class="comparison-card__body">
+          <div class="comparison-card__content">
+            <h3 class="comparison-card__title">${escapeHtml(formatJobTitle(job.title))}</h3>
+            <div class="comparison-card__meta">
+              <span class="comparison-card__meta-row comparison-card__meta-row--location"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>${escapeHtml(job.location)}</span>
+              <span class="comparison-card__meta-row comparison-card__meta-row--closing"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>Ditutup ${formatDate(job.closing_date)}</span>
             </div>
           </div>
-          <div class="mt-6 flex flex-col gap-3 border-t border-black/10 pt-4 sm:flex-row sm:items-center sm:justify-between">
-            <span class="text-sm font-medium leading-6 text-[#243041]">Lihat detail posisi, kualifikasi, dan lanjutkan lamaran.</span>
-            <a href="${getApplyUrl(job.slug)}" data-job-link="${escapeHtml(job.slug)}" data-motion-cta="true" class="button-primary sm:shrink-0">Lihat detail & lamar</a>
+          <div class="comparison-card__action">
+            <a href="${getApplyUrl(job.slug)}" data-job-link="${escapeHtml(job.slug)}" data-motion-cta="true" class="button-primary">Lihat detail &amp; lamar</a>
           </div>
         </div>
       `;
@@ -168,7 +205,7 @@ window.initCareer = () => {
   const updateLoadMoreControls = () => {
     const hasMorePages = Boolean(state.meta && state.meta.has_more_pages && state.nextUrl);
 
-    if (!state.jobs.length) {
+    if (!state.jobs.length || (!hasMorePages && !state.isLoadingMore)) {
       setLoadMoreState({
         visible: false,
         disabled: true,
@@ -183,26 +220,16 @@ window.initCareer = () => {
         visible: true,
         disabled: true,
         buttonLabel: 'Memuat...',
-        statusMessage: 'Mengambil halaman berikutnya.',
-      });
-      return;
-    }
-
-    if (hasMorePages) {
-      setLoadMoreState({
-        visible: true,
-        disabled: false,
-        buttonLabel: 'Muat lebih banyak',
-        statusMessage: 'Masih ada lowongan lain yang bisa ditampilkan.',
+        statusMessage: '',
       });
       return;
     }
 
     setLoadMoreState({
       visible: true,
-      disabled: true,
-      buttonLabel: 'Semua tampil',
-      statusMessage: 'Semua lowongan yang tersedia untuk filter ini sudah ditampilkan.',
+      disabled: false,
+      buttonLabel: 'Muat lebih banyak',
+      statusMessage: '',
     });
   };
 
@@ -217,16 +244,19 @@ window.initCareer = () => {
 
   const renderCurrentState = () => {
     if (!state.jobs.length) {
-      jobsContainer.classList.add('hidden');
-      jobsEmpty.classList.remove('hidden');
+      setVisibility(jobsContainer, false);
+      setVisibility(jobsEmpty, true);
+      setVisibility(jobsError, false);
+      setVisibility(jobsLoading, false);
       updateResultsMeta();
       updateLoadMoreControls();
       notifyMotionRefresh();
       return;
     }
 
-    jobsEmpty.classList.add('hidden');
-    jobsContainer.classList.remove('hidden');
+    setVisibility(jobsEmpty, false);
+    setVisibility(jobsError, false);
+    setVisibility(jobsContainer, true);
     renderJobs(state.jobs);
     updateResultsMeta();
     updateLoadMoreControls();
@@ -243,6 +273,19 @@ window.initCareer = () => {
           page: 1,
         };
 
+    if (!api || typeof api.listJobs !== 'function') {
+      if (jobsErrorMessage) {
+        jobsErrorMessage.textContent = 'Daftar lowongan online sedang tidak tersedia. Silakan coba lagi atau hubungi tim kami untuk menyampaikan minat.';
+      }
+      setVisibility(jobsLoading, false);
+      setVisibility(jobsEmpty, false);
+      setVisibility(jobsContainer, false);
+      setVisibility(jobsError, true);
+      updateResultsMeta();
+      notifyMotionRefresh();
+      return;
+    }
+
     try {
       if (append) {
         if (!state.nextUrl || state.isLoadingMore) {
@@ -257,10 +300,10 @@ window.initCareer = () => {
         }
 
         state.isLoading = true;
-        jobsLoading.classList.remove('hidden');
-        jobsError.classList.add('hidden');
-        jobsEmpty.classList.add('hidden');
-        jobsContainer.classList.add('hidden');
+        setVisibility(jobsLoading, true);
+        setVisibility(jobsError, false);
+        setVisibility(jobsEmpty, false);
+        setVisibility(jobsContainer, false);
         jobsContainer.innerHTML = '';
         setLoadMoreState({
           visible: false,
@@ -271,6 +314,10 @@ window.initCareer = () => {
       }
 
       const payload = await api.listJobs(requestOptions);
+      if (signal.aborted) {
+        return;
+      }
+
       applyPayloadState(payload, { append });
 
       if (!append) {
@@ -279,6 +326,10 @@ window.initCareer = () => {
 
       renderCurrentState();
     } catch (error) {
+      if (signal.aborted) {
+        return;
+      }
+
       if (append) {
         setLoadMoreState({
           visible: true,
@@ -292,15 +343,19 @@ window.initCareer = () => {
       if (jobsErrorMessage) {
         jobsErrorMessage.textContent = 'Daftar lowongan online sedang tidak tersedia. Silakan coba lagi atau hubungi tim kami untuk menyampaikan minat.';
       }
-      jobsError.classList.remove('hidden');
+      setVisibility(jobsError, true);
       updateResultsMeta();
       notifyMotionRefresh();
     } finally {
+      if (signal.aborted) {
+        return;
+      }
+
       if (append) {
         state.isLoadingMore = false;
       } else {
         state.isLoading = false;
-        jobsLoading.classList.add('hidden');
+        setVisibility(jobsLoading, false);
       }
 
       updateLoadMoreControls();
@@ -310,7 +365,7 @@ window.initCareer = () => {
   if (jobsRetry) {
     jobsRetry.addEventListener('click', () => {
       fetchJobs();
-    });
+    }, { signal });
   }
 
   if (jobsFilters) {
@@ -319,7 +374,7 @@ window.initCareer = () => {
       state.filters.search = (jobsSearchInput && jobsSearchInput.value ? jobsSearchInput.value : '').trim();
       state.filters.location = (jobsLocationInput && jobsLocationInput.value ? jobsLocationInput.value : '').trim();
       fetchJobs();
-    });
+    }, { signal });
   }
 
   if (jobsResetButton) {
@@ -328,13 +383,13 @@ window.initCareer = () => {
       state.filters.location = '';
       syncFilterInputs();
       fetchJobs();
-    });
+    }, { signal });
   }
 
   if (jobsLoadMoreButton) {
     jobsLoadMoreButton.addEventListener('click', () => {
       fetchJobs({ append: true });
-    });
+    }, { signal });
   }
 
   syncFilterInputs();

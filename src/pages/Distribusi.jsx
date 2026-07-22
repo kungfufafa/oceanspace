@@ -49,7 +49,7 @@ const Distribusi = () => {
           <div className="lc-hero-copy max-w-[40rem]">
             <p data-motion-enter="eyebrow" className="lc-eyebrow">Unit Bisnis: HP Distribusi</p>
             <h1 data-motion-enter="heading" className="lc-hero-title mt-4 max-w-full sm:max-w-[14ch] font-display text-[clamp(2.55rem,4.6vw,4rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Menjadi perusahaan distribusi terpercaya.</h1>
-            <p data-motion-enter="summary" className="lc-hero-body mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Menumbuhkan brand dengan jujur, unggul, dan berkelanjutan di Indonesia.</p>
+            <p data-motion-enter="summary" className="lc-hero-body mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Tim menumbuhkan brand dengan jujur dan kinerja unggul di Indonesia.</p>
             <div data-motion-enter="meta" className="lc-brand-shelf" aria-label="Entitas unit HP Distribusi">
               <p className="lc-brand-kicker">Entitas operasional</p>
               <div className="lc-brand-grid">
@@ -107,7 +107,7 @@ const Distribusi = () => {
           <div data-motion-reveal="intro" className="max-w-[28rem]">
             <p className="lc-eyebrow">Visi &amp; Misi</p>
             <h2 className="mt-3 max-w-full sm:max-w-[14ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Arah utama unit bisnis HP Distribusi.</h2>
-            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Bagian ini merangkum poin-poin inti dari visi dan misi perusahaan.</p>
+            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Visi dan misi yang memandu kerja unit ini.</p>
           </div>
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[minmax(14rem,0.85fr)_minmax(0,1.15fr)]">
@@ -146,9 +146,9 @@ const Distribusi = () => {
               </div>
             </div>
             <div className="relative z-10 mt-3 sm:mt-4 grid gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white px-6 py-5 text-sm font-medium text-slate-600 shadow-sm sm:grid-cols-3">
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Menumbuhkan brand.</p>
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Data yang akurat.</p>
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Tuntas, tepat waktu, dan dapat dipertanggungjawabkan.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Tim menumbuhkan brand.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Data akurat.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Komitmen tuntas dan tepat waktu.</p>
             </div>
           </div>
         </div>
@@ -165,7 +165,7 @@ const Distribusi = () => {
           <div data-motion-reveal="intro" className="max-w-[28rem]">
             <p className="lc-eyebrow">Lima Misi</p>
             <h2 className="mt-3 max-w-full sm:max-w-[14ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Lima misi unit bisnis HP Distribusi.</h2>
-            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Poin-poin berikut menjadi komitmen utama unit ini.</p>
+            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Komitmen utama unit ini.</p>
           </div>
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm flex flex-col">
@@ -248,9 +248,9 @@ const Distribusi = () => {
         <span aria-hidden="true" className="lc-node left-0 top-0 -translate-x-1/2 -translate-y-1/2"></span>
         <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
         <div data-motion-reveal="intro" className="mx-auto max-w-[42rem] text-center">
-          <p className="lc-eyebrow">Lanjutkan Percakapan</p>
-          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Ingin menghubungi tim Ocean Space?</h2>
-          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Gunakan halaman kontak untuk terhubung dengan tim kami atau lihat peluang karier yang tersedia.</p>
+          <p className="lc-eyebrow">Langkah berikutnya</p>
+          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Hubungi tim Ocean Space.</h2>
+          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Buka halaman kontak atau lihat lowongan yang sedang dibuka.</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a href="/contact" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Hubungi tim korporat</a>
             <a href="/career" data-motion-cta="true" className="button-secondary">Lihat peluang karier</a>
@@ -264,7 +264,7 @@ const Distribusi = () => {
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
         <div className="pb-10 lg:border-r lg:border-black/10 lg:pb-0 lg:pr-12">
           <p className="lc-eyebrow">Terhubung dengan Ocean Space</p>
-          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Ekosistem distribusi, retail, sub retail, dan lifestyle yang dibangun untuk kecepatan eksekusi, kontrol operasional, dan pertumbuhan berkelanjutan.</p>
+          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, dan lifestyle. Empat unit, satu standar operasi.</p>
           <div className="mt-8 border-t border-black/10 pt-5">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
               <a href="https://www.linkedin.com/company/ocean-space-group/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-[#243041] transition-colors hover:text-[#1d4ed8]">LinkedIn <ArrowUpRightIcon className="w-4 h-4 text-[#2563eb]" aria-hidden="true" /></a>

@@ -66,8 +66,8 @@ const Home = () => {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.94fr)_minmax(22rem,0.86fr)] lg:items-center lg:gap-12">
           <div className="max-w-[38rem]">
             <p data-motion-enter="eyebrow" className="lc-eyebrow">Grup perusahaan distribusi, retail, sub retail, dan lifestyle</p>
-            <h1 data-motion-enter="heading" className="mt-4 max-w-full sm:max-w-[12ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Ocean Space membangun pertumbuhan dengan tata kelola dan eksekusi yang jelas.</h1>
-            <p data-motion-enter="summary" className="mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Empat unit bisnis dijalankan dalam satu standar operasi agar kemitraan, ekspansi, dan pengambilan keputusan tetap tertib, disiplin, dan terukur.</p>
+            <h1 data-motion-enter="heading" className="mt-4 max-w-full sm:max-w-[12ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Ocean Space menjalankan empat unit bisnis dengan tata kelola dan eksekusi yang jelas.</h1>
+            <p data-motion-enter="summary" className="mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Tim kami memakai satu standar operasi untuk kemitraan, ekspansi, dan keputusan sehari-hari.</p>
             <div data-motion-enter="actions" className="mt-8 flex flex-wrap items-center gap-4">
               <a href="/contact" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Hubungi tim korporat</a>
               <span className="text-sm font-medium text-[#5c667b]">4 unit bisnis / 16 titik aktif</span>
@@ -107,7 +107,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="relative z-10 mt-3 sm:mt-4 grid gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm font-medium text-slate-600 shadow-sm sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
-                <p>Empat unit bisnis dalam satu ekosistem terpadu.</p>
+                <p>Empat unit bisnis, satu standar operasi.</p>
                 <div className="flex items-center gap-2">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0062FF] opacity-75"></span>
@@ -159,7 +159,7 @@ const Home = () => {
         <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
         <span aria-hidden="true" className="lc-node right-0 bottom-0 translate-x-1/2 translate-y-1/2"></span>
         <div data-motion-reveal="intro" className="mx-auto max-w-[54rem] text-center">
-          <h2 className="font-display text-[clamp(2rem,4.6vw,4.35rem)] font-[500] leading-[0.96] tracking-[-0.05em] text-[#171a22]">Setiap unit bekerja sendiri-sendiri, tetapi seluruh organisasi bergerak dalam ritme yang sama.</h2>
+          <h2 className="font-display text-[clamp(2rem,4.6vw,4.35rem)] font-[500] leading-[0.96] tracking-[-0.05em] text-[#171a22]">Tiap unit mandiri. Seluruh grup bergerak dengan standar kerja yang sama.</h2>
         </div>
       </div>
     </section>
@@ -174,7 +174,7 @@ const Home = () => {
           <div data-motion-reveal="intro" className="max-w-[29rem]">
             <p className="lc-eyebrow">Kerangka kerja untuk tim dan mitra</p>
             <h2 className="mt-3 max-w-full sm:max-w-[11ch] font-display text-[clamp(1.95rem,3.3vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Satu standar kerja untuk empat unit bisnis.</h2>
-            <p className="mt-4 max-w-[28rem] text-[0.98rem] leading-7 text-[#596171]">Partner, kandidat, dan tim internal membaca struktur yang sama: peran jelas, ritme jelas, keputusan jelas.</p>
+            <p className="mt-4 max-w-[28rem] text-[0.98rem] leading-7 text-[#596171]">Partner, kandidat, dan tim internal melihat peran, ritme, dan jalur keputusan yang sama.</p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               <div className="border border-[#d9e2ef] bg-white px-4 py-4">
                 <p className="font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#62718a]">Core</p>
@@ -230,9 +230,9 @@ const Home = () => {
               </div>
             </div>
             <div className="relative z-10 mt-3 sm:mt-4 grid gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white px-6 py-5 text-sm font-medium text-slate-600 shadow-sm sm:grid-cols-3">
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Struktur mudah dipahami bersama.</p>
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Peran unit bebas dari tumpang tindih.</p>
-              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Eksekusi satu bahasa operasional.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Partner membaca struktur tanpa briefing panjang.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Peran unit tidak tumpang tindih.</p>
+              <p className="flex items-start gap-2"><svg className="size-5 shrink-0 text-[#FF2D20]/70" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> Tim mengeksekusi dengan bahasa kerja yang sama.</p>
             </div>
           </div>
         </div>
@@ -248,8 +248,8 @@ const Home = () => {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.74fr)_minmax(0,1.26fr)] lg:items-start">
           <div data-motion-reveal="intro" className="max-w-[28rem]">
             <p className="lc-eyebrow">Operasi skala nasional</p>
-            <h2 className="mt-3 max-w-full sm:max-w-[10ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Skala nasional harus tetap cepat dan terbaca.</h2>
-            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Karena itu bagian ini disusun seperti operations board: cakupan wilayah, kapasitas aktif, dan ritme kerja langsung terlihat dalam satu pandangan.</p>
+            <h2 className="mt-3 max-w-full sm:max-w-[10ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Skala nasional tetap cepat dan terbaca.</h2>
+            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Cakupan wilayah, kapasitas aktif, dan ritme kerja terlihat dalam satu papan.</p>
           </div>
           <div data-motion-reveal="panel" className="overflow-hidden border border-[#d9e2ef] bg-[#f8fbff]">
             <div className="grid lg:grid-cols-[minmax(0,1.08fr)_minmax(14rem,0.92fr)]">
@@ -292,14 +292,14 @@ const Home = () => {
                 </div>
                 <div className="bg-white px-5 py-5">
                   <p className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[#62718a]">Mode Kerja</p>
-                  <p className="mt-3 text-[1.15rem] font-semibold tracking-[-0.04em] text-[#171a22]">Tertib, cepat, terukur</p>
+                  <p className="mt-3 text-[1.15rem] font-semibold tracking-[-0.04em] text-[#171a22]">Tertib dan cepat</p>
                 </div>
               </div>
             </div>
             <div className="grid gap-3 border-t border-black/10 bg-white px-5 py-4 text-sm text-[#556070] sm:grid-cols-3">
-              <p>Distribusi tetap terkontrol.</p>
-              <p>Wilayah tumbuh tanpa kehilangan ritme.</p>
-              <p>Kapasitas mudah dibaca lintas unit.</p>
+              <p>Tim mengontrol distribusi lintas wilayah.</p>
+              <p>Kapasitas terbaca di setiap unit.</p>
+              <p>Wilayah tumbuh tanpa kehilangan ritme kerja.</p>
             </div>
           </div>
         </div>
@@ -314,9 +314,9 @@ const Home = () => {
         <span aria-hidden="true" className="lc-node right-0 bottom-0 translate-x-1/2 translate-y-1/2"></span>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.74fr)_minmax(0,1.26fr)] lg:items-start">
           <div data-motion-reveal="intro" className="max-w-[28rem]">
-            <p className="lc-eyebrow">Budaya yang ikut bertumbuh</p>
-            <h2 className="mt-3 max-w-full sm:max-w-[11ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Budaya kerja tetap manusiawi, walau operasi terus bertumbuh.</h2>
-            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Empat motivasi ini menjadi cara tim membaca dorongan kerja, tanggung jawab, dan kualitas eksekusi sehari-hari.</p>
+            <p className="lc-eyebrow">Budaya kerja</p>
+            <h2 className="mt-3 max-w-full sm:max-w-[11ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Operasi membesar. Budaya kerja tetap manusiawi.</h2>
+            <p className="mt-4 max-w-[27rem] text-[0.98rem] leading-7 text-[#596171]">Tim memakai empat motivasi untuk membaca dorongan kerja dan tanggung jawab harian.</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="/career" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Buka halaman karier</a>
               <a href="/about" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md border border-black/10 bg-white px-5 text-sm font-semibold text-[#151821] transition-colors hover:border-black/20">Pelajari budaya JUJUR</a>
@@ -359,9 +359,9 @@ const Home = () => {
               </div>
             </div>
             <div className="grid gap-3 bg-[#f6f9fd] px-5 py-4 text-sm text-[#556070] sm:grid-cols-3">
-              <p>JUJUR menjelaskan 5 prinsip kerja inti.</p>
-              <p>Fear, Desire, Duty, Love menjelaskan dorongan kerja tim.</p>
-              <p>Keduanya dipakai bersama untuk menjaga perilaku dan ritme eksekusi.</p>
+              <p>JUJUR menetapkan lima prinsip kerja.</p>
+              <p>Fear, Desire, Duty, Love menjelaskan dorongan tim.</p>
+              <p>Tim memakai keduanya bersama saat bekerja.</p>
             </div>
           </div>
         </div>
@@ -376,35 +376,35 @@ const Home = () => {
         <span aria-hidden="true" className="lc-node right-0 bottom-0 translate-x-1/2 translate-y-1/2"></span>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div data-motion-reveal="intro" className="max-w-[32rem]">
-            <p className="lc-eyebrow">Untuk pihak yang butuh kejelasan</p>
-            <h2 className="mt-3 max-w-full sm:max-w-[12ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Satu halaman harus menjawab tiga kepentingan utama.</h2>
+            <p className="lc-eyebrow">Untuk partner, kandidat, dan publik</p>
+            <h2 className="mt-3 max-w-full sm:max-w-[12ch] font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Partner, kandidat, dan publik butuh jawaban berbeda.</h2>
           </div>
-          <p data-motion-reveal="intro" className="max-w-[24rem] text-[0.98rem] leading-7 text-[#596171]">Partner, kandidat, dan publik datang dengan pertanyaan berbeda. Jadi susunannya harus cepat dipindai dan cepat dipahami.</p>
+          <p data-motion-reveal="intro" className="max-w-[24rem] text-[0.98rem] leading-7 text-[#596171]">Anda menemukan peran unit, budaya kerja, dan kredibilitas grup tanpa berpindah halaman.</p>
         </div>
         <div data-motion-group="cards" className="mt-10 grid gap-0 border-y border-black/10 lg:grid-cols-3">
           <article data-motion-reveal="card" className="relative border-b border-black/10 bg-white p-6 sm:p-8 lg:border-b-0 lg:border-r">
             <span aria-hidden="true" className="absolute right-6 top-6 text-[2.5rem] font-semibold tracking-[-0.06em] text-[#6179a8]">01</span>
             <p className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[#1e40af]">Partner</p>
-            <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Membaca struktur kolaborasi dengan cepat</h3>
-            <p className="mt-3 text-sm leading-6 text-[#596171]">Peran unit dan jalur kerja sama terlihat tanpa perlu membuka banyak halaman pendukung.</p>
-            <p className="mt-6 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#62718a]">Yang mereka lihat</p>
-            <p className="mt-2 text-sm font-medium text-[#243041]">Peran unit jelas dan tidak tumpang tindih.</p>
+            <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Struktur kolaborasi yang cepat terbaca</h3>
+            <p className="mt-3 text-sm leading-6 text-[#596171]">Anda melihat peran unit dan jalur kerja sama tanpa membuka banyak halaman.</p>
+            <p className="mt-6 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#62718a]">Hasilnya</p>
+            <p className="mt-2 text-sm font-medium text-[#243041]">Peran unit jelas. Tidak tumpang tindih.</p>
           </article>
           <article data-motion-reveal="card" className="relative border-b border-black/10 bg-[#f8fbff] p-6 sm:p-8 lg:border-b-0 lg:border-r">
             <span aria-hidden="true" className="absolute right-6 top-6 text-[2.5rem] font-semibold tracking-[-0.06em] text-[#6179a8]">02</span>
             <p className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[#1e40af]">Calon karyawan</p>
-            <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Menangkap budaya kerja yang konkret</h3>
-            <p className="mt-3 text-sm leading-6 text-[#596171]">JUJUR dan empat motivasi diterjemahkan menjadi perilaku dan ekspektasi kerja yang nyata.</p>
-            <p className="mt-6 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#62718a]">Yang mereka lihat</p>
-            <p className="mt-2 text-sm font-medium text-[#243041]">Budaya tidak berhenti di slogan.</p>
+            <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Budaya kerja yang konkret</h3>
+            <p className="mt-3 text-sm leading-6 text-[#596171]">Tim menerjemahkan JUJUR dan empat motivasi menjadi perilaku kerja nyata.</p>
+            <p className="mt-6 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#62718a]">Hasilnya</p>
+            <p className="mt-2 text-sm font-medium text-[#243041]">Budaya kerja muncul di perilaku harian.</p>
           </article>
           <article data-motion-reveal="card" className="relative bg-white p-6 sm:p-8">
             <span aria-hidden="true" className="absolute right-6 top-6 text-[2.5rem] font-semibold tracking-[-0.06em] text-[#6179a8]">03</span>
             <p className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[#1e40af]">Publik umum</p>
-            <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Melihat organisasi yang tertib dan kredibel</h3>
-            <p className="mt-3 text-sm leading-6 text-[#596171]">Bahasa visual, struktur informasi, dan ritme halaman membangun kesan perusahaan yang rapi dan dapat dipercaya.</p>
-            <p className="mt-6 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#62718a]">Yang mereka lihat</p>
-            <p className="mt-2 text-sm font-medium text-[#243041]">Perusahaan terasa terang, modern, dan teratur.</p>
+            <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Organisasi yang tertib</h3>
+            <p className="mt-3 text-sm leading-6 text-[#596171]">Struktur informasi dan bahasa visual menunjukkan perusahaan yang rapi.</p>
+            <p className="mt-6 font-mono text-[0.64rem] uppercase tracking-[0.12em] text-[#62718a]">Hasilnya</p>
+            <p className="mt-2 text-sm font-medium text-[#243041]">Perusahaan terasa modern dan teratur.</p>
           </article>
         </div>
       </div>
@@ -416,8 +416,8 @@ const Home = () => {
         <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
         <div data-motion-reveal="intro" className="mx-auto max-w-[42rem] text-center">
           <p className="lc-eyebrow">Hubungi Ocean Space</p>
-          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Bicarakan kemitraan, ekspansi, atau kebutuhan strategis bersama tim kami.</h2>
-          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Kami siap menindaklanjuti komunikasi korporat, peluang kerja sama, maupun kebutuhan rekrutmen melalui jalur komunikasi yang jelas dan profesional.</p>
+          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Bicarakan kemitraan, ekspansi, atau rekrutmen dengan tim kami.</h2>
+          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Kirim kebutuhan korporat atau peluang kerja sama lewat jalur kontak yang sama.</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a href="/contact" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Hubungi tim korporat</a>
             <a href="/career" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md border border-black/10 bg-white px-5 text-sm font-semibold text-[#151821] transition-colors hover:border-black/20">Lihat peluang karier</a>
@@ -432,7 +432,7 @@ const Home = () => {
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
         <div className="pb-10 lg:border-r lg:border-black/10 lg:pb-0 lg:pr-12">
           <p className="lc-eyebrow">Terhubung dengan Ocean Space</p>
-          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Ekosistem distribusi, retail, sub retail, dan lifestyle yang dibangun untuk kecepatan eksekusi, kontrol operasional, dan pertumbuhan berkelanjutan.</p>
+          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, dan lifestyle. Empat unit, satu standar operasi.</p>
           <div className="mt-8 border-t border-black/10 pt-5">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
               <a href="https://www.linkedin.com/company/ocean-space-group/" target="_blank" rel="noopener noreferrer"

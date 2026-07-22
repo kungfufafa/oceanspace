@@ -1,35 +1,35 @@
 import { ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { loadExternalScript } from '../lib/loadExternalScript';
 
 const Career = () => {
   useEffect(() => {
-    const loadScript = (src) => {
-      return new Promise((resolve) => {
-        const baseSrc = src.split('?')[0];
-        if (document.querySelector(`script[src^="${baseSrc}"]`)) {
-          resolve();
-          return;
-        }
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = false;
-        script.onload = resolve;
-        document.body.appendChild(script);
-      });
-    };
+    let cancelled = false;
 
     const initScripts = async () => {
-      const ts = Date.now();
-      await loadScript(`/js/career-api.js?v=${ts}`);
-      await loadScript(`/js/career.js?v=${ts}`);
-      
-      if (window.initCareer) {
-        window.initCareer();
+      try {
+        const ts = Date.now();
+        await loadExternalScript(`/js/career-api.js?v=${ts}`, () => Boolean(window.OceanSpaceCareerApi));
+        await loadExternalScript(`/js/career.js?v=${ts}`, () => typeof window.initCareer === 'function');
+
+        if (!cancelled && window.initCareer) {
+          window.initCareer();
+        }
+      } catch (error) {
+        console.error(error);
+        if (!cancelled) {
+          document.getElementById('jobs-loading')?.classList.add('hidden');
+          document.getElementById('jobs-error')?.classList.remove('hidden');
+        }
       }
     };
-    
+
     initScripts();
+
+    return () => {
+      cancelled = true;
+      window.__oceanSpaceCareerAbort?.abort();
+    };
   }, []);
 
   return (
@@ -77,8 +77,8 @@ const Career = () => {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.94fr)_minmax(22rem,0.86fr)] lg:items-center lg:gap-12">
           <div className="max-w-[38rem]">
             <p data-motion-enter="eyebrow" className="lc-eyebrow">Karier di Ocean Space</p>
-            <h1 data-motion-enter="heading" className="mt-4 max-w-full sm:max-w-[12ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Karier untuk talenta yang siap bertumbuh dengan integritas.</h1>
-            <p data-motion-enter="summary" className="mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Kami mencari orang yang siap bergerak dalam standar kerja yang jelas, budaya yang tegas, dan ekosistem bisnis yang terus berkembang.</p>
+            <h1 data-motion-enter="heading" className="mt-4 max-w-full sm:max-w-[12ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">Tempat talenta terbaik bertindak cepat dan nyata.</h1>
+            <p data-motion-enter="summary" className="mt-5 max-w-[33rem] text-[1rem] leading-8 text-[#556070]">Kami mencari orang yang bekerja dengan standar jelas dan budaya tegas di empat unit bisnis.</p>
             <div data-motion-enter="actions" className="mt-8 flex flex-wrap items-center gap-4">
               <a href="#jobs-open" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Lihat posisi terbuka</a>
               <a href="/about" data-motion-cta="true" className="button-secondary">Pelajari budaya kerja</a>
@@ -93,11 +93,11 @@ const Career = () => {
                   <span className="font-mono text-[0.66rem] uppercase tracking-widest text-slate-500">Ocean Space</span>
                 </div>
                 <div className="p-6 bg-white flex-1">
-                  <p className="text-sm font-medium leading-relaxed text-slate-600">Talenta berkembang lebih cepat ketika budaya, ekspektasi, dan ruang kontribusi terasa jelas sejak awal.</p>
+                  <p className="text-sm font-medium leading-relaxed text-slate-600">Anda melihat budaya, ekspektasi, dan ruang kontribusi sejak hari pertama.</p>
                   <div className="mt-5 grid gap-3">
                     <div className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-4"><p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Culture</p><p className="mt-1 text-sm font-bold text-slate-900">JUJUR + 4 motivasi kerja</p></div>
                     <div className="rounded-xl border border-slate-100 bg-white px-4 py-4"><p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Paths</p><p className="mt-1 text-sm font-bold text-slate-900">Distribusi, retail, sub retail, lifestyle</p></div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-4"><p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Scale</p><p className="mt-1 text-sm font-bold text-slate-900">16 titik aktif untuk belajar lintas konteks</p></div>
+                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-4"><p className="font-mono text-[0.64rem] uppercase tracking-widest text-slate-500">Scale</p><p className="mt-1 text-sm font-bold text-slate-900">16 titik aktif lintas konteks</p></div>
                   </div>
                 </div>
               </div>
@@ -127,31 +127,29 @@ const Career = () => {
         <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
         <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
         <span aria-hidden="true" className="lc-node right-0 bottom-0 translate-x-1/2 translate-y-1/2"></span>
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12 mb-8">
-          <div data-motion-reveal="intro" className="max-w-[34rem] lg:max-w-[24rem] xl:max-w-[30rem] shrink-0">
-            <p className="lc-eyebrow">Lowongan Terbuka</p>
-            <h2 className="mt-3 max-w-full sm:max-w-[11ch] lg:max-w-full font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Cari peran yang sedang dibuka saat ini.</h2>
-            <p className="mt-4 max-w-[30rem] text-[0.98rem] leading-7 text-[#596171]">Posisi terbaru di Ocean Space.</p>
-          </div>
-          
-          <form id="jobs-filters" data-motion-reveal="panel" className="w-full flex-1 grid gap-4 rounded-3xl border border-[#d9e2ef] bg-white p-5 sm:p-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.95fr)_auto] xl:items-center shadow-sm">
-            <div>
-              <input id="jobs-search" name="search" type="search" maxLength="100" placeholder="Cari lowongan" aria-label="Cari lowongan" className="block min-h-[48px] w-full rounded-md border border-black/15 bg-white px-4 text-sm text-[#171a22] placeholder:text-[#7b8794] focus:border-[#2563eb] focus:outline-none focus:ring-1 focus:ring-[#2563eb]" />
-            </div>
-            <div>
-              <input id="jobs-location" name="location" type="text" maxLength="100" placeholder="Filter lokasi" aria-label="Filter lokasi" className="block min-h-[48px] w-full rounded-md border border-black/15 bg-white px-4 text-sm text-[#171a22] placeholder:text-[#7b8794] focus:border-[#2563eb] focus:outline-none focus:ring-1 focus:ring-[#2563eb]" />
-            </div>
-            <div className="flex flex-wrap gap-3 xl:justify-end">
-              <button type="submit" data-motion-cta="true" className="inline-flex min-h-[48px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Terapkan</button>
-              <button type="button" id="jobs-reset" data-motion-cta="true" className="button-secondary sm:w-auto">Atur ulang</button>
-             </div>
-          </form>
+        <div className="mb-8 max-w-[34rem]">
+          <p className="lc-eyebrow">Lowongan Terbuka</p>
+          <h2 className="mt-3 font-display text-[clamp(1.95rem,3.2vw,3rem)] font-[500] leading-[0.98] tracking-[-0.045em] text-[#171a22]">Cari peran yang sedang dibuka saat ini.</h2>
+          <p className="mt-4 text-[0.98rem] leading-7 text-[#596171]">Posisi terbaru di Ocean Space.</p>
         </div>
-        <div id="jobs-loading" className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+        <form id="jobs-filters" className="jobs-filters">
+          <div>
+            <input id="jobs-search" name="search" type="search" maxLength="100" placeholder="Cari lowongan" aria-label="Cari lowongan" className="block min-h-[48px] w-full rounded-md border border-black/15 bg-white px-4 text-sm text-[#171a22] placeholder:text-[#7b8794] focus:border-[#2563eb] focus:outline-none focus:ring-1 focus:ring-[#2563eb]" />
+          </div>
+          <div>
+            <input id="jobs-location" name="location" type="text" maxLength="100" placeholder="Filter lokasi" aria-label="Filter lokasi" className="block min-h-[48px] w-full rounded-md border border-black/15 bg-white px-4 text-sm text-[#171a22] placeholder:text-[#7b8794] focus:border-[#2563eb] focus:outline-none focus:ring-1 focus:ring-[#2563eb]" />
+          </div>
+          <div className="jobs-filters__actions">
+            <button type="submit" data-motion-cta="true" className="inline-flex min-h-[48px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Terapkan</button>
+            <button type="button" id="jobs-reset" data-motion-cta="true" className="button-secondary sm:w-auto">Atur ulang</button>
+          </div>
+        </form>
+
+        <div id="jobs-loading" className="jobs-grid mt-10" aria-hidden="false">
           <div className="comparison-card animate-pulse">
-            <div className="aspect-[16/10] border-b border-black/10 bg-[#eef4ff]"></div>
-            <div className="space-y-4 px-5 py-5">
-              <div className="h-3 w-24 rounded bg-[#dfe7f5]"></div>
+            <div className="comparison-card__media"></div>
+            <div className="comparison-card__body space-y-4">
               <div className="h-7 w-3/4 rounded bg-[#dfe7f5]"></div>
               <div className="h-4 w-full rounded bg-[#edf2fb]"></div>
               <div className="h-4 w-2/3 rounded bg-[#edf2fb]"></div>
@@ -159,19 +157,17 @@ const Career = () => {
             </div>
           </div>
           <div className="comparison-card animate-pulse">
-            <div className="aspect-[16/10] border-b border-black/10 bg-[#eef4ff]"></div>
-            <div className="space-y-4 px-5 py-5">
-              <div className="h-3 w-24 rounded bg-[#dfe7f5]"></div>
+            <div className="comparison-card__media"></div>
+            <div className="comparison-card__body space-y-4">
               <div className="h-7 w-4/5 rounded bg-[#dfe7f5]"></div>
               <div className="h-4 w-full rounded bg-[#edf2fb]"></div>
               <div className="h-4 w-1/2 rounded bg-[#edf2fb]"></div>
               <div className="mt-6 h-11 w-full rounded bg-[#dfe7f5]"></div>
             </div>
           </div>
-          <div className="comparison-card animate-pulse sm:col-span-2 lg:col-span-1">
-            <div className="aspect-[16/10] border-b border-black/10 bg-[#eef4ff]"></div>
-            <div className="space-y-4 px-5 py-5">
-              <div className="h-3 w-24 rounded bg-[#dfe7f5]"></div>
+          <div className="comparison-card animate-pulse">
+            <div className="comparison-card__media"></div>
+            <div className="comparison-card__body space-y-4">
               <div className="h-7 w-2/3 rounded bg-[#dfe7f5]"></div>
               <div className="h-4 w-full rounded bg-[#edf2fb]"></div>
               <div className="h-4 w-3/5 rounded bg-[#edf2fb]"></div>
@@ -179,24 +175,24 @@ const Career = () => {
             </div>
           </div>
         </div>
-        <div id="jobs-empty" data-motion-reveal="panel" className="mt-10 hidden border border-[#d9e2ef] bg-white p-8 sm:p-10">
+        <div id="jobs-empty" data-motion-reveal="panel" className="mt-10 hidden border border-[#d9e2ef] bg-white p-8 sm:p-10" aria-hidden="true">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div>
               <p className="lc-eyebrow">Belum Ada Posisi Aktif</p>
               <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em] text-[#171a22]">Posisi baru belum tersedia saat ini.</h3>
-              <p className="mt-3 max-w-[34rem] text-[15px] leading-7 text-[#596171]">Silakan cek kembali secara berkala atau hubungi tim kami bila Anda ingin menyampaikan minat atau pertanyaan terkait peluang di Ocean Space.</p>
+              <p className="mt-3 max-w-[34rem] text-[15px] leading-7 text-[#596171]">Cek lagi nanti, atau hubungi tim jika Anda ingin menyampaikan minat.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <a href="/contact" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Hubungi tim korporat</a>
             </div>
           </div>
         </div>
-        <div id="jobs-error" data-motion-reveal="panel" className="mt-10 hidden border border-red-100 bg-red-50 p-8 sm:p-10">
+        <div id="jobs-error" data-motion-reveal="panel" className="mt-10 hidden border border-red-100 bg-red-50 p-8 sm:p-10" aria-hidden="true">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
             <div>
               <p className="lc-eyebrow text-red-700">Terjadi Kendala</p>
               <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.04em] text-red-700">Daftar lowongan online sedang tidak tersedia.</h3>
-              <p id="jobs-error-message" className="mt-3 max-w-[34rem] text-[15px] leading-7 text-red-700">Silakan coba lagi atau hubungi tim kami untuk menyampaikan minat.</p>
+              <p id="jobs-error-message" className="mt-3 max-w-[34rem] text-[15px] leading-7 text-red-700">Coba lagi, atau hubungi tim untuk menyampaikan minat.</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <button type="button" id="jobs-retry" data-motion-cta="true" className="button-secondary sm:w-auto">Coba lagi</button>
@@ -204,7 +200,7 @@ const Career = () => {
             </div>
           </div>
         </div>
-        <div id="jobs-container" data-motion-group="cards" className="comparison-grid mt-10 hidden grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        <div id="jobs-container" data-motion-group="cards" className="jobs-grid mt-10 hidden" aria-hidden="true"></div>
         <div id="jobs-load-more-wrap" className="mt-8 hidden justify-center">
           <div className="flex w-full max-w-[32rem] flex-col items-center gap-3">
             <button type="button" id="jobs-load-more" data-motion-cta="true" className="inline-flex min-h-[48px] items-center justify-center rounded-md border border-[#c7d5ea] bg-white px-6 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/35 hover:text-[#1d4ed8]">Muat lebih banyak</button>
@@ -219,9 +215,9 @@ const Career = () => {
         <span aria-hidden="true" className="lc-node left-0 top-0 -translate-x-1/2 -translate-y-1/2"></span>
         <span aria-hidden="true" className="lc-node right-0 top-0 translate-x-1/2 -translate-y-1/2"></span>
         <div data-motion-reveal="intro" className="mx-auto max-w-[42rem] text-center">
-          <p className="lc-eyebrow">Lanjutkan Percakapan</p>
-          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Siap bertumbuh bersama Ocean Space?</h2>
-          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Masuk ke tim yang bergerak cepat, kolaboratif, dan berorientasi hasil dalam ekosistem bisnis nasional.</p>
+          <p className="lc-eyebrow">Langkah berikutnya</p>
+          <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.05em] text-[#171a22]">Gabung dengan tim yang bergerak cepat.</h2>
+          <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Ocean Space membuka jalur karier di empat unit bisnis nasional.</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a href="/contact" data-motion-cta="true" className="inline-flex min-h-[44px] items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">Hubungi tim korporat</a>
             <a href="/about" data-motion-cta="true" className="button-secondary">Lihat profil grup</a>
@@ -235,7 +231,7 @@ const Career = () => {
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
         <div className="pb-10 lg:border-r lg:border-black/10 lg:pb-0 lg:pr-12">
           <p className="lc-eyebrow">Terhubung dengan Ocean Space</p>
-          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Ekosistem distribusi, retail, sub retail, dan lifestyle yang dibangun untuk kecepatan eksekusi, kontrol operasional, dan pertumbuhan berkelanjutan.</p>
+          <p className="mt-4 max-w-[31rem] text-[1.05rem] leading-8 text-[#4f5868]">Distribusi, retail, sub retail, dan lifestyle. Empat unit, satu standar operasi.</p>
           <div className="mt-8 border-t border-black/10 pt-5">
             <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
               <a href="https://www.linkedin.com/company/ocean-space-group/" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-[#243041] transition-colors hover:text-[#1d4ed8]">LinkedIn <ArrowUpRightIcon className="w-4 h-4 text-[#2563eb]" aria-hidden="true" /></a>

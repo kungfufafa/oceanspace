@@ -1,5 +1,5 @@
 (function () {
-  var DEFAULT_REMOTE_BASE_URL = 'https://dev-cesa.completeselular.com/api';
+  var DEFAULT_REMOTE_BASE_URL = 'https://cesa.completeselular.com/api';
   var configuredBaseUrl = typeof window.__OCEANSPACE_API_BASE_URL__ === 'string'
     ? window.__OCEANSPACE_API_BASE_URL__.trim()
     : '';
