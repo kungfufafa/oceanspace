@@ -8,7 +8,7 @@ const Lifestyle = () => {
       <header className="sticky top-0 z-50 overflow-visible border-b border-[#d8e0ec] bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
     <div className="mx-auto flex min-h-[4.25rem] w-full max-w-[88rem] items-center gap-4 px-4 sm:min-h-[4.5rem] sm:px-5 lg:px-6">
       <a href="/" className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center" aria-label="Beranda Ocean Space">
-        <img src="images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
+        <img src="/images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
       </a>
       <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav"
         className="ml-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-3 py-2 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/30 hover:text-[#1d4ed8] lg:hidden">
@@ -55,7 +55,7 @@ const Lifestyle = () => {
               <div className="lc-brand-grid">
                 <article className="lc-brand-card">
                   <div className="lc-brand-mark">
-                    <img src="images/unit-mari-sukses-gemilang.png" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" />
+                    <img src="/images/unit-mari-sukses-gemilang.png" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" />
                   </div>
                   <p className="lc-brand-name">PT. Mari Sukses Gemilang</p>
                 </article>
@@ -76,7 +76,7 @@ const Lifestyle = () => {
                     <span className="font-mono text-[0.66rem] uppercase tracking-widest text-slate-500">Live</span>
                   </div>
                   <div className="relative flex-1 overflow-hidden bg-white flex items-center justify-center p-0 aspect-[1.12/1]">
-                    <img src="images/lifestyle_hero_cover.png" alt="Dashboard Lifestyle Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="eager" fetchpriority="high" />
+                    <img src="/images/lifestyle_hero_cover.png" alt="Dashboard Lifestyle Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="eager" fetchpriority="high" />
                   </div>
                 </div>
                 <div className="grid gap-3 sm:gap-4">
@@ -106,7 +106,7 @@ const Lifestyle = () => {
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[minmax(14rem,0.85fr)_minmax(0,1.15fr)]">
               <div className="relative overflow-hidden border-b border-slate-100 bg-slate-50 lg:border-b-0 lg:border-r flex items-center justify-center min-h-[300px]">
-                <img src="images/lifestyle_hero.png" alt="Diagram operasional unit Lifestyle Ocean Space" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+                <img src="/images/lifestyle_hero.png" alt="Diagram operasional unit Lifestyle Ocean Space" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 <div className="absolute bottom-6 left-6 z-20 pr-4">
                   <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF] font-semibold">Visi &amp; Misi</p>
                   <p className="mt-1 text-[2.5rem] font-extrabold tracking-tight text-slate-900 drop-shadow-sm leading-tight">Dipercaya</p>

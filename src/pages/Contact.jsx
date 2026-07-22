@@ -11,7 +11,7 @@ const Contact = () => {
       className="mx-auto flex min-h-[4.25rem] w-full max-w-[88rem] items-center gap-4 px-4 sm:min-h-[4.5rem] sm:px-5 lg:px-6">
       <a href="/" className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center"
         aria-label="Beranda Ocean Space">
-        <img src="images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager"
+        <img src="/images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager"
           decoding="async" />
       </a>
       <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav"

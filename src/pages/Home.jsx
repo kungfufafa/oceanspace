@@ -8,7 +8,7 @@ const Home = () => {
       <header className="sticky top-0 z-50 overflow-visible border-b border-[#d8e0ec] bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
     <div className="mx-auto flex min-h-[4.25rem] w-full max-w-[88rem] items-center gap-4 px-4 sm:min-h-[4.5rem] sm:px-5 lg:px-6">
       <a href="/" className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center" aria-label="Beranda Ocean Space">
-        <img src="images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
+        <img src="/images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
       </a>
       <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav"
         className="ml-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-3 py-2 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/30 hover:text-[#1d4ed8] lg:hidden">
@@ -86,7 +86,7 @@ const Home = () => {
                     <span className="font-mono text-[0.66rem] uppercase tracking-widest text-slate-500">Live</span>
                   </div>
                   <div className="relative overflow-hidden bg-white flex-1 flex items-center justify-center p-0 aspect-[1.12/1]">
-                    <img src="images/hero-vector-laravel.png" alt="Ocean Space Dashboard Interface" className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105" loading="eager" fetchpriority="high" />
+                    <img src="/images/hero-vector-laravel.png" alt="Ocean Space Dashboard Interface" className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105" loading="eager" fetchpriority="high" />
                   </div>
                 </div>
                 <div className="grid gap-3 sm:gap-4">
@@ -130,22 +130,22 @@ const Home = () => {
           </div>
           <div className="relative overflow-hidden border-x border-black/10 bg-white">
             <div className="flex w-max animate-home-marquee motion-reduce:animate-none hover:[animation-play-state:paused]">
-              <div className="lc-logo-marquee-card"><img src="images/unit-media-selular-indonesia.png" alt="Logo PT. Media Selular Indonesia" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div className="lc-logo-marquee-card"><img src="images/unit-cv-top-selular.png" alt="Logo CV. Top Selular" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div className="lc-logo-marquee-card"><img src="images/unit-retail-indonesia-selalu-maju.png" alt="Logo PT. Retail Indonesia Selalu Maju" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div className="lc-logo-marquee-card"><img src="images/unit-complete-solusi-nusantara.png" alt="Logo PT. Complete Solusi Nusantara" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div className="lc-logo-marquee-card"><img src="images/unit-complite-plus.png" alt="Logo Toko Complite+" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div className="lc-logo-marquee-card"><img src="images/unit-unboxing.png" alt="Logo Toko Unboxing" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div className="lc-logo-marquee-card"><img src="images/unit-complete-selular.png" alt="Logo Complete Selular" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div className="lc-logo-marquee-card"><img src="images/unit-mari-sukses-gemilang.png" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-media-selular-indonesia.png" alt="" loading="lazy" decoding="async" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-cv-top-selular.png" alt="" loading="lazy" decoding="async" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-retail-indonesia-selalu-maju.png" alt="" loading="lazy" decoding="async" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-complete-solusi-nusantara.png" alt="" loading="lazy" decoding="async" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-complite-plus.png" alt="" loading="lazy" decoding="async" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-unboxing.png" alt="" loading="lazy" decoding="async" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-complete-selular.png" alt="" loading="lazy" decoding="async" /></div>
-              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="images/unit-mari-sukses-gemilang.png" alt="" loading="lazy" decoding="async" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-media-selular-indonesia.png" alt="Logo PT. Media Selular Indonesia" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-cv-top-selular.png" alt="Logo CV. Top Selular" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-retail-indonesia-selalu-maju.png" alt="Logo PT. Retail Indonesia Selalu Maju" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-complete-solusi-nusantara.png" alt="Logo PT. Complete Solusi Nusantara" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-complite-plus.png" alt="Logo Toko Complite+" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-unboxing.png" alt="Logo Toko Unboxing" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-complete-selular.png" alt="Logo Complete Selular" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div className="lc-logo-marquee-card"><img src="/images/unit-mari-sukses-gemilang.png" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-media-selular-indonesia.png" alt="" loading="lazy" decoding="async" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-cv-top-selular.png" alt="" loading="lazy" decoding="async" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-retail-indonesia-selalu-maju.png" alt="" loading="lazy" decoding="async" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-complete-solusi-nusantara.png" alt="" loading="lazy" decoding="async" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-complite-plus.png" alt="" loading="lazy" decoding="async" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-unboxing.png" alt="" loading="lazy" decoding="async" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-complete-selular.png" alt="" loading="lazy" decoding="async" /></div>
+              <div aria-hidden="true" className="lc-logo-marquee-card"><img src="/images/unit-mari-sukses-gemilang.png" alt="" loading="lazy" decoding="async" /></div>
             </div>
           </div>
         </div>
@@ -194,7 +194,7 @@ const Home = () => {
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[minmax(14rem,0.85fr)_minmax(0,1.15fr)]">
               <div className="relative overflow-hidden border-b border-slate-100 bg-white lg:border-b-0 lg:border-r flex items-center justify-center min-h-[300px]">
-                <img src="images/struktur-vector-laravel.png" alt="Arsitektur Organisasi Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="lazy" />
+                <img src="/images/struktur-vector-laravel.png" alt="Arsitektur Organisasi Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="lazy" />
                 <div className="absolute bottom-6 left-6 z-20">
                   <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF] font-semibold">Architecture</p>
                   <p className="mt-1 rounded bg-white px-2 text-[1.75rem] font-extrabold leading-tight tracking-tight text-slate-900 shadow-sm">4 Unit Bisnis</p>

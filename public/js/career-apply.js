@@ -65,17 +65,39 @@ window.initCareerApply = () => {
       .map((block) => block.trim())
       .filter(Boolean);
 
+    const bulletRe = /^([-*•]|\d+\.)\s*/;
+
     return blocks.map((block) => {
       const lines = block
         .split('\n')
         .map((line) => line.trim())
         .filter(Boolean);
 
-      const listLike = lines.length > 1 && lines.every((line) => /^([-*•]|\d+\.)\s+/.test(line));
+      const bulletIndexes = lines
+        .map((line, index) => (bulletRe.test(line) ? index : -1))
+        .filter((index) => index >= 0);
+
+      // Intro paragraph + bullet list (common in API job descriptions)
+      if (bulletIndexes.length >= 2) {
+        const listStart = bulletIndexes[0];
+        const introLines = lines.slice(0, listStart);
+        const listLines = lines.slice(listStart).filter((line) => bulletRe.test(line));
+        const introHtml = introLines.length
+          ? `<p class="${options.paragraphClass || ''}">${escapeHtml(introLines.join(' '))}</p>`
+          : '';
+        const items = listLines
+          .map((line) => line.replace(bulletRe, '').trim())
+          .map((line) => `<li>${escapeHtml(line)}</li>`)
+          .join('');
+
+        return `${introHtml}<ul class="${options.listClass || 'space-y-3'}">${items}</ul>`;
+      }
+
+      const listLike = lines.length > 1 && lines.every((line) => bulletRe.test(line));
 
       if (listLike) {
         const items = lines
-          .map((line) => line.replace(/^([-*•]|\d+\.)\s+/, '').trim())
+          .map((line) => line.replace(bulletRe, '').trim())
           .map((line) => `<li>${escapeHtml(line)}</li>`)
           .join('');
 

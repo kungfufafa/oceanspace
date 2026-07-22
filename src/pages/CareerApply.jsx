@@ -1,8 +1,12 @@
 import { ArrowUpRightIcon } from '@heroicons/react/20/solid';
 import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { loadExternalScript } from '../lib/loadExternalScript';
 
 const CareerApply = () => {
+  const [searchParams] = useSearchParams();
+  const jobSlug = searchParams.get('job') || '';
+
   useEffect(() => {
     let cancelled = false;
 
@@ -30,14 +34,14 @@ const CareerApply = () => {
       cancelled = true;
       window.__oceanSpaceApplyRunId = (window.__oceanSpaceApplyRunId || 0) + 1;
     };
-  }, []);
+  }, [jobSlug]);
 
   return (
     <>
       <header className="sticky top-0 z-50 overflow-visible border-b border-[#d8e0ec] bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
     <div className="mx-auto flex min-h-[4.25rem] w-full max-w-[88rem] items-center gap-4 px-4 sm:min-h-[4.5rem] sm:px-5 lg:px-6">
       <a href="/" className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center" aria-label="Beranda Ocean Space">
-        <img src="images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
+        <img src="/images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
       </a>
       <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav"
         className="ml-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-3 py-2 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/30 hover:text-[#1d4ed8] lg:hidden">
