@@ -1,30 +1,20 @@
-# Apache — SPA fallback for React Router (BrowserRouter)
+# Apache / LiteSpeed — SPA + physical route shells
 # Vite copies public/.htaccess → dist/.htaccess on build
 
 Options -MultiViews
+DirectorySlash On
 RewriteEngine On
 RewriteBase /
 DirectoryIndex index.html
 
-# Canonical root URL
-RewriteRule ^index\.html$ / [R=301,L,NC]
-RewriteRule ^index$ / [R=301,L,NC]
-
-# Remove trailing slash (except root) so relative assets stay stable
+# If rewrite is allowed: serve existing files, else fall back to SPA shell
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)/$ /$1 [R=301,L]
+RewriteRule . /index.html [L]
 
-# Redirect legacy .html URLs to clean SPA paths
-RewriteCond %{THE_REQUEST} \s/+([^.]+)\.html(?:[\s?]|$) [NC]
-RewriteRule ^([^.]+)\.html$ /$1 [R=301,L,NC]
-
-# Existing files/dirs (assets, images, js, etc.) — serve as-is
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-
-# SPA fallback: every other path → index.html (React Router handles it)
-RewriteRule ^ index.html [L]
+# Backup when rewrite is disabled but ErrorDocument is allowed
+ErrorDocument 404 /index.html
 
 # Enable compression
 <IfModule mod_deflate.c>

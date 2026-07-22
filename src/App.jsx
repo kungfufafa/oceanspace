@@ -1,5 +1,11 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
 const About = lazy(() => import('./pages/About'));
 const CareerApply = lazy(() => import('./pages/CareerApply'));
@@ -23,22 +29,39 @@ function RouteFallback() {
   );
 }
 
+/** LiteSpeed serves /about/ from about/index.html — normalize to /about for RR. */
+function StripTrailingSlash({ children }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const { pathname, search, hash } = location;
+    if (pathname.length > 1 && pathname.endsWith('/')) {
+      navigate(`${pathname.replace(/\/+$/, '')}${search}${hash}`, { replace: true });
+    }
+  }, [location, navigate]);
+
+  return children;
+}
+
 function App() {
   return (
     <Router>
-      <Suspense fallback={<RouteFallback />}>
-        <Routes>
-          <Route path="/about" element={<About />} />
-          <Route path="/career-apply" element={<CareerApply />} />
-          <Route path="/career" element={<Career />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/distribusi" element={<Distribusi />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/lifestyle" element={<Lifestyle />} />
-          <Route path="/retail" element={<Retail />} />
-          <Route path="/sub-retail" element={<SubRetail />} />
-        </Routes>
-      </Suspense>
+      <StripTrailingSlash>
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            <Route path="/about" element={<About />} />
+            <Route path="/career-apply" element={<CareerApply />} />
+            <Route path="/career" element={<Career />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/distribusi" element={<Distribusi />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/lifestyle" element={<Lifestyle />} />
+            <Route path="/retail" element={<Retail />} />
+            <Route path="/sub-retail" element={<SubRetail />} />
+          </Routes>
+        </Suspense>
+      </StripTrailingSlash>
     </Router>
   );
 }
