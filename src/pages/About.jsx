@@ -8,7 +8,7 @@ const About = () => {
       <header className="sticky top-0 z-50 overflow-visible border-b border-[#d8e0ec] bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
     <div className="mx-auto flex min-h-[4.25rem] w-full max-w-[88rem] items-center gap-4 px-4 sm:min-h-[4.5rem] sm:px-5 lg:px-6">
       <a href="/" className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center" aria-label="Beranda Ocean Space">
-        <img src="images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
+        <img src="/images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
       </a>
       <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav"
         className="ml-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-3 py-2 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/30 hover:text-[#1d4ed8] lg:hidden">
@@ -40,7 +40,7 @@ const About = () => {
       </div>
     </nav>
   </header>
-  <main className="w-full overflow-x-hidden">
+  <main id="main-content" tabIndex={-1} className="w-full overflow-x-hidden">
     <section className="lc-band bg-white">
       <div className="lc-shell py-14 sm:py-16 lg:py-20">
         <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
@@ -64,7 +64,7 @@ const About = () => {
                   <span className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF]">Ecosystem</span>
                 </div>
                 <div className="relative flex-1 overflow-hidden bg-white flex items-center justify-center p-0 aspect-[16/9] border-b border-slate-100">
-                   <img src="images/about_ecosystem.png" alt="Visual ekosistem 4 node Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="eager" />
+                   <img src="/images/about_ecosystem.png" alt="Visual ekosistem 4 node Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="eager" />
                 </div>
                 <div className="p-6 bg-white">
                   <p className="text-sm font-medium leading-relaxed text-slate-600">Kami membangun grup dari standar kerja. Tim menjaga pertumbuhan lewat operasional terpusat.</p>
@@ -103,7 +103,7 @@ const About = () => {
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[minmax(14rem,0.85fr)_minmax(0,1.15fr)]">
               <div className="relative overflow-hidden border-b border-slate-100 bg-white lg:border-b-0 lg:border-r flex items-center justify-center min-h-[300px]">
-                <img src="images/jujur-core-vector.png" alt="JUJUR Core Principles" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="lazy" />
+                <img src="/images/jujur-core-vector.png" alt="JUJUR Core Principles" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="lazy" />
                 <div className="absolute bottom-6 left-6 z-20 pr-4">
                   <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF] font-semibold">Operating Model</p>
                   <p className="mt-1 text-[2.5rem] font-extrabold tracking-tight text-slate-900 drop-shadow-sm leading-tight">JUJUR</p>
@@ -172,8 +172,8 @@ const About = () => {
               <p className="mt-2 text-sm leading-6 text-[#596171]">PT. Media Selular Indonesia dan CV. Top Selular.</p>
             </div>
             <div className="lc-ecosystem-logos">
-              <div className="lc-ecosystem-logo"><img src="images/unit-media-selular-indonesia.png" alt="Logo PT. Media Selular Indonesia" loading="lazy" decoding="async" /></div>
-              <div className="lc-ecosystem-logo"><img src="images/unit-cv-top-selular.png" alt="Logo CV. Top Selular" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-media-selular-indonesia.png" alt="Logo PT. Media Selular Indonesia" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-cv-top-selular.png" alt="Logo CV. Top Selular" loading="lazy" decoding="async" /></div>
             </div>
           </article>
           <article data-motion-reveal="card" className="lc-ecosystem-card lc-ecosystem-card--soft">
@@ -183,20 +183,20 @@ const About = () => {
               <p className="mt-2 text-sm leading-6 text-[#596171]">PT. Retail Indonesia Selalu Maju dan PT. Complete Solusi Nusantara.</p>
             </div>
             <div className="lc-ecosystem-logos">
-              <div className="lc-ecosystem-logo"><img src="images/unit-retail-indonesia-selalu-maju.png" alt="Logo PT. Retail Indonesia Selalu Maju" loading="lazy" decoding="async" /></div>
-              <div className="lc-ecosystem-logo"><img src="images/unit-complete-solusi-nusantara.png" alt="Logo PT. Complete Solusi Nusantara" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-retail-indonesia-selalu-maju.png" alt="Logo PT. Retail Indonesia Selalu Maju" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-complete-solusi-nusantara.png" alt="Logo PT. Complete Solusi Nusantara" loading="lazy" decoding="async" /></div>
             </div>
           </article>
           <article data-motion-reveal="card" className="lc-ecosystem-card">
             <p className="font-mono text-[0.66rem] uppercase tracking-[0.12em] text-[#62718a]">03</p>
             <div>
               <h3 className="text-lg font-semibold tracking-[-0.03em] text-[#171a22]">Sub Retail</h3>
-              <p className="mt-2 text-sm leading-6 text-[#596171]">Toko Complite+, <a href="http://unboxing.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Toko Unboxing</a>, dan <a href="https://completeselular.co.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Complete Selular</a>.</p>
+              <p className="mt-2 text-sm leading-6 text-[#596171]">Toko Complite+, <a href="https://unboxing.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Toko Unboxing</a>, dan <a href="https://completeselular.co.id/" target="_blank" rel="noopener noreferrer" className="font-medium text-[#1d4ed8] underline decoration-[#bfd3ff] underline-offset-4 transition-colors hover:text-[#2563eb]">Complete Selular</a>.</p>
             </div>
             <div className="lc-ecosystem-logos">
-              <div className="lc-ecosystem-logo"><img src="images/unit-complite-plus.png" alt="Logo Toko Complite+" loading="lazy" decoding="async" /></div>
-              <div className="lc-ecosystem-logo"><img src="images/unit-unboxing.png" alt="Logo Toko Unboxing" loading="lazy" decoding="async" /></div>
-              <div className="lc-ecosystem-logo"><img src="images/unit-complete-selular.png" alt="Logo Complete Selular" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-complite-plus.png" alt="Logo Toko Complite+" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-unboxing.png" alt="Logo Toko Unboxing" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-complete-selular.png" alt="Logo Complete Selular" loading="lazy" decoding="async" /></div>
             </div>
           </article>
           <article data-motion-reveal="card" className="lc-ecosystem-card lc-ecosystem-card--soft">
@@ -206,7 +206,7 @@ const About = () => {
               <p className="mt-2 text-sm leading-6 text-[#596171]">PT. Mari Sukses Gemilang.</p>
             </div>
             <div className="lc-ecosystem-logos">
-              <div className="lc-ecosystem-logo"><img src="images/unit-mari-sukses-gemilang.png" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" /></div>
+              <div className="lc-ecosystem-logo"><img src="/images/unit-mari-sukses-gemilang.png" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" /></div>
             </div>
           </article>
         </div>
@@ -251,6 +251,8 @@ const About = () => {
                 <li><a href="/about" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Tentang</a></li>
                 <li><a href="/career" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Karier</a></li>
                 <li><a href="/contact" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kontak</a></li>
+                <li><a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a></li>
+                <li><a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a></li>
               </ul>
             </div>
             <div>
@@ -278,7 +280,9 @@ const About = () => {
         <div className="grid gap-4 text-sm text-[#6b7280] sm:grid-cols-2 sm:items-center">
           <p>&copy; <span data-year></span> Ocean Space | Tumbuh dengan Integritas, Melaju dengan Eksekusi.</p>
           <div className="flex flex-wrap items-center gap-6 sm:justify-end">
-            <a href="sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
+            <a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a>
+            <a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a>
+            <a href="/sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
             <a href="https://apriansyah.rizqis.com" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]" target="_blank" rel="noopener noreferrer">Crafted by Web App Developer</a>
           </div>
         </div>

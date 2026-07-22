@@ -94,7 +94,8 @@ window.initCareer = () => {
       .replace(/(^|[^a-zà-ÿ])([a-zà-ÿ])/g, (_, boundary, letter) => boundary + letter.toUpperCase());
   };
 
-  const getApplyUrl = (slug) => `/career-apply?job=${encodeURIComponent(slug)}`;
+  // Trailing slash hits physical dist/career-apply/ shell on LiteSpeed
+  const getApplyUrl = (slug) => `/career-apply/?job=${encodeURIComponent(slug)}`;
 
   const syncFilterInputs = () => {
     if (jobsSearchInput) {
@@ -173,11 +174,11 @@ window.initCareer = () => {
 
     jobs.forEach((job) => {
       const card = document.createElement('article');
-      card.className = 'comparison-card group';
-      card.setAttribute('data-motion-reveal', 'card');
+      // motion-visible immediately: AJAX cards often stay opacity:0 if IO misses them
+      card.className = 'comparison-card group motion-reveal motion-visible';
       card.setAttribute('data-motion-card', 'true');
 
-      const thumbSrc = job.thumbnail_url || 'images/career-fallback.png';
+      const thumbSrc = job.thumbnail_url || '/images/career-fallback.png';
       const thumb = `<div class="comparison-card__media"><img src="${escapeHtml(thumbSrc)}" alt="" loading="lazy" decoding="async"></div>`;
 
       card.innerHTML = `

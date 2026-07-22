@@ -1,15 +1,16 @@
 const { test, expect } = require('@playwright/test');
 
 const pages = [
-  { url: '/index.html', title: 'Ocean Space' },
-  { url: '/about.html', title: 'Tentang' },
-  { url: '/distribusi.html', title: 'Distribusi' },
-  { url: '/retail.html', title: 'Retail' },
-  { url: '/sub-retail.html', title: 'Sub Retail' },
-  { url: '/lifestyle.html', title: 'Lifestyle' },
-  { url: '/career.html', title: 'Karier' },
-  { url: '/career-apply.html', title: 'Lamaran' },
-  { url: '/contact.html', title: 'Kontak' },
+  { url: '/', title: 'Ocean Space' },
+  { url: '/about', title: 'Tentang' },
+  { url: '/distribusi', title: 'Distribusi' },
+  { url: '/retail', title: 'Retail' },
+  { url: '/sub-retail', title: 'Sub Retail' },
+  { url: '/lifestyle', title: 'Lifestyle' },
+  { url: '/career', title: 'Karier' },
+  { url: '/career-apply', title: 'Lamaran' },
+  { url: '/contact', title: 'Kontak' },
+  { url: '/privacy', title: 'Privasi' },
 ];
 
 test.describe('Pages Render Integrity', () => {
@@ -29,9 +30,17 @@ test.describe('Pages Render Integrity', () => {
   }
 
   test('Career apply page should be non-indexable', async ({ page }) => {
-    await page.goto('/career-apply.html');
+    await page.goto('/career-apply');
 
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex,\s*follow/i);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://oceanspace.co.id/career');
+  });
+
+  test('Home has SEO essentials in document head', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.+/);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://oceanspace.co.id/');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /og-image/);
+    await expect(page.locator('main#main-content')).toBeVisible();
   });
 });

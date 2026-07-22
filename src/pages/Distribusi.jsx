@@ -8,7 +8,7 @@ const Distribusi = () => {
       <header className="sticky top-0 z-50 overflow-visible border-b border-[#d8e0ec] bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
     <div className="mx-auto flex min-h-[4.25rem] w-full max-w-[88rem] items-center gap-4 px-4 sm:min-h-[4.5rem] sm:px-5 lg:px-6">
       <a href="/" className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center" aria-label="Beranda Ocean Space">
-        <img src="images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
+        <img src="/images/logo-color.png" alt="Logo Ocean Space" className="h-7 w-auto sm:h-8" loading="eager" decoding="async" />
       </a>
       <button type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav"
         className="ml-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[0.14rem] border border-[#d4dbe6] bg-[#f7f9fc] px-3 py-2 text-sm font-semibold text-[#243041] transition-colors hover:border-[#2563eb]/30 hover:text-[#1d4ed8] lg:hidden">
@@ -40,7 +40,7 @@ const Distribusi = () => {
       </div>
     </nav>
   </header>
-  <main className="w-full overflow-x-hidden">
+  <main id="main-content" tabIndex={-1} className="w-full overflow-x-hidden">
     <section className="lc-band bg-white">
       <div className="lc-shell py-14 sm:py-16 lg:py-20">
         <span aria-hidden="true" className="lc-node left-0 bottom-0 -translate-x-1/2 translate-y-1/2"></span>
@@ -55,13 +55,13 @@ const Distribusi = () => {
               <div className="lc-brand-grid">
                 <article className="lc-brand-card">
                   <div className="lc-brand-mark">
-                    <img src="images/unit-media-selular-indonesia.png" alt="Logo PT. Media Selular Indonesia" loading="lazy" decoding="async" />
+                    <img src="/images/unit-media-selular-indonesia.png" alt="Logo PT. Media Selular Indonesia" loading="lazy" decoding="async" />
                   </div>
                   <p className="lc-brand-name">PT. Media Selular Indonesia</p>
                 </article>
                 <article className="lc-brand-card">
                   <div className="lc-brand-mark">
-                    <img src="images/unit-cv-top-selular.png" alt="Logo CV. Top Selular" loading="lazy" decoding="async" />
+                    <img src="/images/unit-cv-top-selular.png" alt="Logo CV. Top Selular" loading="lazy" decoding="async" />
                   </div>
                   <p className="lc-brand-name">CV. Top Selular</p>
                 </article>
@@ -82,7 +82,7 @@ const Distribusi = () => {
                     <span className="font-mono text-[0.66rem] uppercase tracking-widest text-[#1e40af]">Live</span>
                   </div>
                   <div className="relative flex-1 overflow-hidden bg-white flex items-center justify-center p-0 aspect-[1.12/1]">
-                    <img src="images/distribusi_hero_cover.png" alt="Dashboard Distribusi Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="eager" fetchpriority="high" />
+                    <img src="/images/distribusi_hero_cover.png" alt="Dashboard Distribusi Ocean Space" className="h-full w-full object-cover transition-transform duration-1000 hover:scale-105" loading="eager" fetchpriority="high" />
                   </div>
                 </div>
                 <div className="grid gap-3 sm:gap-4">
@@ -112,7 +112,7 @@ const Distribusi = () => {
           <div data-motion-reveal="panel" className="relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-50 p-2 sm:p-4 shadow-sm">
             <div className="relative z-10 grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:grid-cols-[minmax(14rem,0.85fr)_minmax(0,1.15fr)]">
               <div className="relative overflow-hidden border-b border-slate-100 bg-slate-50 lg:border-b-0 lg:border-r flex items-center justify-center min-h-[300px]">
-                <img src="images/distribusi_hero.png" alt="Diagram operasional unit HP Distribusi Ocean Space" className="h-full w-full object-cover" loading="lazy" decoding="async" />
+                <img src="/images/distribusi_hero.png" alt="Diagram operasional unit HP Distribusi Ocean Space" className="h-full w-full object-cover" loading="lazy" decoding="async" />
                 <div className="absolute bottom-6 left-6 z-20 pr-4">
                   <p className="font-mono text-[0.66rem] uppercase tracking-widest text-[#0062FF] font-semibold">Visi &amp; Misi</p>
                   <p className="mt-1 text-[2.5rem] font-extrabold tracking-tight text-slate-900 drop-shadow-sm leading-tight">Terpercaya</p>
@@ -281,6 +281,8 @@ const Distribusi = () => {
                 <li><a href="/about" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Tentang</a></li>
                 <li><a href="/career" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Karier</a></li>
                 <li><a href="/contact" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kontak</a></li>
+                <li><a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a></li>
+                <li><a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a></li>
               </ul>
             </div>
             <div>
@@ -308,7 +310,9 @@ const Distribusi = () => {
         <div className="grid gap-4 text-sm text-[#6b7280] sm:grid-cols-2 sm:items-center">
           <p>&copy; <span data-year></span> Ocean Space | Tumbuh dengan Integritas, Melaju dengan Eksekusi.</p>
           <div className="flex flex-wrap items-center gap-6 sm:justify-end">
-            <a href="sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
+            <a href="/privacy" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Kebijakan Privasi</a>
+            <a href="/subprocessors" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Sub-processor / DPA</a>
+            <a href="/sitemap.xml" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]">Jelajahi Sitemap</a>
             <a href="https://apriansyah.rizqis.com" className="inline-flex min-h-[44px] min-w-[44px] items-center hover:text-[#1e40af]" target="_blank" rel="noopener noreferrer">Crafted by Web App Developer</a>
           </div>
         </div>

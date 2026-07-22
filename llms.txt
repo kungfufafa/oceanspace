@@ -1,0 +1,33 @@
+# Ocean Space
+
+> Ocean Space adalah grup perusahaan distribusi, retail, sub retail, dan lifestyle di Indonesia.
+
+Situs: https://oceanspace.co.id/
+Bahasa: Indonesia (id)
+
+## Halaman utama
+
+- [Beranda](https://oceanspace.co.id/): ringkasan empat unit bisnis dan budaya JUJUR
+- [Tentang](https://oceanspace.co.id/about): profil grup, integritas, dan disiplin eksekusi
+- [HP Distribusi](https://oceanspace.co.id/distribusi): unit distribusi perangkat
+- [Retail](https://oceanspace.co.id/retail): retail handphone dan aksesoris
+- [Sub Retail](https://oceanspace.co.id/sub-retail): ekosistem ritel teknologi rumah tangga
+- [Lifestyle](https://oceanspace.co.id/lifestyle): unit lifestyle dan layanan terpadu
+- [Karier](https://oceanspace.co.id/career): lowongan dan budaya kerja
+- [Kontak](https://oceanspace.co.id/contact): Head Office dan jaringan wilayah
+- [Kebijakan Privasi](https://oceanspace.co.id/privacy): privasi data
+- [Sub-processor / DPA](https://oceanspace.co.id/subprocessors): daftar pemroses data
+
+Versi Markdown: `/index.md`, `/about.md`, `/privacy.md`, …
+
+## Kontak
+
+- Head Office: Jl. Pantai Maju Bersama RGII No. 27–28, Pantai Indah Kapuk, Jakarta Utara 14460
+- LinkedIn: https://www.linkedin.com/company/ocean-space-group/
+- Instagram karier: https://www.instagram.com/oceanspace.career/
+
+## Catatan untuk agen
+
+- Sitemap: https://oceanspace.co.id/sitemap.xml
+- robots.txt: https://oceanspace.co.id/robots.txt
+- Formulir lamaran (`/career-apply`) bersifat dinamis dan biasanya noindex
