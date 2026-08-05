@@ -892,6 +892,64 @@
     transform: translate3d(0, 0, 0) scale(1) !important;
   }
 
+  .animate-page-enter {
+    animation: osPageFadeIn 320ms var(--ease-out-expo) forwards;
+  }
+
+  @keyframes osPageFadeIn {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 4px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .os-pulse-dot {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .os-pulse-dot::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    background-color: currentColor;
+    opacity: 0.4;
+    animation: osPulseRing 2.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+  }
+
+  @keyframes osPulseRing {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+  }
+
+  [data-motion-card="true"] {
+    transition: transform var(--motion-duration-base) var(--ease-out-expo),
+                box-shadow var(--motion-duration-base) var(--ease-out-quart),
+                border-color var(--motion-duration-base) var(--ease-out-quart);
+  }
+
+  [data-motion-cta="true"] {
+    transition: transform var(--motion-duration-fast) var(--ease-out-expo),
+                box-shadow var(--motion-duration-fast) var(--ease-out-quart),
+                background-color var(--motion-duration-fast) var(--ease-out-quart),
+                color var(--motion-duration-fast) var(--ease-out-quart);
+  }
+
   @media (hover: hover) and (pointer: fine) {
     [data-motion-card="true"]:hover {
       transform: translate3d(0, -0.25rem, 0);
@@ -899,6 +957,7 @@
     }
 
     [data-motion-cta="true"]:hover {
+      transform: translate3d(0, -1px, 0);
       box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
     }
 
@@ -929,11 +988,18 @@
   }
 
   [data-motion-cta="true"]:active {
+    transform: scale(0.98);
     opacity: 0.94;
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .animate-page-enter {
+      animation: none !important;
+    }
+    .os-pulse-dot::before {
+      animation: none !important;
+    }
     .page-shell header,
     [data-mobile-nav][data-enhanced="true"],
     [data-motion-card="true"],

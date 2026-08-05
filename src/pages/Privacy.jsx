@@ -169,21 +169,21 @@ const Privacy = () => {
       <main id="main-content" tabIndex={-1} className="w-full overflow-x-hidden">
         <section className="lc-band bg-white">
           <div className="lc-shell py-14 sm:py-16 lg:py-20">
-            <p className="lc-eyebrow">Legal</p>
-            <h1 className="mt-4 max-w-[18ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">
+            <p data-motion-enter="eyebrow" className="lc-eyebrow">Legal</p>
+            <h1 data-motion-enter="heading" className="mt-4 max-w-[18ch] font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.05em] text-[#171a22]">
               Kebijakan Privasi Ocean Space
             </h1>
-            <p className="mt-5 max-w-[40rem] text-[1rem] leading-8 text-[#556070]">
+            <p data-motion-enter="summary" className="mt-5 max-w-[40rem] text-[1rem] leading-8 text-[#556070]">
               Kebijakan ini menjelaskan bagaimana Ocean Space mengumpulkan, menggunakan, menyimpan,
               dan melindungi data pribadi pengunjung situs, mitra, serta pelamar karier.
             </p>
-            <p className="mt-3 text-sm text-[#708198]">Terakhir diperbarui: 22 Juli 2026</p>
+            <p data-motion-enter="meta" className="mt-3 text-sm text-[#708198]">Terakhir diperbarui: 22 Juli 2026</p>
           </div>
         </section>
 
         <section className="lc-band bg-[#f7f9fc]">
-          <div className="lc-shell space-y-10 py-14 sm:py-16">
-            <article className="max-w-[42rem]">
+          <div data-motion-group="soft" className="lc-shell space-y-10 py-14 sm:py-16">
+            <article data-motion-reveal="card" className="max-w-[42rem]">
               <h2 className="font-display text-xl font-semibold text-[#171a22]">Data yang kami kumpulkan</h2>
               <p className="mt-4 text-[1rem] leading-8 text-[#556070]">
                 Data dapat mencakup identitas dan kontak yang Anda kirim melalui formulir (nama, email,
@@ -191,14 +191,14 @@ const Privacy = () => {
                 dibuka), serta komunikasi yang Anda kirim ke tim korporat.
               </p>
             </article>
-            <article className="max-w-[42rem]">
+            <article data-motion-reveal="card" className="max-w-[42rem]">
               <h2 className="font-display text-xl font-semibold text-[#171a22]">Tujuan penggunaan</h2>
               <p className="mt-4 text-[1rem] leading-8 text-[#556070]">
                 Kami menggunakan data untuk merespons pertanyaan, memproses rekrutmen, menjaga keamanan
                 situs, meningkatkan layanan, serta memenuhi kewajiban hukum yang berlaku di Indonesia.
               </p>
             </article>
-            <article className="max-w-[42rem]">
+            <article data-motion-reveal="card" className="max-w-[42rem]">
               <h2 className="font-display text-xl font-semibold text-[#171a22]">
                 Sub-pemroses / pemrosesan data (DPA)
               </h2>
