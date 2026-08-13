@@ -80,14 +80,8 @@ function App() {
     <MotionConfig reducedMotion="never">
       <Router>
         <StripTrailingSlash>
-          <PageSeo />
-          <a
-            href="#main-content"
-            className="absolute left-[-10000px] top-4 z-[100] rounded-md bg-[#2563eb] px-4 py-2 text-sm font-semibold text-white focus:left-4"
-          >
-            Langsung ke konten utama
-          </a>
-          <Suspense fallback={<RouteFallback />}>
+        <PageSeo />
+        <Suspense fallback={<RouteFallback />}>
             <PageTransitionWrapper>
               <Routes>
                 <Route path="/about" element={<About />} />
