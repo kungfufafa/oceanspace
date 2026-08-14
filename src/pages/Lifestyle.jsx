@@ -43,7 +43,7 @@ const Lifestyle = () => {
                   <p className="text-xs font-semibold tracking-wider uppercase text-slate-400">Entitas operasional resmi</p>
                   <div className="mt-3 flex items-center gap-2 transition-all duration-300">
                     <img
-                      src="/images/unit-mari-sukses-gemilang.png"
+                      src="/images/unit-mari-sukses-gemilang.svg"
                       alt="Logo PT. Mari Sukses Gemilang"
                       className="h-8 object-contain"
                       loading="lazy"

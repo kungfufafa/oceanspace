@@ -269,7 +269,7 @@ const Home = () => {
                     <div className="lc-logo-marquee-card"><img src="/images/unit-complite-plus.png" alt="Logo Toko Complite+" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-unboxing.png" alt="Logo Toko Unboxing" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-complete-selular.png" alt="Logo Complete Selular" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-                    <div className="lc-logo-marquee-card"><img src="/images/unit-mari-sukses-gemilang.png" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+                    <div className="lc-logo-marquee-card"><img src="/images/unit-mari-sukses-gemilang.svg" alt="Logo PT. Mari Sukses Gemilang" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                   </div>
 
                   {/* Set 2 (Seamless Infinite Loop) */}
@@ -282,7 +282,7 @@ const Home = () => {
                     <div className="lc-logo-marquee-card"><img src="/images/unit-complite-plus.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-unboxing.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-complete-selular.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
-                    <div className="lc-logo-marquee-card"><img src="/images/unit-mari-sukses-gemilang.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+                    <div className="lc-logo-marquee-card"><img src="/images/unit-mari-sukses-gemilang.svg" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                   </div>
                 </div>
               </div>

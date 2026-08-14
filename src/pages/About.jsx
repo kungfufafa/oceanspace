@@ -115,7 +115,7 @@ const UNITS = [
       'Komitmen layanan dan tanggung jawab sosial diselesaikan tuntas',
     ],
     logos: [
-      { src: '/images/unit-mari-sukses-gemilang.png', alt: 'Logo PT. Mari Sukses Gemilang', name: 'PT. Mari Sukses Gemilang' },
+      { src: '/images/unit-mari-sukses-gemilang.svg', alt: 'Logo PT. Mari Sukses Gemilang', name: 'PT. Mari Sukses Gemilang' },
     ],
     href: '/lifestyle',
   },
