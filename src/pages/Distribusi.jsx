@@ -62,6 +62,15 @@ const Distribusi = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <img
+                        src="/images/unit-satu-media-indonesia.png"
+                        alt="Logo PT. Satu Media Indonesia"
+                        className="h-8 object-contain"
+                        loading="lazy"
+                      />
+                      <span className="text-xs font-medium text-slate-500">PT. Satu Media Indonesia</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <img
                         src="/images/unit-cv-top-selular.png"
                         alt="Logo CV. Top Selular"
                         className="h-8 object-contain"
@@ -102,7 +111,7 @@ const Distribusi = () => {
                   </div>
 
                   <div className="group">
-                    <p className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[#171a22]">2 Lini</p>
+                    <p className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[#171a22]">3 Lini</p>
                     <p className="mt-1.5 text-xs font-semibold tracking-widest uppercase text-blue-600">Entitas Resmi Terdaftar</p>
                   </div>
                 </div>

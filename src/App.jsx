@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 import PageSeo from './components/PageSeo.jsx';
+import WaveLoader from './components/WaveLoader.jsx';
 
 const About = lazy(() => import('./pages/About'));
 const CareerApply = lazy(() => import('./pages/CareerApply'));
@@ -22,15 +23,7 @@ const Subprocessors = lazy(() => import('./pages/Subprocessors'));
 const SubRetail = lazy(() => import('./pages/SubRetail'));
 
 function RouteFallback() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center bg-[var(--os-surface)] text-[var(--os-copy)]"
-      role="status"
-      aria-live="polite"
-    >
-      Loading…
-    </div>
-  );
+  return <WaveLoader isLoading={true} label="Ocean Space" />;
 }
 
 /** Serve /about without trailing slash — strip slash for React Router. */
@@ -80,8 +73,8 @@ function App() {
     <MotionConfig reducedMotion="never">
       <Router>
         <StripTrailingSlash>
-        <PageSeo />
-        <Suspense fallback={<RouteFallback />}>
+          <PageSeo />
+          <Suspense fallback={<RouteFallback />}>
             <PageTransitionWrapper>
               <Routes>
                 <Route path="/about" element={<About />} />

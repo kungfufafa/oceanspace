@@ -63,6 +63,7 @@ const UNITS = [
     ],
     logos: [
       { src: '/images/unit-media-selular-indonesia.png', alt: 'Logo PT. Media Selular Indonesia', name: 'PT. Media Selular Indonesia' },
+      { src: '/images/unit-satu-media-indonesia.png', alt: 'Logo PT. Satu Media Indonesia', name: 'PT. Satu Media Indonesia' },
       { src: '/images/unit-cv-top-selular.png', alt: 'Logo CV. Top Selular', name: 'CV. Top Selular' },
     ],
     href: '/distribusi',

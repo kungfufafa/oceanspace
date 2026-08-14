@@ -262,6 +262,7 @@ const Home = () => {
                   {/* Set 1 */}
                   <div className="flex">
                     <div className="lc-logo-marquee-card"><img src="/images/unit-media-selular-indonesia.png" alt="Logo PT. Media Selular Indonesia" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+                    <div className="lc-logo-marquee-card"><img src="/images/unit-satu-media-indonesia.png" alt="Logo PT. Satu Media Indonesia" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-cv-top-selular.png" alt="Logo CV. Top Selular" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-retail-indonesia-selalu-maju.png" alt="Logo PT. Retail Indonesia Selalu Maju" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-complete-solusi-nusantara.png" alt="Logo PT. Complete Solusi Nusantara" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
@@ -274,6 +275,7 @@ const Home = () => {
                   {/* Set 2 (Seamless Infinite Loop) */}
                   <div className="flex" aria-hidden="true">
                     <div className="lc-logo-marquee-card"><img src="/images/unit-media-selular-indonesia.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
+                    <div className="lc-logo-marquee-card"><img src="/images/unit-satu-media-indonesia.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-cv-top-selular.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-retail-indonesia-selalu-maju.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
                     <div className="lc-logo-marquee-card"><img src="/images/unit-complete-solusi-nusantara.png" alt="" loading="lazy" decoding="async" className="transition-transform duration-300 hover:scale-105" /></div>
@@ -330,7 +332,7 @@ const Home = () => {
 
                   <div className="mt-6 pt-4 border-t border-slate-100">
                     <p className="os-data-label">
-                      PT Media Selular Indonesia &amp; CV Top Selular
+                      PT Media Selular Indonesia, PT Satu Media Indonesia &amp; CV Top Selular
                     </p>
                     <Link to="/distribusi" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] transition-all group-hover:gap-2.5 hover:text-[#2563eb]">
                       <span>Lihat Distribusi</span>
