@@ -13,8 +13,21 @@
 }
 
 @layer base {
-  html, body {
+  html {
     font-family: "Instrument Sans", sans-serif;
+    overflow-x: clip;
+    overflow-y: auto;
+  }
+
+  body {
+    font-family: "Instrument Sans", sans-serif;
+    overflow-x: clip;
+    min-height: 100vh;
+  }
+
+  main#main-content {
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
   :root {
@@ -49,9 +62,7 @@
     --os-muted-ghost: #8a9ab0;
     --os-border: #d8e0ec;
     --os-border-strong: #d4dbe6;
-    --os-surface: #fcfdff;
     --os-surface-muted: #f1f5fb;
-    --os-surface-soft: #f5f8fe;
     --os-brand: #2563eb;
     --os-brand-strong: #1d4ed8;
     --os-brand-soft: #eef4ff;
@@ -66,6 +77,39 @@
     --motion-duration-base: 240ms;
     --motion-duration-reveal: 340ms;
     --motion-duration-enter: 380ms;
+  }
+
+  html.dark,
+  :root.dark,
+  .dark {
+    color-scheme: dark;
+    --os-primary: #3b82f6;
+    --os-primary-strong: #60a5fa;
+    --os-on-primary: #ffffff;
+    --os-primary-container: #1e3a8a;
+    --os-on-primary-container: #dbeafe;
+    --os-surface: #0a0d14;
+    --os-surface-low: #0f131c;
+    --os-surface-soft: #131824;
+    --os-surface-high: #1c2333;
+    --os-on-surface: #f8fafc;
+    --os-on-surface-variant: #cbd5e1;
+    --os-outline: #475569;
+    --os-outline-variant: #1e293b;
+    --os-ink: #f8fafc;
+    --os-title: #ffffff;
+    --os-copy: #cbd5e1;
+    --os-copy-strong: #e2e8f0;
+    --os-muted-strong: #cbd5e1;
+    --os-muted-soft: #94a3b8;
+    --os-muted-ghost: #64748b;
+    --os-border: #1e293b;
+    --os-border-strong: #334155;
+    --os-surface-muted: #0a0d14;
+    --os-brand: #3b82f6;
+    --os-brand-strong: #60a5fa;
+    --os-brand-soft: #172554;
+    --os-header-secondary-bg: #0f131c;
   }
 }
 
@@ -168,8 +212,9 @@
   }
 
   .page-shell [data-mobile-link][aria-current="page"] {
-    background: var(--os-brand) !important;
-    color: var(--os-surface) !important;
+    background: var(--os-brand-soft) !important;
+    color: var(--os-brand-strong) !important;
+    font-weight: 600 !important;
   }
 
   .page-shell [data-header-action="secondary"] {
@@ -185,7 +230,7 @@
 
   .page-shell [data-header-action="primary"] {
     background: var(--os-brand) !important;
-    color: var(--os-surface) !important;
+    color: #ffffff !important;
   }
 
   .page-shell [data-header-action="primary"]:hover {
@@ -200,7 +245,7 @@
 
   .page-shell [data-header-action="primary"][aria-current="page"] {
     background: var(--os-brand) !important;
-    color: var(--os-surface) !important;
+    color: #ffffff !important;
   }
 
   .page-shell [data-mobile-nav] {
@@ -1367,7 +1412,13 @@
     min-width: 12.5rem;
     border-right: 1px solid rgba(15, 23, 42, 0.1);
     padding: 1rem 1.5rem;
-    background: linear-gradient(180deg, rgba(248, 251, 255, 0.86) 0%, rgba(255, 255, 255, 1) 100%);
+    background: #ffffff;
+    transition: background-color var(--motion-duration-base) var(--ease-out-quart), border-color var(--motion-duration-base) var(--ease-out-quart);
+  }
+
+  .dark .lc-logo-marquee-card {
+    background: #0f131c !important;
+    border-right: 1px solid #1e293b !important;
   }
 
   .lc-logo-marquee-card img {
@@ -1376,6 +1427,11 @@
     height: clamp(2.75rem, 5vw, 3.6rem);
     object-fit: contain;
     opacity: 0.96;
+  }
+
+  .dark .lc-logo-marquee-card img {
+    opacity: 0.92;
+    filter: brightness(1.05);
   }
 
   .lc-unit-rows {
@@ -1647,4 +1703,308 @@
 .animate-home-marquee:hover {
   animation-play-state: paused;
 }
+
+/* ========================================================================= */
+/* DARK MODE GLOBAL STYLES & OVERRIDES */
+/* ========================================================================= */
+html.dark {
+  background-color: #0a0d14;
+  color: #f8fafc;
+}
+
+html.dark body {
+  background-color: #0a0d14;
+  color: #f8fafc;
+}
+
+/* Surfaces / Backgrounds: White -> Deep Black / Dark Slate */
+.dark .bg-white {
+  background-color: #0f131c !important;
+}
+
+.dark .bg-slate-50,
+.dark .bg-slate-50\/60,
+.dark .bg-slate-50\/70,
+.dark .bg-slate-50\/80,
+.dark .bg-slate-50\/40,
+.dark .bg-\[\#f6f9fd\],
+.dark .bg-\[\#f8fbff\],
+.dark .bg-\[\#f1f5fb\],
+.dark .bg-\[\#f7f9fc\],
+.dark .bg-slate-100 {
+  background-color: #131824 !important;
+}
+
+.dark .page-shell {
+  background-color: #0a0d14 !important;
+  color: #f8fafc !important;
+}
+
+.dark .page-shell header {
+  background-color: #0a0d14 !important;
+  border-color: #1e293b !important;
+}
+
+.dark .page-shell header[data-scrolled="true"] {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Texts: Dark / Black -> White / Light Slate */
+.dark .text-\[\#171a22\],
+.dark .text-\[\#121826\],
+.dark .text-\[\#243041\],
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .text-black,
+.dark .lc-title {
+  color: #ffffff !important;
+}
+
+.dark .text-\[\#556070\],
+.dark .text-\[\#596171\],
+.dark .text-slate-600,
+.dark .text-slate-500,
+.dark .lc-copy {
+  color: #94a3b8 !important;
+}
+
+/* Borders: Light Gray -> Dark Slate */
+.dark .border-slate-200,
+.dark .border-slate-200\/80,
+.dark .border-slate-200\/90,
+.dark .border-slate-200\/70,
+.dark .border-slate-100,
+.dark .border-slate-100\/90,
+.dark .border-slate-100\/60,
+.dark .border-\[\#d8e0ec\],
+.dark .border-\[\#d4dbe6\],
+.dark .border-black\/10,
+.dark .lc-band {
+  border-color: #1e293b !important;
+}
+
+.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1e293b !important;
+}
+
+/* Blues Stay Blue / Vibrant Accent */
+.dark .text-\[\#1d4ed8\],
+.dark .text-\[\#2563eb\],
+.dark .text-blue-600,
+.dark .text-blue-700,
+.dark .lc-eyebrow,
+.dark .os-data-label {
+  color: #60a5fa !important;
+}
+
+.dark .bg-\[\#1d4ed8\],
+.dark .bg-\[\#2563eb\],
+.dark .bg-blue-600 {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+.dark .bg-blue-50,
+.dark .bg-\[\#eef4ff\] {
+  background-color: rgba(37, 99, 235, 0.15) !important;
+  color: #93c5fd !important;
+  border-color: rgba(37, 99, 235, 0.35) !important;
+}
+
+/* Form Inputs & Interactive Controls */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #131824 !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark .button-secondary {
+  background-color: #131824 !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.dark .button-secondary:hover {
+  background-color: #1c2333 !important;
+  border-color: #3b82f6 !important;
+  color: #60a5fa !important;
+}
+
+/* Career & Job Cards in Dark Mode */
+.dark .comparison-card {
+  background-color: #0f131c !important;
+  border-color: #1e293b !important;
+  border-radius: 1rem !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.dark .comparison-card:hover {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.6) !important;
+}
+
+.dark .comparison-card__media {
+  background-color: #131824 !important;
+  border-bottom-color: #1e293b !important;
+}
+
+.dark .comparison-card__title {
+  color: #ffffff !important;
+}
+
+.dark .comparison-card__meta {
+  color: #94a3b8 !important;
+}
+
+.dark .comparison-card__meta-row svg {
+  color: #64748b;
+}
+
+.dark .comparison-card__meta-row--location svg {
+  color: #60a5fa !important;
+}
+
+.dark .comparison-card__meta-row--closing svg {
+  color: #fb923c !important;
+}
+
+.dark .comparison-card__action {
+  border-top-color: #1e293b !important;
+}
+
+.dark .jobs-filters {
+  background-color: #0f131c !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Application Form & File Controls in Dark Mode */
+.dark .apply-input {
+  background-color: #131824 !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+.dark .apply-input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 1px #3b82f6 !important;
+}
+
+.dark .apply-form-section {
+  border-top-color: #1e293b !important;
+}
+
+.dark .apply-form-section__label {
+  color: #60a5fa !important;
+}
+
+.dark .apply-fields label {
+  color: #e2e8f0 !important;
+}
+
+.dark .apply-file__control {
+  background-color: #131824 !important;
+  border-color: #334155 !important;
+}
+
+.dark .apply-file__control:hover,
+.dark .apply-file:focus-within .apply-file__control {
+  border-color: #3b82f6 !important;
+  background-color: #182234 !important;
+}
+
+.dark .apply-file__title {
+  color: #ffffff !important;
+}
+
+.dark .apply-file__meta {
+  color: #94a3b8 !important;
+}
+
+.dark .apply-file__action {
+  background-color: #172554 !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  color: #93c5fd !important;
+}
+
+.dark .apply-file.has-file .apply-file__control {
+  border-color: #3b82f6 !important;
+  background-color: rgba(37, 99, 235, 0.12) !important;
+}
+
+.dark .apply-file.has-file .apply-file__action {
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
+  color: #ffffff !important;
+}
+
+.dark .apply-file--error .apply-file__control {
+  border-color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+/* Dynamic Meta & Alerts in Career Apply */
+.dark #apply-page-meta > div {
+  background-color: #131824 !important;
+  border-color: #1e293b !important;
+}
+
+.dark #apply-page-meta p.font-mono {
+  color: #94a3b8 !important;
+}
+
+.dark #apply-page-meta p.font-semibold {
+  color: #ffffff !important;
+}
+
+.dark .border-orange-100.bg-orange-50 {
+  background-color: rgba(234, 88, 12, 0.15) !important;
+  border-color: rgba(234, 88, 12, 0.4) !important;
+}
+
+.dark .text-orange-700 {
+  color: #fdba74 !important;
+}
+
+.dark .border-red-100.bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+.dark .text-red-700 {
+  color: #fca5a5 !important;
+}
+
+.dark .border-green-100.bg-green-50 {
+  background-color: rgba(34, 197, 94, 0.15) !important;
+  border-color: rgba(34, 197, 94, 0.4) !important;
+}
+
+.dark .text-green-700,
+.dark .text-green-800 {
+  color: #86efac !important;
+}
+
+/* Footer in Dark Mode */
+.dark footer {
+  background-color: #05070a !important;
+  border-color: #1e293b !important;
+}
+
+/* Modal and Drawers */
+.dark [role="dialog"],
+.dark .dialog-content {
+  background-color: #0f131c !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
 

@@ -9,6 +9,7 @@ import {
 import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 import PageSeo from './components/PageSeo.jsx';
 import WaveLoader from './components/WaveLoader.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
 const About = lazy(() => import('./pages/About'));
 const CareerApply = lazy(() => import('./pages/CareerApply'));
@@ -24,6 +25,28 @@ const SubRetail = lazy(() => import('./pages/SubRetail'));
 
 function RouteFallback() {
   return <WaveLoader isLoading={true} label="Ocean Space" />;
+}
+
+function NavigationLoader() {
+  const location = useLocation();
+  const [isNavigating, setIsNavigating] = React.useState(false);
+  const isFirstMount = React.useRef(true);
+
+  useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+
+    setIsNavigating(true);
+    const timer = setTimeout(() => {
+      setIsNavigating(false);
+    }, 450);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
+  return <WaveLoader isLoading={isNavigating} label="Ocean Space" />;
 }
 
 /** Serve /about without trailing slash — strip slash for React Router. */
@@ -70,30 +93,33 @@ function PageTransitionWrapper({ children }) {
 
 function App() {
   return (
-    <MotionConfig reducedMotion="never">
-      <Router>
-        <StripTrailingSlash>
-          <PageSeo />
-          <Suspense fallback={<RouteFallback />}>
-            <PageTransitionWrapper>
-              <Routes>
-                <Route path="/about" element={<About />} />
-                <Route path="/career-apply" element={<CareerApply />} />
-                <Route path="/career" element={<Career />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/distribusi" element={<Distribusi />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/lifestyle" element={<Lifestyle />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/retail" element={<Retail />} />
-                <Route path="/subprocessors" element={<Subprocessors />} />
-                <Route path="/sub-retail" element={<SubRetail />} />
-              </Routes>
-            </PageTransitionWrapper>
-          </Suspense>
-        </StripTrailingSlash>
-      </Router>
-    </MotionConfig>
+    <ThemeProvider>
+      <MotionConfig reducedMotion="never">
+        <Router>
+          <StripTrailingSlash>
+            <PageSeo />
+            <NavigationLoader />
+            <Suspense fallback={<RouteFallback />}>
+              <PageTransitionWrapper>
+                <Routes>
+                  <Route path="/about" element={<About />} />
+                  <Route path="/career-apply" element={<CareerApply />} />
+                  <Route path="/career" element={<Career />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/distribusi" element={<Distribusi />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/lifestyle" element={<Lifestyle />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/retail" element={<Retail />} />
+                  <Route path="/subprocessors" element={<Subprocessors />} />
+                  <Route path="/sub-retail" element={<SubRetail />} />
+                </Routes>
+              </PageTransitionWrapper>
+            </Suspense>
+          </StripTrailingSlash>
+        </Router>
+      </MotionConfig>
+    </ThemeProvider>
   );
 }
 

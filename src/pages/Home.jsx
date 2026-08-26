@@ -7,8 +7,10 @@ import {
 } from '@heroicons/react/20/solid';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
+import { useTheme } from '../context/ThemeContext.jsx';
 import {
   MotionReveal,
   MotionCard,
@@ -17,146 +19,53 @@ import {
   MotionStaggerItem,
 } from '../components/Motion.jsx';
 
-const DistribusiVector = () => (
+const DistribusiVector = ({ isDark = false }) => (
   <svg viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full object-contain">
-    <rect width="200" height="110" rx="8" fill="#F8FAFC" />
-    <path d="M0 27.5H200M0 55H200M0 82.5H200" stroke="#E2E8F0" strokeWidth="1" strokeDasharray="4 4" />
-    <path d="M50 0V110M100 0V110M150 0V110" stroke="#E2E8F0" strokeWidth="1" strokeDasharray="4 4" />
-    <rect x="75" y="35" width="50" height="40" rx="6" fill="#FFFFFF" stroke="#1D4ED8" strokeWidth="2" />
-    <rect x="85" y="45" width="30" height="20" rx="3" fill="#EEF4FF" stroke="#2563EB" strokeWidth="1.5" />
-    <path d="M40 55H65M60 50L65 55L60 60" stroke="#1D4ED8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M135 55H160M155 50L160 55L155 60" stroke="#1D4ED8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    <circle cx="30" cy="55" r="5" fill="#1D4ED8" />
-    <circle cx="170" cy="55" r="5" fill="#1D4ED8" />
+    <rect width="200" height="110" rx="8" fill={isDark ? '#131824' : '#F8FAFC'} />
+    <path d="M0 27.5H200M0 55H200M0 82.5H200" stroke={isDark ? '#1e293b' : '#E2E8F0'} strokeWidth="1" strokeDasharray="4 4" />
+    <path d="M50 0V110M100 0V110M150 0V110" stroke={isDark ? '#1e293b' : '#E2E8F0'} strokeWidth="1" strokeDasharray="4 4" />
+    <rect x="75" y="35" width="50" height="40" rx="6" fill={isDark ? '#1c2438' : '#FFFFFF'} stroke="#3B82F6" strokeWidth="2" />
+    <rect x="85" y="45" width="30" height="20" rx="3" fill={isDark ? '#172554' : '#EEF4FF'} stroke="#60A5FA" strokeWidth="1.5" />
+    <path d="M40 55H65M60 50L65 55L60 60" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M135 55H160M155 50L160 55L155 60" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="30" cy="55" r="5" fill="#3B82F6" />
+    <circle cx="170" cy="55" r="5" fill="#3B82F6" />
   </svg>
 );
 
-const RetailVector = () => (
+const RetailVector = ({ isDark = false }) => (
   <svg viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full object-contain">
-    <rect width="200" height="110" rx="8" fill="#F8FAFC" />
-    <path d="M45 80V45L100 25L155 45V80H45Z" fill="#FFFFFF" stroke="#1D4ED8" strokeWidth="2" strokeLinejoin="round" />
-    <path d="M40 45H160L155 55H45L40 45Z" fill="#EEF4FF" stroke="#1D4ED8" strokeWidth="1.5" />
-    <rect x="85" y="55" width="30" height="25" fill="#EEF4FF" stroke="#1D4ED8" strokeWidth="1.5" />
-    <line x1="100" y1="55" x2="100" y2="80" stroke="#1D4ED8" strokeWidth="1.5" />
-    <rect x="55" y="55" width="20" height="18" rx="2" fill="#F1F5F9" stroke="#94A3B8" strokeWidth="1" />
-    <rect x="125" y="55" width="20" height="18" rx="2" fill="#F1F5F9" stroke="#94A3B8" strokeWidth="1" />
+    <rect width="200" height="110" rx="8" fill={isDark ? '#131824' : '#F8FAFC'} />
+    <path d="M45 80V45L100 25L155 45V80H45Z" fill={isDark ? '#1c2438' : '#FFFFFF'} stroke="#3B82F6" strokeWidth="2" strokeLinejoin="round" />
+    <path d="M40 45H160L155 55H45L40 45Z" fill={isDark ? '#172554' : '#EEF4FF'} stroke="#3B82F6" strokeWidth="1.5" />
+    <rect x="85" y="55" width="30" height="25" fill={isDark ? '#172554' : '#EEF4FF'} stroke="#3B82F6" strokeWidth="1.5" />
+    <line x1="100" y1="55" x2="100" y2="80" stroke="#3B82F6" strokeWidth="1.5" />
+    <rect x="55" y="55" width="20" height="18" rx="2" fill={isDark ? '#1e293b' : '#F1F5F9'} stroke={isDark ? '#475569' : '#94A3B8'} strokeWidth="1" />
+    <rect x="125" y="55" width="20" height="18" rx="2" fill={isDark ? '#1e293b' : '#F1F5F9'} stroke={isDark ? '#475569' : '#94A3B8'} strokeWidth="1" />
   </svg>
 );
 
-const SubRetailVector = () => (
+const SubRetailVector = ({ isDark = false }) => (
   <svg viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full object-contain">
-    <rect width="200" height="110" rx="8" fill="#F8FAFC" />
-    <path d="M55 55L100 30L145 55L100 80L55 55Z" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="3 3" />
-    <circle cx="100" cy="30" r="16" fill="#FFFFFF" stroke="#1D4ED8" strokeWidth="2" />
-    <circle cx="55" cy="55" r="16" fill="#FFFFFF" stroke="#1D4ED8" strokeWidth="2" />
-    <circle cx="145" cy="55" r="16" fill="#FFFFFF" stroke="#1D4ED8" strokeWidth="2" />
-    <circle cx="100" cy="30" r="6" fill="#EEF4FF" stroke="#1D4ED8" strokeWidth="1.5" />
-    <circle cx="55" cy="55" r="6" fill="#EEF4FF" stroke="#1D4ED8" strokeWidth="1.5" />
-    <circle cx="145" cy="55" r="6" fill="#EEF4FF" stroke="#1D4ED8" strokeWidth="1.5" />
-    <path d="M100 46V64M71 55H129" stroke="#1D4ED8" strokeWidth="1.5" />
+    <rect width="200" height="110" rx="8" fill={isDark ? '#131824' : '#F8FAFC'} />
+    <path d="M55 55L100 30L145 55L100 80L55 55Z" stroke={isDark ? '#334155' : '#E2E8F0'} strokeWidth="1.5" strokeDasharray="3 3" />
+    <circle cx="100" cy="30" r="16" fill={isDark ? '#1c2438' : '#FFFFFF'} stroke="#3B82F6" strokeWidth="2" />
+    <circle cx="55" cy="55" r="16" fill={isDark ? '#1c2438' : '#FFFFFF'} stroke="#3B82F6" strokeWidth="2" />
+    <circle cx="145" cy="55" r="16" fill={isDark ? '#1c2438' : '#FFFFFF'} stroke="#3B82F6" strokeWidth="2" />
+    <circle cx="100" cy="30" r="6" fill={isDark ? '#172554' : '#EEF4FF'} stroke="#60A5FA" strokeWidth="1.5" />
+    <circle cx="55" cy="55" r="6" fill={isDark ? '#172554' : '#EEF4FF'} stroke="#60A5FA" strokeWidth="1.5" />
+    <circle cx="145" cy="55" r="6" fill={isDark ? '#172554' : '#EEF4FF'} stroke="#60A5FA" strokeWidth="1.5" />
+    <path d="M100 46V64M71 55H129" stroke="#3B82F6" strokeWidth="1.5" />
   </svg>
 );
 
-const LifestyleVector = () => (
+const LifestyleVector = ({ isDark = false }) => (
   <svg viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full object-contain">
-    <rect width="200" height="110" rx="8" fill="#F8FAFC" />
-    <rect x="65" y="30" width="70" height="50" rx="8" fill="#FFFFFF" stroke="#1D4ED8" strokeWidth="2" />
-    <rect x="73" y="38" width="54" height="34" rx="4" fill="#EEF4FF" stroke="#2563EB" strokeWidth="1" />
-    <path d="M150 25L153 32L160 35L153 38L150 45L147 38L140 35L147 32L150 25Z" fill="#1D4ED8" />
-    <path d="M45 65L47 70L52 72L47 74L45 79L43 74L38 72L43 70L45 65Z" fill="#2563EB" />
-  </svg>
-);
-
-const IndonesiaMapVector = () => (
-  <svg viewBox="0 0 800 360" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto object-contain">
-    <defs>
-      <radialGradient id="nodeGlowLight" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="#2563EB" stopOpacity="0.35" />
-        <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
-      </radialGradient>
-    </defs>
-    
-    {/* Light Clean Backdrop */}
-    <rect width="800" height="360" rx="14" fill="#F8FAFC" stroke="#E2E8F0" strokeWidth="1" />
-
-    {/* Precision Coordinate Grid */}
-    <path d="M0 60H800M0 120H800M0 180H800M0 240H800M0 300H800" stroke="#E2E8F0" strokeWidth="1" strokeDasharray="4 4" opacity="0.7" />
-    <path d="M160 0V360M320 0V360M480 0V360M640 0V360" stroke="#E2E8F0" strokeWidth="1" strokeDasharray="4 4" opacity="0.7" />
-
-    {/* Detailed Indonesia Islands */}
-    {/* Sumatera Main Outline */}
-    <path d="M50 165L75 125L95 95L120 110L145 130L175 155L210 190L245 235L228 252L205 245L160 215L110 185L70 172Z" fill="#E2E8F0" stroke="#CBD5E1" strokeWidth="1.2" strokeLinejoin="round" />
-    {/* Nias & Mentawai */}
-    <path d="M42 175L48 180L45 188L40 182Z" fill="#CBD5E1" />
-    <path d="M85 210L92 215L88 222L82 217Z" fill="#CBD5E1" />
-    {/* Bangka & Belitung */}
-    <path d="M212 210L222 205L225 218L215 220Z" fill="#CBD5E1" stroke="#94A3B8" strokeWidth="0.8" />
-    <path d="M235 212L242 210L244 218L238 219Z" fill="#CBD5E1" stroke="#94A3B8" strokeWidth="0.8" />
-
-    {/* Jawa Main Outline */}
-    <path d="M230 262L270 263L315 265L370 267L420 268L430 270L432 280L370 280L315 278L260 275L228 270Z" fill="#E2E8F0" stroke="#CBD5E1" strokeWidth="1.2" strokeLinejoin="round" />
-    {/* Madura */}
-    <path d="M395 258L422 258L420 264L392 263Z" fill="#CBD5E1" stroke="#94A3B8" strokeWidth="0.8" />
-
-    {/* Kalimantan Main Outline */}
-    <path d="M270 120L315 95L345 88L385 112L398 135L382 178L340 198L295 182L265 158Z" fill="#E2E8F0" stroke="#CBD5E1" strokeWidth="1.2" strokeLinejoin="round" />
-
-    {/* Sulawesi Detailed 4-Peninsula Contour */}
-    <path d="M418 140L432 118L442 120L435 138L458 132L475 136L465 146L445 146L450 165L478 178L465 188L445 174L438 188L432 212L420 210L425 182L412 165L398 148Z" fill="#E2E8F0" stroke="#CBD5E1" strokeWidth="1.2" strokeLinejoin="round" />
-
-    {/* Bali, Lombok & Nusa Tenggara */}
-    <path d="M438 272L446 272L445 278L437 277Z" fill="#CBD5E1" />
-    <path d="M450 272L462 272L460 278L449 277Z" fill="#CBD5E1" />
-    <path d="M468 272L510 268L545 264L540 274L490 278L466 278Z" fill="#E2E8F0" stroke="#CBD5E1" strokeWidth="1.2" strokeLinejoin="round" />
-
-    {/* Maluku & Halmahera */}
-    <path d="M495 120L515 110L512 132L498 128Z" fill="#CBD5E1" />
-    <path d="M500 160L525 162L520 170L498 168Z" fill="#CBD5E1" />
-
-    {/* Papua Main Outline */}
-    <path d="M600 140L638 128L675 138L735 148L748 158L738 215L670 208L620 172L595 160Z" fill="#E2E8F0" stroke="#CBD5E1" strokeWidth="1.2" strokeLinejoin="round" />
-
-    {/* Network Flow Arcs */}
-    <path d="M110 130 L155 170 L210 220 L248 264 L315 266 L370 268 L428 160" stroke="#2563EB" strokeWidth="1.5" strokeDasharray="5 4" opacity="0.65" />
-
-    {/* Operational Nodes with Glowing Rings */}
-    {/* 1. Sumatera Nodes (5 Titik) */}
-    <circle cx="110" cy="130" r="18" fill="url(#nodeGlowLight)" />
-    <circle cx="110" cy="130" r="5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-
-    <circle cx="155" cy="170" r="18" fill="url(#nodeGlowLight)" />
-    <circle cx="155" cy="170" r="5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-
-    <circle cx="210" cy="220" r="18" fill="url(#nodeGlowLight)" />
-    <circle cx="210" cy="220" r="5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-
-    <rect x="75" y="98" width="90" height="20" rx="5" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1" />
-    <text x="120" y="112" textAnchor="middle" fill="#171A22" fontSize="9.5" fontWeight="700" fontFamily="Instrument Sans, sans-serif">SUMATERA (5)</text>
-
-    {/* 2. Jabodetabek Node (3 Titik) */}
-    <circle cx="248" cy="264" r="22" fill="url(#nodeGlowLight)" />
-    <circle cx="248" cy="264" r="5.5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-    <rect x="200" y="290" width="96" height="20" rx="5" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1" />
-    <text x="248" y="304" textAnchor="middle" fill="#171A22" fontSize="9.5" fontWeight="700" fontFamily="Instrument Sans, sans-serif">JABODETABEK (3)</text>
-
-    {/* 3. Jawa Nodes (7 Titik) */}
-    <circle cx="300" cy="266" r="16" fill="url(#nodeGlowLight)" />
-    <circle cx="300" cy="266" r="4.5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-
-    <circle cx="345" cy="267" r="16" fill="url(#nodeGlowLight)" />
-    <circle cx="345" cy="267" r="4.5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-
-    <circle cx="390" cy="269" r="16" fill="url(#nodeGlowLight)" />
-    <circle cx="390" cy="269" r="4.5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-
-    <rect x="320" y="292" width="70" height="20" rx="5" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1" />
-    <text x="355" y="306" textAnchor="middle" fill="#171A22" fontSize="9.5" fontWeight="700" fontFamily="Instrument Sans, sans-serif">JAWA (7)</text>
-
-    {/* 4. Sulawesi Node (1 Titik) */}
-    <circle cx="428" cy="160" r="18" fill="url(#nodeGlowLight)" />
-    <circle cx="428" cy="160" r="5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="2" />
-    <rect x="388" y="184" width="80" height="20" rx="5" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="1" />
-    <text x="428" y="198" textAnchor="middle" fill="#171A22" fontSize="9.5" fontWeight="700" fontFamily="Instrument Sans, sans-serif">SULAWESI (1)</text>
+    <rect width="200" height="110" rx="8" fill={isDark ? '#131824' : '#F8FAFC'} />
+    <rect x="65" y="30" width="70" height="50" rx="8" fill={isDark ? '#1c2438' : '#FFFFFF'} stroke="#3B82F6" strokeWidth="2" />
+    <rect x="73" y="38" width="54" height="34" rx="4" fill={isDark ? '#172554' : '#EEF4FF'} stroke="#60A5FA" strokeWidth="1" />
+    <path d="M150 25L153 32L160 35L153 38L150 45L147 38L140 35L147 32L150 25Z" fill="#3B82F6" />
+    <path d="M45 65L47 70L52 72L47 74L45 79L43 74L38 72L43 70L45 65Z" fill="#60A5FA" />
   </svg>
 );
 
@@ -185,79 +94,95 @@ const CultureSystemBackdrop = () => (
   </svg>
 );
 
-const JUJUR_PRINCIPLES = [
-  { id: '01', title: 'Jujur & Integritas' },
-  { id: '02', title: 'Unggul Berkinerja' },
-  { id: '03', title: 'Jaga Pelanggan' },
-  { id: '04', title: 'Ulet & Bertumbuh' },
-  { id: '05', title: 'Rampung' },
-];
-
-const WORK_MOTIVATIONS = [
-  { id: '01', title: 'Fear' },
-  { id: '02', title: 'Desire' },
-  { id: '03', title: 'Duty' },
-  { id: '04', title: 'Love' },
-];
-
 const Home = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const { t } = useTranslation(['home', 'common']);
+
+  const jujurPrinciples = t('culture.principlesList', { returnObjects: true }) || [
+    { id: '01', title: 'Jujur & Integritas' },
+    { id: '02', title: 'Unggul Berkinerja' },
+    { id: '03', title: 'Jaga Pelanggan' },
+    { id: '04', title: 'Ulet & Bertumbuh' },
+    { id: '05', title: 'Rampung' },
+  ];
+
+  const workMotivations = t('culture.motivationsList', { returnObjects: true }) || [
+    { id: '01', title: 'Fear' },
+    { id: '02', title: 'Desire' },
+    { id: '03', title: 'Duty' },
+    { id: '04', title: 'Love' },
+  ];
+
   return (
     <>
       <Header />
 
-      <main id="main-content" tabIndex={-1} className="w-full overflow-x-hidden">
-        {/* 1. HERO SECTION (EXEMPT - KEPT UNTOUCHED AS REQUESTED) */}
-        <section className="relative flex min-h-[80vh] w-full items-center overflow-hidden border-b border-black/10 bg-white sm:min-h-[90vh]">
+      <main id="main-content" tabIndex={-1} className="w-full flex-1 overflow-x-clip">
+        {/* 1. HERO SECTION */}
+        <section className="relative flex min-h-[80vh] w-full items-center overflow-hidden border-b border-black/10 bg-white sm:min-h-[90vh] dark:bg-[#0a0d14] dark:border-slate-800">
           <div className="absolute inset-0 z-0" aria-hidden="true">
             <img
-              src="/images/hero-section.png"
-              alt="Peta Jaringan Distribusi Indonesia Ocean Space - Hub, Depo, dan Corridors"
+              key={isDark ? 'hero-dark' : 'hero-light'}
+              src={isDark ? '/images/hero-dark.png' : '/images/hero-section.png'}
+              alt={t('hero.mapAlt', 'Peta Jaringan Distribusi Indonesia Ocean Space')}
               title="Peta Jaringan Distribusi Indonesia Ocean Space"
-              className="h-full w-full object-cover object-right-bottom opacity-90 mix-blend-multiply"
+              className={`h-full w-full object-cover object-right-bottom transition-opacity duration-300 ${
+                isDark ? 'opacity-80' : 'opacity-95'
+              }`}
               loading="eager"
-              fetchpriority="high"
+              fetchPriority="high"
               decoding="async"
               width="1376"
               height="768"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent dark:from-[#0a0d14] dark:via-[#0a0d14]/85 dark:to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent dark:from-[#0a0d14] dark:via-transparent dark:to-transparent"></div>
           </div>
 
-          <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#d8e0ec_1px,transparent_1px),linear-gradient(to_bottom,#d8e0ec_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_20%_50%,#000_20%,transparent_100%)] opacity-20" aria-hidden="true"></div>
+          <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#d8e0ec_1px,transparent_1px),linear-gradient(to_bottom,#d8e0ec_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_20%_50%,#000_20%,transparent_100%)] opacity-20" aria-hidden="true"></div>
 
           <div className="relative z-10 mx-auto w-full max-w-[88rem] px-4 pt-32 pb-16 sm:px-5 sm:py-20 lg:px-6 lg:py-24">
             <div className="lc-hero-copy relative max-w-[40rem]">
               <MotionReveal yOffset={25}>
-                <h1 className="mt-5 max-w-full font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.035em] text-[#171a22] sm:max-w-[13ch]">Empat unit bisnis. Satu standar <span className="relative text-[#1d4ed8]">eksekusi<span aria-hidden="true" className="absolute bottom-0 left-0 h-2 w-full bg-[#2563eb]/15"></span></span>.</h1>
-                <p className="mt-4 max-w-[33rem] text-[1.05rem] leading-relaxed text-[#556070]">Menyatukan kemitraan, ekspansi, dan operasi harian.</p>
+                <h1 className="mt-5 max-w-full font-display text-[clamp(2.65rem,4.7vw,4.1rem)] font-[500] leading-[0.94] tracking-[-0.035em] text-[#171a22] dark:text-white sm:max-w-[13ch]">
+                  {t('hero.titlePart1', 'Empat unit bisnis. Satu standar ')}
+                  <span className="relative text-[#1d4ed8] dark:text-[#60a5fa]">
+                    {t('hero.titleHighlight', 'eksekusi')}
+                    <span aria-hidden="true" className="absolute bottom-0 left-0 h-2 w-full bg-[#2563eb]/15 dark:bg-[#3b82f6]/25"></span>
+                  </span>
+                  {t('hero.titlePart2', '.')}
+                </h1>
+                <p className="mt-4 max-w-[33rem] text-[1.05rem] leading-relaxed text-[#556070] dark:text-slate-300">
+                  {t('hero.subtitle', 'Menyatukan kemitraan, ekspansi, dan operasi harian.')}
+                </p>
 
                 <div className="lc-hero-actions mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
                   <MotionButton>
-                    <a href="/contact" className="os-btn os-btn--primary">
-                      Hubungi kami
+                    <Link to="/contact" className="os-btn os-btn--primary">
+                      {t('hero.cta', 'Hubungi kami')}
                       <ArrowUpRightIcon className="h-4 w-4 text-white" aria-hidden="true" />
-                    </a>
+                    </Link>
                   </MotionButton>
                   <span className="lc-eyebrow">
-                    <span>4 unit · 16 titik aktif</span>
-                    </span>
+                    <span>{t('hero.badge', '4 unit · 16 titik aktif')}</span>
+                  </span>
                 </div>
               </MotionReveal>
             </div>
           </div>
         </section>
 
-        {/* 2. LOGO MARQUEE BANNER (POLISHED WITH EDGE GRADIENT FADES & CLEAN CARDS) */}
-        <section className="lc-band bg-[#f6f9fd]">
+        {/* 2. LOGO MARQUEE BANNER */}
+        <section className="lc-band bg-[#f6f9fd] dark:bg-[#0b0f19] dark:border-slate-800">
           <div className="lc-shell px-0 md:pl-5 md:pr-0 lg:pl-6 lg:pr-0">
             <div className="relative grid gap-0 md:grid-cols-[minmax(15rem,0.7fr)_minmax(0,1.3fr)]">
-              <div className="flex items-center justify-center border-b border-black/10 py-6 px-6 text-center md:border-b-0 md:px-4">
-                <span className="font-sans text-[0.8rem] font-semibold uppercase leading-[1.9] tracking-[0.16em] text-[#2d3a4a]">
-                  Powering ideas for disciplined growth
+              <div className="flex items-center justify-center border-b border-black/10 dark:border-slate-800 py-6 px-6 text-center md:border-b-0 md:px-4">
+                <span className="font-sans text-[0.8rem] font-semibold uppercase leading-[1.9] tracking-[0.16em] text-[#2d3a4a] dark:text-slate-300">
+                  {t('marquee.heading', 'Powering ideas for disciplined growth')}
                 </span>
               </div>
-              <div className="relative overflow-hidden border-x border-black/10 bg-white [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+              <div className="relative overflow-hidden border-x border-black/10 dark:border-slate-800 bg-white dark:bg-[#0f131c] [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
                 <div className="flex w-max animate-home-marquee [will-change:transform] motion-reduce:animate-none hover:[animation-play-state:paused]">
                   {/* Set 1 */}
                   <div className="flex">
@@ -290,18 +215,18 @@ const Home = () => {
           </div>
         </section>
 
-        {/* 3. KERANGKA KERJA TERINTEGRASI (UNIFIED MONOCHROME MATRIX GRID) */}
-        <section className="relative overflow-hidden border-b border-black/10 bg-white">
-          <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#d8e0ec_1px,transparent_1px),linear-gradient(to_bottom,#d8e0ec_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_20%_30%,#000_20%,transparent_100%)] opacity-20" aria-hidden="true"></div>
+        {/* 3. KERANGKA KERJA TERINTEGRASI */}
+        <section className="relative overflow-hidden border-b border-black/10 bg-white dark:bg-[#0a0d14] dark:border-slate-800">
+          <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#d8e0ec_1px,transparent_1px),linear-gradient(to_bottom,#d8e0ec_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_20%_30%,#000_20%,transparent_100%)] opacity-20" aria-hidden="true"></div>
           
           <div className="lc-shell relative z-10 py-16 sm:py-20 lg:py-24">
             <span className="lc-node left-0 top-0" aria-hidden="true"></span>
             
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-12">
               <MotionReveal className="max-w-2xl">
-                <p className="lc-eyebrow">Cara Kami Bekerja</p>
-                <h2 className="mt-3 max-w-[20ch] font-display text-[clamp(2.1rem,3.8vw,3.25rem)] font-[500] leading-[1.05] tracking-[-0.035em] text-[#171a22]">
-                  Satu standar untuk empat unit.
+                <p className="lc-eyebrow">{t('framework.eyebrow', 'Cara Kami Bekerja')}</p>
+                <h2 className="mt-3 max-w-[20ch] font-display text-[clamp(2.1rem,3.8vw,3.25rem)] font-[500] leading-[1.05] tracking-[-0.035em] text-[#171a22] dark:text-white">
+                  {t('framework.heading', 'Satu standar untuk empat unit.')}
                 </h2>
               </MotionReveal>
             </div>
@@ -310,32 +235,32 @@ const Home = () => {
             <MotionStagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {/* Unit 01 */}
               <MotionStaggerItem className="h-full">
-                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:border-slate-300 hover:shadow-xs">
+                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0f131c] p-6 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-xs">
                   <div>
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-3 mb-4">
                       <span className="os-data-label">Unit 01</span>
-                      <span className="text-[0.7rem] font-bold text-[#1d4ed8]">Distribusi</span>
+                      <span className="text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400">{t('framework.unit1.tag', 'Distribusi')}</span>
                     </div>
 
-                    <div className="h-28 w-full rounded-xl bg-slate-50/80 border border-slate-100 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 transition-colors">
-                      <DistribusiVector />
+                    <div className="h-28 w-full rounded-xl bg-slate-50/80 dark:bg-[#131824] border border-slate-100 dark:border-slate-800/80 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 dark:group-hover:bg-slate-800/60 transition-colors">
+                      <DistribusiVector isDark={isDark} />
                     </div>
 
-                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22]">
-                      HP Distribusi
+                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22] dark:text-white">
+                      {t('framework.unit1.name', 'HP Distribusi')}
                     </h3>
 
-                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171]">
-                      Distribusi handphone dan gadget berskala nasional.
+                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171] dark:text-slate-300">
+                      {t('framework.unit1.desc', 'Distribusi handphone dan gadget berskala nasional.')}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
                     <p className="os-data-label">
-                      PT Media Selular Indonesia, PT Satu Media Indonesia &amp; CV Top Selular
+                      {t('framework.unit1.companies', 'PT Media Selular Indonesia, PT Satu Media Indonesia & CV Top Selular')}
                     </p>
-                    <Link to="/distribusi" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] transition-all group-hover:gap-2.5 hover:text-[#2563eb]">
-                      <span>Lihat Distribusi</span>
+                    <Link to="/distribusi" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] dark:text-blue-400 transition-all group-hover:gap-2.5 hover:text-[#2563eb] dark:hover:text-blue-300">
+                      <span>{t('framework.unit1.link', 'Lihat Distribusi')}</span>
                       <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   </div>
@@ -344,32 +269,32 @@ const Home = () => {
 
               {/* Unit 02 */}
               <MotionStaggerItem className="h-full">
-                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:border-slate-300 hover:shadow-xs">
+                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0f131c] p-6 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-xs">
                   <div>
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-3 mb-4">
                       <span className="os-data-label">Unit 02</span>
-                      <span className="text-[0.7rem] font-bold text-[#1d4ed8]">Retail Direct</span>
+                      <span className="text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400">{t('framework.unit2.tag', 'Retail Direct')}</span>
                     </div>
 
-                    <div className="h-28 w-full rounded-xl bg-slate-50/80 border border-slate-100 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 transition-colors">
-                      <RetailVector />
+                    <div className="h-28 w-full rounded-xl bg-slate-50/80 dark:bg-[#131824] border border-slate-100 dark:border-slate-800/80 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 dark:group-hover:bg-slate-800/60 transition-colors">
+                      <RetailVector isDark={isDark} />
                     </div>
 
-                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22]">
-                      Retail
+                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22] dark:text-white">
+                      {t('framework.unit2.name', 'Retail')}
                     </h3>
 
-                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171]">
-                      Gerai handphone dan aksesori dengan layanan konsisten.
+                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171] dark:text-slate-300">
+                      {t('framework.unit2.desc', 'Gerai handphone dan aksesori dengan layanan konsisten.')}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
                     <p className="os-data-label">
-                      PT RISM &amp; PT CSN
+                      {t('framework.unit2.companies', 'PT RISM & PT CSN')}
                     </p>
-                    <Link to="/retail" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] transition-all group-hover:gap-2.5 hover:text-[#2563eb]">
-                      <span>Lihat Retail</span>
+                    <Link to="/retail" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] dark:text-blue-400 transition-all group-hover:gap-2.5 hover:text-[#2563eb] dark:hover:text-blue-300">
+                      <span>{t('framework.unit2.link', 'Lihat Retail')}</span>
                       <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   </div>
@@ -378,32 +303,32 @@ const Home = () => {
 
               {/* Unit 03 */}
               <MotionStaggerItem className="h-full">
-                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:border-slate-300 hover:shadow-xs">
+                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0f131c] p-6 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-xs">
                   <div>
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-3 mb-4">
                       <span className="os-data-label">Unit 03</span>
-                      <span className="text-[0.7rem] font-bold text-[#1d4ed8]">Sub Retail</span>
+                      <span className="text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400">{t('framework.unit3.tag', 'Sub Retail')}</span>
                     </div>
 
-                    <div className="h-28 w-full rounded-xl bg-slate-50/80 border border-slate-100 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 transition-colors">
-                      <SubRetailVector />
+                    <div className="h-28 w-full rounded-xl bg-slate-50/80 dark:bg-[#131824] border border-slate-100 dark:border-slate-800/80 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 dark:group-hover:bg-slate-800/60 transition-colors">
+                      <SubRetailVector isDark={isDark} />
                     </div>
 
-                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22]">
-                      Sub Retail
+                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22] dark:text-white">
+                      {t('framework.unit3.name', 'Sub Retail')}
                     </h3>
 
-                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171]">
-                      Produk teknologi rumah tangga melalui jaringan ritel.
+                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171] dark:text-slate-300">
+                      {t('framework.unit3.desc', 'Produk teknologi rumah tangga melalui jaringan ritel.')}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
                     <p className="os-data-label">
-                      Complite+, Unboxing &amp; Complete Selular
+                      {t('framework.unit3.companies', 'Complite+, Unboxing & Complete Selular')}
                     </p>
-                    <Link to="/sub-retail" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] transition-all group-hover:gap-2.5 hover:text-[#2563eb]">
-                      <span>Lihat Sub Retail</span>
+                    <Link to="/sub-retail" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] dark:text-blue-400 transition-all group-hover:gap-2.5 hover:text-[#2563eb] dark:hover:text-blue-300">
+                      <span>{t('framework.unit3.link', 'Lihat Sub Retail')}</span>
                       <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   </div>
@@ -412,32 +337,32 @@ const Home = () => {
 
               {/* Unit 04 */}
               <MotionStaggerItem className="h-full">
-                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:border-slate-300 hover:shadow-xs">
+                <MotionCard className="group relative flex flex-col justify-between h-full rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0f131c] p-6 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-xs">
                   <div>
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-3 mb-4">
                       <span className="os-data-label">Unit 04</span>
-                      <span className="text-[0.7rem] font-bold text-[#1d4ed8]">Lifestyle</span>
+                      <span className="text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400">{t('framework.unit4.tag', 'Lifestyle')}</span>
                     </div>
 
-                    <div className="h-28 w-full rounded-xl bg-slate-50/80 border border-slate-100 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 transition-colors">
-                      <LifestyleVector />
+                    <div className="h-28 w-full rounded-xl bg-slate-50/80 dark:bg-[#131824] border border-slate-100 dark:border-slate-800/80 p-2 flex items-center justify-center overflow-hidden mb-4 group-hover:bg-slate-100/60 dark:group-hover:bg-slate-800/60 transition-colors">
+                      <LifestyleVector isDark={isDark} />
                     </div>
 
-                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22]">
-                      Lifestyle
+                    <h3 className="font-display text-[1.25rem] font-[500] tracking-[-0.03em] text-[#171a22] dark:text-white">
+                      {t('framework.unit4.name', 'Lifestyle')}
                     </h3>
 
-                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171]">
-                      Layanan lifestyle untuk kebutuhan sehari-hari.
+                    <p className="mt-2 text-[0.98rem] leading-7 text-[#596171] dark:text-slate-300">
+                      {t('framework.unit4.desc', 'Layanan lifestyle untuk kebutuhan sehari-hari.')}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80">
                     <p className="os-data-label">
-                      PT Mari Sukses Gemilang
+                      {t('framework.unit4.companies', 'PT Mari Sukses Gemilang')}
                     </p>
-                    <Link to="/lifestyle" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] transition-all group-hover:gap-2.5 hover:text-[#2563eb]">
-                      <span>Lihat Lifestyle</span>
+                    <Link to="/lifestyle" className="lc-unit-link mt-4 inline-flex min-h-[48px] py-2 items-center gap-1.5 text-xs font-semibold text-[#1d4ed8] dark:text-blue-400 transition-all group-hover:gap-2.5 hover:text-[#2563eb] dark:hover:text-blue-300">
+                      <span>{t('framework.unit4.link', 'Lihat Lifestyle')}</span>
                       <ArrowUpRightIcon className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   </div>
@@ -445,79 +370,80 @@ const Home = () => {
               </MotionStaggerItem>
             </MotionStagger>
 
-            {/* Bottom Summary Bar (Minimal Clean Metrics without Box Badges) */}
-            <MotionReveal delay={0.2} className="mt-10 overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 sm:p-8 sm:mt-12">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8 divide-y divide-slate-100 sm:divide-y-0 sm:divide-x divide-slate-100">
+            {/* Bottom Summary Bar */}
+            <MotionReveal delay={0.2} className="mt-10 overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0f131c] p-6 sm:p-8 sm:mt-12">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8 divide-y divide-slate-100 dark:divide-slate-800 sm:divide-y-0 sm:divide-x divide-slate-100 dark:sm:divide-slate-800">
                 <div className="flex flex-col sm:pr-6">
-                  <span className="text-[0.72rem] font-bold uppercase tracking-widest text-[#1d4ed8]">Nilai Utama</span>
-                  <p className="mt-2 font-display text-[1.4rem] font-[500] tracking-[-0.03em] text-[#171a22]">JUJUR</p>
-                  <p className="mt-1 text-xs text-[#596171]">5 prinsip kerja grup</p>
+                  <span className="text-[0.72rem] font-bold uppercase tracking-widest text-[#1d4ed8] dark:text-blue-400">{t('framework.summary.coreValue', 'Nilai Utama')}</span>
+                  <p className="mt-2 font-display text-[1.4rem] font-[500] tracking-[-0.03em] text-[#171a22] dark:text-white">JUJUR</p>
+                  <p className="mt-1 text-xs text-[#596171] dark:text-slate-300">{t('framework.summary.coreValueSub', '5 prinsip kerja grup')}</p>
                 </div>
 
                 <div className="flex flex-col pt-6 sm:pt-0 sm:px-6">
-                  <span className="text-[0.72rem] font-bold uppercase tracking-widest text-[#1d4ed8]">Operasi</span>
-                  <p className="mt-2 font-display text-[1.4rem] font-[500] tracking-[-0.03em] text-[#171a22]">4 Unit Bisnis</p>
-                  <p className="mt-1 text-xs text-[#596171]">Satu standar kerja</p>
+                  <span className="text-[0.72rem] font-bold uppercase tracking-widest text-[#1d4ed8] dark:text-blue-400">{t('framework.summary.operations', 'Operasi')}</span>
+                  <p className="mt-2 font-display text-[1.4rem] font-[500] tracking-[-0.03em] text-[#171a22] dark:text-white">{t('framework.summary.operationsTitle', '4 Unit Bisnis')}</p>
+                  <p className="mt-1 text-xs text-[#596171] dark:text-slate-300">{t('framework.summary.operationsSub', 'Satu standar kerja')}</p>
                 </div>
 
                 <div className="flex flex-col pt-6 sm:pt-0 sm:pl-6">
-                  <span className="text-[0.72rem] font-bold uppercase tracking-widest text-[#1d4ed8]">Jaringan</span>
-                  <p className="mt-2 font-display text-[1.4rem] font-[500] tracking-[-0.03em] text-[#171a22]">16 Titik Operasional</p>
-                  <p className="mt-1 text-xs text-[#596171]">Jawa, Sulawesi, Sumatera</p>
+                  <span className="text-[0.72rem] font-bold uppercase tracking-widest text-[#1d4ed8] dark:text-blue-400">{t('framework.summary.network', 'Jaringan')}</span>
+                  <p className="mt-2 font-display text-[1.4rem] font-[500] tracking-[-0.03em] text-[#171a22] dark:text-white">{t('framework.summary.networkTitle', '16 Titik Operasional')}</p>
+                  <p className="mt-1 text-xs text-[#596171] dark:text-slate-300">{t('framework.summary.networkSub', 'Jawa, Sulawesi, Sumatera')}</p>
                 </div>
               </div>
             </MotionReveal>
           </div>
         </section>
 
-        {/* 4. OPERASI SKALA NASIONAL / 16 TITIK (INDONESIA SVG MAP & COVERAGE GRID) */}
-        <section className="relative overflow-hidden border-b border-black/10 bg-white">
-          <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#d8e0ec_1px,transparent_1px),linear-gradient(to_bottom,#d8e0ec_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_80%_30%,#000_20%,transparent_100%)] opacity-20" aria-hidden="true"></div>
+        {/* 4. OPERASI SKALA NASIONAL / 16 TITIK */}
+        <section className="relative overflow-hidden border-b border-black/10 bg-white dark:bg-[#0a0d14] dark:border-slate-800">
+          <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#d8e0ec_1px,transparent_1px),linear-gradient(to_bottom,#d8e0ec_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_80%_30%,#000_20%,transparent_100%)] opacity-20" aria-hidden="true"></div>
           
           <div className="lc-shell relative z-10 py-14 sm:py-16 lg:py-20">
             <span className="lc-node right-0 top-0" aria-hidden="true"></span>
             
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
               <MotionReveal>
-                <p className="lc-eyebrow">Operasi Skala Nasional</p>
-                <h2 className="mt-3 font-display text-[clamp(1.95rem,3.3vw,3rem)] font-[500] leading-[0.98] tracking-[-0.03em] text-[#171a22]">
-                  16 Titik tersebar di pulau Jawa, Sulawesi, dan Sumatera.
+                <p className="lc-eyebrow">{t('operations.eyebrow', 'Operasi Skala Nasional')}</p>
+                <h2 className="mt-3 font-display text-[clamp(1.95rem,3.3vw,3rem)] font-[500] leading-[0.98] tracking-[-0.03em] text-[#171a22] dark:text-white">
+                  {t('operations.heading', '16 Titik tersebar di pulau Jawa, Sulawesi, dan Sumatera.')}
                 </h2>
 
                 {/* Quick Stats Summary */}
-                <div className="mt-8 grid grid-cols-2 gap-4 border-t border-slate-100 pt-6">
+                <div className="mt-8 grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-slate-800 pt-6">
                   <div>
-                    <p className="os-data-label">Total Jaringan</p>
-                    <p className="mt-1 font-display text-2xl font-bold text-[#171a22]">16 Titik</p>
-                    <p className="text-xs text-[#596171]">Aktif beroperasi</p>
+                    <p className="os-data-label">{t('operations.totalNetwork', 'Total Jaringan')}</p>
+                    <p className="mt-1 font-display text-2xl font-bold text-[#171a22] dark:text-white">{t('operations.totalNetworkCount', '16 Titik')}</p>
+                    <p className="text-xs text-[#596171] dark:text-slate-300">{t('operations.totalNetworkSub', 'Aktif beroperasi')}</p>
                   </div>
                   <div>
-                    <p className="os-data-label">Cakupan Wilayah</p>
-                    <p className="mt-1 font-display text-2xl font-bold text-[#171a22]">3 Pulau Utama</p>
-                    <p className="text-xs text-[#596171]">Jawa, Sulawesi, Sumatera</p>
+                    <p className="os-data-label">{t('operations.coverage', 'Cakupan Wilayah')}</p>
+                    <p className="mt-1 font-display text-2xl font-bold text-[#171a22] dark:text-white">{t('operations.coverageCount', '3 Pulau Utama')}</p>
+                    <p className="text-xs text-[#596171] dark:text-slate-300">{t('operations.coverageSub', 'Jawa, Sulawesi, Sumatera')}</p>
                   </div>
                 </div>
               </MotionReveal>
 
               {/* Right Column: Indonesia Vector Network Map Card */}
-              <MotionReveal delay={0.12} className="relative overflow-hidden rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+              <MotionReveal delay={0.12} className="relative overflow-hidden rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-[#0f131c] p-5 sm:p-6 shadow-xs">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-4">
                   <div>
-                    <p className="os-data-label">Peta Jaringan Nasional</p>
-                    <h3 className="mt-0.5 font-display text-[1.2rem] font-[500] tracking-[-0.02em] text-[#171a22]">Titik Operasional Indonesia</h3>
+                    <p className="os-data-label">{t('operations.mapLabel', 'Peta Jaringan Nasional')}</p>
+                    <h3 className="mt-0.5 font-display text-[1.2rem] font-[500] tracking-[-0.02em] text-[#171a22] dark:text-white">{t('operations.mapTitle', 'Titik Operasional Indonesia')}</h3>
                   </div>
                   <span className="os-pill os-pill--active">
                     <span className="os-pill__dot" aria-hidden="true"></span>
-                    <span className="font-sans text-xs">16 / 16 titik aktif</span>
+                    <span className="font-sans text-xs">{t('operations.mapBadge', '16 / 16 titik aktif')}</span>
                   </span>
                 </div>
 
                 {/* Indonesia operational coverage map */}
-                <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-slate-50/60 p-2 sm:p-3">
+                <div className="overflow-hidden rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0a0d14] p-2 sm:p-3">
                   <img
-                    src="/images/indonesia-map.png"
-                    alt="Peta Indonesia dengan 16 titik operasional Ocean Space di Jawa, Jabodetabek, Sumatera, dan Sulawesi"
-                    className="h-auto w-full object-contain"
+                    key={isDark ? 'home-map-dark' : 'home-map-light'}
+                    src={isDark ? '/images/titik-aktif-dark.png' : '/images/indonesia-map.png'}
+                    alt={t('operations.mapAlt', 'Peta Indonesia dengan 16 titik operasional')}
+                    className="h-auto w-full object-contain transition-opacity duration-300"
                     loading="lazy"
                     decoding="async"
                     width="1694"
@@ -526,22 +452,22 @@ const Home = () => {
                 </div>
 
                 {/* Coverage Breakdown Grid */}
-                <div className="mt-4 grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 sm:grid-cols-4">
-                  <div className="rounded-xl bg-slate-50/80 p-3 border border-slate-100">
-                    <p className="os-data-label">Jawa</p>
-                    <p className="mt-1 font-display text-lg font-bold text-[#171a22]">7 Titik</p>
+                <div className="mt-4 grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 dark:border-slate-800 sm:grid-cols-4">
+                  <div className="rounded-xl bg-slate-50/80 dark:bg-[#131824] p-3 border border-slate-100 dark:border-slate-800/80">
+                    <p className="os-data-label">{t('operations.regions.jawa', 'Jawa')}</p>
+                    <p className="mt-1 font-display text-lg font-bold text-[#171a22] dark:text-white">{t('operations.regions.jawaCount', '7 Titik')}</p>
                   </div>
-                  <div className="rounded-xl bg-slate-50/80 p-3 border border-slate-100">
-                    <p className="os-data-label">Jabodetabek</p>
-                    <p className="mt-1 font-display text-lg font-bold text-[#171a22]">3 Titik</p>
+                  <div className="rounded-xl bg-slate-50/80 dark:bg-[#131824] p-3 border border-slate-100 dark:border-slate-800/80">
+                    <p className="os-data-label">{t('operations.regions.jabodetabek', 'Jabodetabek')}</p>
+                    <p className="mt-1 font-display text-lg font-bold text-[#171a22] dark:text-white">{t('operations.regions.jabodetabekCount', '3 Titik')}</p>
                   </div>
-                  <div className="rounded-xl bg-slate-50/80 p-3 border border-slate-100">
-                    <p className="os-data-label">Sumatera</p>
-                    <p className="mt-1 font-display text-lg font-bold text-[#171a22]">5 Titik</p>
+                  <div className="rounded-xl bg-slate-50/80 dark:bg-[#131824] p-3 border border-slate-100 dark:border-slate-800/80">
+                    <p className="os-data-label">{t('operations.regions.sumatera', 'Sumatera')}</p>
+                    <p className="mt-1 font-display text-lg font-bold text-[#171a22] dark:text-white">{t('operations.regions.sumateraCount', '5 Titik')}</p>
                   </div>
-                  <div className="rounded-xl bg-slate-50/80 p-3 border border-slate-100">
-                    <p className="os-data-label">Sulawesi</p>
-                    <p className="mt-1 font-display text-lg font-bold text-[#171a22]">1 Titik</p>
+                  <div className="rounded-xl bg-slate-50/80 dark:bg-[#131824] p-3 border border-slate-100 dark:border-slate-800/80">
+                    <p className="os-data-label">{t('operations.regions.sulawesi', 'Sulawesi')}</p>
+                    <p className="mt-1 font-display text-lg font-bold text-[#171a22] dark:text-white">{t('operations.regions.sulawesiCount', '1 Titik')}</p>
                   </div>
                 </div>
               </MotionReveal>
@@ -550,64 +476,64 @@ const Home = () => {
         </section>
 
         {/* 5. BUDAYA KERJA */}
-        <section className="relative overflow-hidden border-b border-[#dbe5f5] bg-[#f6f9fd]">
+        <section className="relative overflow-hidden border-b border-[#dbe5f5] dark:border-slate-800 bg-[#f6f9fd] dark:bg-[#0b0f19]">
           <CultureSystemBackdrop />
           <div className="lc-shell relative z-10 py-16 sm:py-20 lg:py-24">
             <div className="grid gap-8 lg:grid-cols-[minmax(16rem,0.72fr)_minmax(0,1.28fr)] lg:gap-16 lg:items-start">
 
-              {/* LEFT — teks tetap */}
+              {/* LEFT */}
               <div className="lg:pt-2 lg:sticky lg:top-8">
                 <MotionReveal>
-                  <p className="lc-eyebrow">Budaya kerja</p>
-                  <h2 className="mt-3 max-w-[13ch] font-display text-[clamp(2.2rem,4vw,3.5rem)] font-[500] leading-[0.96] tracking-[-0.035em] text-[#171a22]">
-                    Budaya yang menggerakkan kerja.
+                  <p className="lc-eyebrow">{t('culture.eyebrow', 'Budaya kerja')}</p>
+                  <h2 className="mt-3 max-w-[13ch] font-display text-[clamp(2.2rem,4vw,3.5rem)] font-[500] leading-[0.96] tracking-[-0.035em] text-[#171a22] dark:text-white">
+                    {t('culture.heading', 'Budaya yang menggerakkan kerja.')}
                   </h2>
-                  <p className="mt-4 max-w-[28rem] text-[1rem] leading-7 text-[#596171]">
-                    Lima prinsip dan empat motivasi yang memberi arah dalam keputusan sehari-hari.
+                  <p className="mt-4 max-w-[28rem] text-[1rem] leading-7 text-[#596171] dark:text-slate-300">
+                    {t('culture.desc', 'Lima prinsip dan empat motivasi yang memberi arah dalam keputusan sehari-hari.')}
                   </p>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                     <MotionButton>
                       <Link to="/career" className="os-btn os-btn--primary w-full sm:w-auto">
-                        Buka halaman karier
+                        {t('culture.ctaCareer', 'Buka halaman karier')}
                       </Link>
                     </MotionButton>
                     <MotionButton>
                       <Link to="/about" className="os-btn os-btn--secondary w-full sm:w-auto">
-                        Pelajari budaya JUJUR
+                        {t('culture.ctaCulture', 'Pelajari budaya JUJUR')}
                       </Link>
                     </MotionButton>
                   </div>
                 </MotionReveal>
               </div>
 
-              {/* RIGHT — dua baris infinite marquee */}
+              {/* RIGHT */}
               <MotionReveal delay={0.1} className="min-w-0 flex flex-col gap-4 sm:gap-6">
 
                 {/* Label row 1 */}
                 <div className="flex items-center gap-3 px-1">
-                  <span className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#0062FF]">Lima Prinsip JUJUR</span>
-                  <span className="flex-1 h-px bg-[#d8e4f5]" aria-hidden="true" />
-                  <span className="text-[0.68rem] font-medium text-slate-400">Core Values</span>
+                  <span className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#0062FF] dark:text-blue-400">{t('culture.principlesLabel', 'Lima Prinsip JUJUR')}</span>
+                  <span className="flex-1 h-px bg-[#d8e4f5] dark:bg-slate-800" aria-hidden="true" />
+                  <span className="text-[0.68rem] font-medium text-slate-400 dark:text-slate-500">{t('culture.principlesSub', 'Core Values')}</span>
                 </div>
 
                 {/* Row 1 — Prinsip JUJUR */}
                 <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
                   <div className="flex w-max animate-culture-marquee [will-change:transform] motion-reduce:[animation:none]" style={{ animation: 'culture-marquee 28s linear infinite' }}>
                     <div className="flex">
-                      {JUJUR_PRINCIPLES.map((item) => (
-                        <div key={`pa-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 bg-white hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
-                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
-                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] group-hover:text-white/70 transition-colors duration-300">Prinsip</p>
-                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] group-hover:text-white transition-colors duration-300">{item.title}</h3>
+                      {jujurPrinciples.map((item) => (
+                        <div key={`pa-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 dark:border-slate-800 bg-white dark:bg-[#0f131c] hover:bg-[#0062FF] dark:hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
+                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 dark:text-slate-700 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
+                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400 group-hover:text-white/70 transition-colors duration-300">{t('culture.principlesPrefix', 'Prinsip')}</p>
+                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] dark:text-white group-hover:text-white transition-colors duration-300">{item.title}</h3>
                         </div>
                       ))}
                     </div>
                     <div className="flex" aria-hidden="true">
-                      {JUJUR_PRINCIPLES.map((item) => (
-                        <div key={`pb-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 bg-white hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
-                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
-                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] group-hover:text-white/70 transition-colors duration-300">Prinsip</p>
-                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] group-hover:text-white transition-colors duration-300">{item.title}</h3>
+                      {jujurPrinciples.map((item) => (
+                        <div key={`pb-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 dark:border-slate-800 bg-white dark:bg-[#0f131c] hover:bg-[#0062FF] dark:hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
+                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 dark:text-slate-700 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
+                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400 group-hover:text-white/70 transition-colors duration-300">{t('culture.principlesPrefix', 'Prinsip')}</p>
+                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] dark:text-white group-hover:text-white transition-colors duration-300">{item.title}</h3>
                         </div>
                       ))}
                     </div>
@@ -616,29 +542,29 @@ const Home = () => {
 
                 {/* Label row 2 */}
                 <div className="flex items-center gap-3 px-1">
-                  <span className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#0062FF]">Empat Motivasi Kerja</span>
-                  <span className="flex-1 h-px bg-[#d8e4f5]" aria-hidden="true" />
-                  <span className="text-[0.68rem] font-medium text-slate-400">Driver Model</span>
+                  <span className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#0062FF] dark:text-blue-400">{t('culture.motivationsLabel', 'Empat Motivasi Kerja')}</span>
+                  <span className="flex-1 h-px bg-[#d8e4f5] dark:bg-slate-800" aria-hidden="true" />
+                  <span className="text-[0.68rem] font-medium text-slate-400 dark:text-slate-500">{t('culture.motivationsSub', 'Driver Model')}</span>
                 </div>
 
                 {/* Row 2 — Motivasi — reverse */}
                 <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
                   <div className="flex w-max animate-culture-marquee-reverse [will-change:transform] motion-reduce:[animation:none]" style={{ animation: 'culture-marquee-reverse 22s linear infinite' }}>
                     <div className="flex">
-                      {WORK_MOTIVATIONS.map((item) => (
-                        <div key={`ma-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 bg-white hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
-                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
-                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] group-hover:text-white/70 transition-colors duration-300">Motivasi</p>
-                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] group-hover:text-white transition-colors duration-300">{item.title}</h3>
+                      {workMotivations.map((item) => (
+                        <div key={`ma-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 dark:border-slate-800 bg-white dark:bg-[#0f131c] hover:bg-[#0062FF] dark:hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
+                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 dark:text-slate-700 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
+                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400 group-hover:text-white/70 transition-colors duration-300">{t('culture.motivationsPrefix', 'Motivasi')}</p>
+                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] dark:text-white group-hover:text-white transition-colors duration-300">{item.title}</h3>
                         </div>
                       ))}
                     </div>
                     <div className="flex" aria-hidden="true">
-                      {WORK_MOTIVATIONS.map((item) => (
-                        <div key={`mb-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 bg-white hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
-                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
-                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] group-hover:text-white/70 transition-colors duration-300">Motivasi</p>
-                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] group-hover:text-white transition-colors duration-300">{item.title}</h3>
+                      {workMotivations.map((item) => (
+                        <div key={`mb-${item.id}`} className="group relative flex flex-col justify-between w-[180px] sm:w-[220px] min-h-[140px] sm:min-h-[160px] p-5 sm:p-8 border-r border-black/10 dark:border-slate-800 bg-white dark:bg-[#0f131c] hover:bg-[#0062FF] dark:hover:bg-[#0062FF] transition-colors duration-300 cursor-default">
+                          <span aria-hidden="true" className="absolute right-4 top-4 font-sans text-[1.6rem] sm:text-[2rem] font-bold tracking-[-0.06em] text-slate-200 dark:text-slate-700 group-hover:text-white/20 transition-colors duration-300">{item.id}</span>
+                          <p className="text-[0.65rem] sm:text-[0.7rem] font-bold text-[#1d4ed8] dark:text-blue-400 group-hover:text-white/70 transition-colors duration-300">{t('culture.motivationsPrefix', 'Motivasi')}</p>
+                          <h3 className="mt-4 sm:mt-6 text-[0.95rem] sm:text-[1.1rem] font-semibold tracking-[-0.03em] text-[#171a22] dark:text-white group-hover:text-white transition-colors duration-300">{item.title}</h3>
                         </div>
                       ))}
                     </div>
@@ -651,39 +577,39 @@ const Home = () => {
           </div>
         </section>
 
-        {/* 6. AUDIENCE VALUE PROPOSITION (POLISHED CLEAN GRID & TYPOGRAPHY) */}
-        <section className="lc-band bg-white">
+        {/* 6. AUDIENCE VALUE PROPOSITION */}
+        <section className="lc-band bg-white dark:bg-[#0a0d14] dark:border-slate-800">
           <div className="lc-shell relative py-14 sm:py-16 lg:py-20">
-            <MotionStagger className="mt-4 grid gap-0 border-y border-black/10 lg:grid-cols-3">
+            <MotionStagger className="mt-4 grid gap-0 border-y border-black/10 dark:border-slate-800 lg:grid-cols-3">
               <MotionStaggerItem className="h-full">
-                <MotionCard className="relative border-b border-black/10 bg-white p-6 sm:p-8 lg:border-b-0 lg:border-r h-full flex flex-col justify-between transition-colors hover:bg-slate-50/50">
+                <MotionCard className="relative border-b border-black/10 dark:border-slate-800 bg-white dark:bg-[#0f131c] p-6 sm:p-8 lg:border-b-0 lg:border-r dark:lg:border-r-slate-800 h-full flex flex-col justify-between transition-colors hover:bg-slate-50/50 dark:hover:bg-[#131824]">
                   <div>
-                    <span aria-hidden="true" className="absolute right-6 top-6 font-sans text-[2.2rem] font-bold tracking-[-0.06em] text-slate-300">01</span>
-                    <p className="os-data-label text-[#1d4ed8] font-bold">Partner</p>
-                    <h3 className="mt-8 text-balance text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Struktur kolaborasi yang cepat terbaca</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[#556070]">Anda melihat peran unit dan jalur kerja sama tanpa membuka banyak halaman.</p>
+                    <span aria-hidden="true" className="absolute right-6 top-6 font-sans text-[2.2rem] font-bold tracking-[-0.06em] text-slate-300 dark:text-slate-700">01</span>
+                    <p className="os-data-label text-[#1d4ed8] dark:text-blue-400 font-bold">{t('audiences.card1.label', 'Partner')}</p>
+                    <h3 className="mt-8 text-balance text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22] dark:text-white">{t('audiences.card1.title', 'Struktur kolaborasi yang cepat terbaca')}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-[#556070] dark:text-slate-300">{t('audiences.card1.desc', 'Anda melihat peran unit dan jalur kerja sama tanpa membuka banyak halaman.')}</p>
                   </div>
                 </MotionCard>
               </MotionStaggerItem>
 
               <MotionStaggerItem className="h-full">
-                <MotionCard className="relative border-b border-black/10 bg-[#f8fbff] p-6 sm:p-8 lg:border-b-0 lg:border-r h-full flex flex-col justify-between transition-colors hover:bg-[#f3f7fe]">
+                <MotionCard className="relative border-b border-black/10 dark:border-slate-800 bg-[#f8fbff] dark:bg-[#131824] p-6 sm:p-8 lg:border-b-0 lg:border-r dark:lg:border-r-slate-800 h-full flex flex-col justify-between transition-colors hover:bg-[#f3f7fe] dark:hover:bg-[#182030]">
                   <div>
-                    <span aria-hidden="true" className="absolute right-6 top-6 font-sans text-[2.2rem] font-bold tracking-[-0.06em] text-blue-200">02</span>
-                    <p className="os-data-label text-[#1d4ed8] font-bold">Calon Karyawan</p>
-                    <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Budaya kerja yang konkret</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[#556070]">Tim menerjemahkan JUJUR dan empat motivasi menjadi perilaku kerja nyata.</p>
+                    <span aria-hidden="true" className="absolute right-6 top-6 font-sans text-[2.2rem] font-bold tracking-[-0.06em] text-blue-200 dark:text-blue-900/60">02</span>
+                    <p className="os-data-label text-[#1d4ed8] dark:text-blue-400 font-bold">{t('audiences.card2.label', 'Calon Karyawan')}</p>
+                    <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22] dark:text-white">{t('audiences.card2.title', 'Budaya kerja yang konkret')}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-[#556070] dark:text-slate-300">{t('audiences.card2.desc', 'Tim menerjemahkan JUJUR dan empat motivasi menjadi perilaku kerja nyata.')}</p>
                   </div>
                 </MotionCard>
               </MotionStaggerItem>
 
               <MotionStaggerItem className="h-full">
-                <MotionCard className="relative bg-white p-6 sm:p-8 h-full flex flex-col justify-between transition-colors hover:bg-slate-50/50">
+                <MotionCard className="relative bg-white dark:bg-[#0f131c] p-6 sm:p-8 h-full flex flex-col justify-between transition-colors hover:bg-slate-50/50 dark:hover:bg-[#131824]">
                   <div>
-                    <span aria-hidden="true" className="absolute right-6 top-6 font-sans text-[2.2rem] font-bold tracking-[-0.06em] text-slate-300">03</span>
-                    <p className="os-data-label text-[#1d4ed8] font-bold">Publik Umum</p>
-                    <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22]">Organisasi yang tertib</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[#556070]">Struktur informasi dan bahasa visual menunjukkan perusahaan yang rapi.</p>
+                    <span aria-hidden="true" className="absolute right-6 top-6 font-sans text-[2.2rem] font-bold tracking-[-0.06em] text-slate-300 dark:text-slate-700">03</span>
+                    <p className="os-data-label text-[#1d4ed8] dark:text-blue-400 font-bold">{t('audiences.card3.label', 'Publik Umum')}</p>
+                    <h3 className="mt-8 text-[1.45rem] font-semibold tracking-[-0.04em] text-[#171a22] dark:text-white">{t('audiences.card3.title', 'Organisasi yang tertib')}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-[#556070] dark:text-slate-300">{t('audiences.card3.desc', 'Struktur informasi dan bahasa visual menunjukkan perusahaan yang rapi.')}</p>
                   </div>
                 </MotionCard>
               </MotionStaggerItem>
@@ -691,19 +617,23 @@ const Home = () => {
           </div>
         </section>
 
-        {/* 7. CONTACT SECTION (EXEMPT - KEPT UNTOUCHED AS REQUESTED) */}
-        <section className="bg-[#f6f9fd]">
+        {/* 7. CONTACT SECTION */}
+        <section className="bg-[#f6f9fd] dark:bg-[#0b0f19] dark:border-t dark:border-slate-800">
           <div className="lc-shell relative py-16 sm:py-20 lg:py-24">
             <MotionReveal className="mx-auto max-w-[42rem] text-center">
-              <p className="lc-eyebrow">Hubungi Ocean Space</p>
-              <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.035em] text-[#171a22]">Bicarakan kemitraan, ekspansi, atau rekrutmen dengan tim kami.</h2>
-              <p className="mt-5 text-[1rem] leading-8 text-[#556070]">Kirim kebutuhan korporat atau peluang kerja sama lewat jalur kontak yang sama.</p>
+              <p className="lc-eyebrow">{t('contactCta.eyebrow', 'Hubungi Ocean Space')}</p>
+              <h2 className="mt-3 font-display text-[clamp(2.1rem,4.5vw,4rem)] font-[500] leading-[0.98] tracking-[-0.035em] text-[#171a22] dark:text-white">
+                {t('contactCta.heading', 'Bicarakan kemitraan, ekspansi, atau rekrutmen dengan tim kami.')}
+              </h2>
+              <p className="mt-5 text-[1rem] leading-8 text-[#556070] dark:text-slate-300">
+                {t('contactCta.desc', 'Kirim kebutuhan korporat atau peluang kerja sama lewat jalur kontak yang sama.')}
+              </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <MotionButton>
-                  <a href="/contact" className="os-btn os-btn--primary">Hubungi tim korporat</a>
+                  <Link to="/contact" className="os-btn os-btn--primary">{t('contactCta.ctaCorporate', 'Hubungi tim korporat')}</Link>
                 </MotionButton>
                 <MotionButton>
-                  <a href="/career" className="os-btn os-btn--secondary">Lihat peluang karier</a>
+                  <Link to="/career" className="os-btn os-btn--secondary">{t('contactCta.ctaCareers', 'Lihat peluang karier')}</Link>
                 </MotionButton>
               </div>
             </MotionReveal>
